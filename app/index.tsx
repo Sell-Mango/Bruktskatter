@@ -21,11 +21,14 @@ export default function App() {
     <View style={styles.container}>
       <Text>Open up index.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
-        <Link href="#">
-            <Text>Open up index.js</Text>
-            <Pressable onPress={getDataPressed} style={styles.button}><Text>getData</Text></Pressable>
-            {users.map((user) => (<Text key={user.id}>{user.username} : {user.role}</Text>))}
+        <Link style={styles.button} href="login">
+            <Text>login</Text>
         </Link>
+        <Link style={styles.button} href="frontpage">
+            <Text>tabs</Text>
+        </Link>
+        <Pressable onPress={getDataPressed} style={styles.button}><Text>getData</Text></Pressable>
+        {users.map((user) => (<Text key={user.id}>{user.username} : {user.role}</Text>))}
     </View>
   );
 }
