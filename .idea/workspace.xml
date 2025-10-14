@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68372398-cd32-47a5-8e40-8a6faa923cf3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shared/components/LinkText.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/authentication/view/LoginLayout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/features/authentication/view/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/features/authentication/view/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/welcomepage/view/Welcome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/features/welcomepage/view/Welcome.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/components/CustomPress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/shared/components/CustomPress.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/components/HeadingText.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/shared/components/HeadingText.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

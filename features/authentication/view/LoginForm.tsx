@@ -1,17 +1,13 @@
 import CustomTextInput from "@/shared/components/CustomTextInput";
 import {StyleSheet, Text, View} from "react-native";
 import HeadingText from "@/shared/components/HeadingText";
-import {Image} from "expo-image";
-import Appicon from "@assets/Appicon_alternative_bruktskatter.png";
 import CustomPress from "@/shared/components/CustomPress";
 import {Link} from "expo-router";
 import LinkText from "@/shared/components/LinkText";
 
 export default function LoginForm() {
     return (
-        <View style={styles.container}>
-            <Image style={styles.image} source={Appicon} contentFit={"scale-down"}/>
-            <HeadingText heading={"Logg inn"} type={"h1"}/>
+        <View>
             <CustomTextInput label={"Epost"}/>
             <CustomTextInput label={"Passord"} secure={true}/>
             <Link href={"forgot-password"}>
@@ -24,17 +20,3 @@ export default function LoginForm() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 30
-    },
-    image: {
-        width: '50%',
-        height: '20%',
-        backgroundColor: 'transparent',
-    }
-})
