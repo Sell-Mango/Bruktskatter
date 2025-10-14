@@ -6,29 +6,19 @@ import { Pressable } from "react-native"
 import { useState } from "react";
 
 export default function App() {
-    type User = {
-        id: string,
-        username: string,
-        role: string,
-    }
-    const [users, setUsers] = useState<User[]>([]);
-    const getDataPressed = async () => {
-        const users = await getUsers()
-        setUsers((prev) => users.documents.map((user)=>({id: user.$id, username: user.username, role: user.role})))
-    }
-
   return (
     <View style={styles.container}>
-      <Text>Open up index.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+        <Text>Bruktskatter</Text>
+        <Text>Oppdag bruktmarkeder i nærheten</Text>
+        <Link style={styles.button} href="register">
+            <Text>Bli medlem</Text>
+        </Link>
         <Link style={styles.button} href="login">
-            <Text>login</Text>
+            <Text>Logg inn</Text>
         </Link>
         <Link style={styles.button} href="frontpage">
-            <Text>tabs</Text>
+            <Text>Hopp over inlogging</Text>
         </Link>
-        <Pressable onPress={getDataPressed} style={styles.button}><Text>getData</Text></Pressable>
-        {users.map((user) => (<Text key={user.id}>{user.username} : {user.role}</Text>))}
     </View>
   );
 }
@@ -41,7 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
     button: {
-        backgroundColor: 'blue',
-        padding: 10,
+        backgroundColor: '#1F1D1E',
+        color: '#fff',
+        borderRadius: 34,
+        padding: 20,
+        margin: 10,
     }
 });

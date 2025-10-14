@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
 
 export default function Register() {
-    return <Text>Login</Text>
+    return <Text>Registrer</Text>
 }
