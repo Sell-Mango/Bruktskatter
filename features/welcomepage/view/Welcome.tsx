@@ -3,6 +3,7 @@ import {Link} from "expo-router";
 import HeadingText from "@/shared/components/HeadingText";
 import {Image} from "expo-image";
 import Appicon from "@assets/Appicon_alternative_bruktskatter.png"
+import LinkText from "@/shared/components/LinkText";
 
 export default function Welcome() {
     return (
@@ -17,7 +18,7 @@ export default function Welcome() {
                 <HeadingText heading={"Logg inn"} type={"h3"} color={"#1F1D1E"}/>
             </Link>
             <Link style={styles.button} href="frontpage">
-                <HeadingText heading={"Hopp over inlogging"} type={"h3"} color={"#1F1D1E"}/>
+                <LinkText text={"Hopp over innlogging"}/>
             </Link>
         </View>
     )
