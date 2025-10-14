@@ -11,6 +11,7 @@ export default function AuthLayout() {
                 fontWeight: "bold",
             },
             headerShown: true,
+            headerTitle: "Tilbake",
         }}/>
     )
 }

@@ -1,20 +1,9 @@
 import {router, Tabs} from "expo-router";
-import {Pressable, Text} from "react-native";
+import { tabsHeaderOptions } from "./tabsOptions";
 
 export default function TabsLayout() {
-    const profileRight = () =>
-        (<Pressable onPress={() =>
-                router.push("/(tabs)/profile")
-            } style={{
-                margin: 5,
-                padding: 10,
-                borderStyle: "solid",
-                borderColor: "black",
-                borderWidth: 2,
-                borderRadius: 100,
-            }}><Text>profile</Text></Pressable>
-        )
     return(
+        //TODO make a seperate file for screenOptions
         <Tabs screenOptions={{
             headerStyle: {
                 backgroundColor: "#2F5D50",
@@ -24,12 +13,26 @@ export default function TabsLayout() {
                 fontWeight: "bold",
             },
             headerShown: true,
+            tabBarStyle: {
+                backgroundColor: "#2F5D50",
+                borderTopWidth: 0,
+                elevation: 10, // Android shadow
+                height: 70,
+                paddingBottom: 10,
+                paddingTop: 5,
+            },
+            tabBarActiveTintColor: "#FAAF3A",
+            tabBarInactiveTintColor: "#FFFEE4",
+            tabBarLabelStyle: {
+                fontSize: 14,
+                fontWeight: "800",
+            },
         }}>
-            <Tabs.Screen name="frontpage" options={{title: "Utforsk", headerRight: profileRight}}/>
-            <Tabs.Screen name="favorites" options={{title: "Skatter", headerRight: profileRight}} />
-            <Tabs.Screen name="feed" options={{title: "Feed", headerRight: profileRight}}/>
-            <Tabs.Screen name="my-market" options={{title: "Mitt marked", headerRight: profileRight}}/>
-            <Tabs.Screen name="profile" options={{title: "Profile", href: null}}/>
+            <Tabs.Screen name="frontpage" options={tabsHeaderOptions("Utforsk")}/>
+            <Tabs.Screen name="favorites" options={tabsHeaderOptions("Skatter")} />
+            <Tabs.Screen name="feed" options={tabsHeaderOptions("Feed")}/>
+            <Tabs.Screen name="my-market" options={tabsHeaderOptions("Mitt marked")}/>
+            <Tabs.Screen name="profile" options={{...tabsHeaderOptions("Profile"), href: null}}/>
         </Tabs>
     )
 }
