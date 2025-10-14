@@ -1,9 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Link } from "expo-router";
-import { getUsers } from "../services/appwrite/database"
+import { getShops, getUsers } from "../services/appwrite/database"
 import { Pressable } from "react-native"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+
+import type { Region } from 'react-native-maps';
+import { ShopMarker } from './interactive-map/types/shopMarker';
+import InteractiveMap from './interactive-map/InteractiveMap';
 
 export default function App() {
     type User = {
@@ -11,6 +16,7 @@ export default function App() {
         username: string,
         role: string,
     }
+
     const [users, setUsers] = useState<User[]>([]);
     const getDataPressed = async () => {
         const users = await getUsers()
@@ -19,13 +25,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Open up index.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-        <Link href="#">
-            <Text>Open up index.js</Text>
-            <Pressable onPress={getDataPressed} style={styles.button}><Text>getData</Text></Pressable>
-            {users.map((user) => (<Text key={user.id}>{user.username} : {user.role}</Text>))}
-        </Link>
+      <InteractiveMap />
     </View>
   );
 }
@@ -40,5 +40,5 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: 'blue',
         padding: 10,
-    }
+    },
 });
