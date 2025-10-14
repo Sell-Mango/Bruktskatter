@@ -12,7 +12,6 @@ export default function App() {
           <Welcome/>
           <InteractiveMap />
       </SafeAreaProvider>
-    <View style={styles.container}>
   );
 }
 

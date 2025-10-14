@@ -1,7 +1,7 @@
 import {Text, View, StyleSheet} from "react-native";
 import {Link} from "expo-router";
 import HeadingText from "@/shared/components/HeadingText";
-import {Image} from "expo-image";
+import { Image } from "expo-image"
 import Appicon from "@assets/Appicon_alternative_bruktskatter.png"
 
 export default function Welcome() {
