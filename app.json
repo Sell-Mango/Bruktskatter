@@ -29,6 +29,13 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "54f1420a-5009-4575-8e01-f3ff52113284"
+      }
+    },
+    "owner": "kjellmagne"
   }
 }
