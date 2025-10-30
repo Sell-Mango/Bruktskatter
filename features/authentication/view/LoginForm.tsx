@@ -7,7 +7,7 @@ import LinkText from "@/shared/components/LinkText";
 
 export default function LoginForm() {
     return (
-        <View>
+        <View style={styles.container}>
             <CustomTextInput label={"Epost"}/>
             <CustomTextInput label={"Passord"} secure={true}/>
             <Link href={"forgot-password"}>
@@ -20,3 +20,10 @@ export default function LoginForm() {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container:{
+        display: "flex",
+        gap: 10
+    }
+})
