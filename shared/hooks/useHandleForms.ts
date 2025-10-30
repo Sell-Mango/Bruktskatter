@@ -3,7 +3,7 @@ import {useState} from "react";
 export default function useHandleForms<T>() {
     const [formData, setFormData] = useState<T|{}>({})
 
-    function handleChange<T, K extends keyof T>(name: K, value: T[K]): void{
+    function handleChange<T, K extends keyof T>(name: string, value: T[K]): void{
         setFormData((prevData:T|{}) => ({
             ...prevData, [name]: value
         }))

@@ -3,11 +3,11 @@ import {CustomTextInputProps} from "@/shared/types/CustomProps";
 import RequieredStar from "@/shared/components/RequieredStar";
 
 export default function CustomTextInput(props:CustomTextInputProps) {
-    const {label, secure = false, required = false} = props;
+    const {label, secure = false, required = false, changeAction, actionKey} = props;
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{label} {required ? <RequieredStar/>: ""}</Text>
-            <TextInput style={styles.input} secureTextEntry={secure}/>
+            <TextInput style={styles.input} secureTextEntry={secure} onChangeText={(value) => changeAction(actionKey, value)}/>
         </View>
     )
 }

@@ -1,9 +1,9 @@
 import {Pressable, StyleSheet} from "react-native";
 import {JSX, ReactNode} from "react";
 
-export default function CustomPress({children}: {children: React.ReactNode}) {
+export default function CustomPress({children, pressAction}: {children: React.ReactNode, pressAction?: () => void}) {
     return (
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={pressAction}>
             {children}
         </Pressable>
     )
