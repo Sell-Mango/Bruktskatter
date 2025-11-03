@@ -3,6 +3,7 @@ import {account} from "@/services/appwrite";
 import {ID} from "react-native-appwrite"
 import {handleError, handleResponse} from "@/services/appwrite/Auth";
 import {router} from "expo-router";
+import {loginData} from "@/features/authentication/model/loginData";
 
 export const registerNewUser = async (data:registerData) => {
     try{
@@ -15,6 +16,23 @@ export const registerNewUser = async (data:registerData) => {
         if(response.success)
         {
             router.replace("login")
+        }
+    }
+    catch(err){
+        console.error(err)
+        handleError(err)
+    }
+}
+
+export const login = async (props: loginData)=>{
+    try{
+        const response = handleResponse(await account.createEmailPasswordSession({
+            email: props.email,
+            password: props.password,
+        }))
+        console.log("login session",response)
+        if(response.success){
+            router.replace("frontpage")
         }
     }
     catch(err){
