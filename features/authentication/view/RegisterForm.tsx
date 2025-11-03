@@ -18,12 +18,15 @@ export default function RegisterForm() {
         handleChange("acceptedTerms", isChecked)
     }, [isChecked]);
 
-    const test = (key:string, value:string):void => {console.log(key, value);};
+    interface testT{
+        test:string;
+        something:string;
+    }
     return (
         <View style={styles.container}>
-            <CustomTextInput label={"Din epost"} secure={false} required={true} changeAction={handleChange} actionKey={"email"}/>
-            <CustomTextInput label={"Passord"} secure={true} required={true} changeAction={handleChange} actionKey={"password"}/>
-            <CustomTextInput label={"Gjenta passord"} secure={true} required={true} changeAction={test} actionKey={"second"}/>
+            <CustomTextInput<registerData> label={"Din epost"} secure={false} required={true} changeAction={handleChange} actionKey={"email"}/>
+            <CustomTextInput<registerData> label={"Passord"} secure={true} required={true} changeAction={handleChange} actionKey={"password"}/>
+            <CustomTextInput<testT> label={"Gjenta passord"} secure={true} required={true}/>
             <View style={styles.checkbox}>
                 <Checkbox value={isChecked} onValueChange={setChecked}/>
                 <Text>For å lage bruker må du akseptere vilkår {<RequieredStar/>}</Text>

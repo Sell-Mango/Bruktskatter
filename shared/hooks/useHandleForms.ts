@@ -1,10 +1,10 @@
 import {useState} from "react";
 
-export default function useHandleForms<T>() {
-    const [formData, setFormData] = useState<T|{}>({})
+export default function useHandleForms<T extends Record<string, any>>() {
+    const [formData, setFormData] = useState<Partial<T>>({})
 
-    function handleChange<T, K extends keyof T>(name: string, value: T[K]): void{
-        setFormData((prevData:T|{}) => ({
+    function handleChange<K extends keyof T>(name: K, value: keyof T[K]): void{
+        setFormData((prevData:Partial<T>) => ({
             ...prevData, [name]: value
         }))
     }

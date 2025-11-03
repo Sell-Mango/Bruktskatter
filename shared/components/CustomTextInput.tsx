@@ -2,7 +2,7 @@ import {StyleSheet, TextInput, Text, View} from "react-native";
 import {CustomTextInputProps} from "@/shared/types/CustomProps";
 import RequieredStar from "@/shared/components/RequieredStar";
 
-export default function CustomTextInput(props:CustomTextInputProps) {
+export default function CustomTextInput<T>(props:CustomTextInputProps<T>) {
     const {label, secure = false, required = false, changeAction, actionKey} = props;
     return (
         <View style={styles.container}>

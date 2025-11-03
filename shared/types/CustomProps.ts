@@ -1,7 +1,15 @@
-export interface CustomTextInputProps {
+export type CustomTextInputProps<T> =
+    {
+    actionKey: keyof T;
+    changeAction: <K extends keyof T>(key: K, value: keyof T[K]) => void;
     label?: string;
     secure?: boolean;
     required?: boolean;
-    changeAction: (key:string,value:string) => void;
-    actionKey: string;
 }
+    | {
+    actionKey?: undefined;
+    changeAction?: never;
+    label?: string;
+    secure?: boolean;
+    required?: boolean;
+};
