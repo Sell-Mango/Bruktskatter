@@ -1,10 +1,9 @@
-import {User} from "@/services/appwrite/types"
+import {Failure, User} from "@/services/appwrite/types"
 import {getUser, loginAndGetUser, logout, register} from "@/services/appwrite/Auth"
 import {createContext, ReactNode, use, useCallback, useContext, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
 import {registerData} from "@/features/authentication/model/registerData";
 import {router} from "expo-router";
-import {AuthFailure, AuthResponse, ERROR_MESSAGES} from "@/shared/utils/auth/validationMessages";
 import {
     emptyRegisterErrors,
     registerValidationErrors,
@@ -16,7 +15,7 @@ type AuthContextType = {
     login: (loginCredentials:loginData)=>Promise<void>;
     logout: () => Promise<void>;
     register: (registrationCredentials:registerData) => Promise<void>;
-    authError: AuthFailure[]|null;
+    authError: string|null;
     registerError: registerValidationErrors;
     isLoading: boolean;
     isLoggedIn: boolean;
@@ -40,7 +39,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState<boolean>(true);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [registerError, setRegisterError] = useState<registerValidationErrors>(emptyRegisterErrors);
-    const [authError, setAuthError] = useState<AuthFailure[] | null>(null);
+    const [authError, setAuthError] = useState<string | null>(null);
 
     const resetLoading = useCallback(() => {
         setLoading(false);
@@ -63,9 +62,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }, [])
 
     const loginUser = async ({email, password}:loginData):Promise<void> => {
+        setAuthError(null);
         setLoadings()
         const response = await loginAndGetUser(email, password);
         setUser(response.success ? response.data: null)
+        if (!response.success) {
+            setAuthError("Brukernavn eller passord er feil")
+        }
         resetLoading()
     }
 

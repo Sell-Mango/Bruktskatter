@@ -10,7 +10,7 @@ import {useAuth} from "@/shared/context/AuthProvider";
 import FormErrorText from "@/features/authentication/view/FormErrorText";
 
 export default function LoginForm() {
-    const {login} = useAuth()
+    const {login, authError} = useAuth()
     const {handleChange, handleSubmit, errors} = useHandleForms<loginData, loginErrors>(LoginDataSchema, login)
 
     return (
@@ -22,6 +22,7 @@ export default function LoginForm() {
             <Link href={"forgot-password"}>
                 <LinkText text={"Glemt passord?"}/>
             </Link>
+            <FormErrorText errorText={authError}/>
             <CustomPress pressAction={handleSubmit}><HeadingText heading={"Logg inn"} type={"h2"} color={"#fff"}/></CustomPress>
             <Link href={"register"}>
                 <LinkText text={"Ikke medlem? Lag ny bruker"}/>

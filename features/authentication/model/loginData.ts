@@ -1,7 +1,7 @@
 import {z} from "zod";
 
 export const LoginDataSchema = z.object({
-    email: z.email("Dette feltet kan ikke være tomt"),
+    email: z.email("Dette feltet må være en gyldig epost adresse"),
     password: z.string("Dette feltet kan ikke være tomt"),
 })
 
