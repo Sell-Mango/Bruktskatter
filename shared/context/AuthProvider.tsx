@@ -81,10 +81,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
     const registerUser = async (registerData:registerData) => {
         const {email, password} = registerData
-        setRegisterError(validateRegistration(registerData))
-        if(registerError.containsErrors){
-            return
-        }
         setLoadings()
         const response = await register(email, password);
         router.replace("/login")
