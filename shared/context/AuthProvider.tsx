@@ -1,14 +1,15 @@
 import {User} from "@/services/appwrite/types"
-import {getUser, loginAndGetUser, logout} from "@/services/appwrite/Auth"
+import {getUser, loginAndGetUser, logout, register} from "@/services/appwrite/Auth"
 import {createContext, ReactNode, use, useCallback, useContext, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
-import {loginAction} from "@/features/authentication/viewModel/formActions";
+import {registerData} from "@/features/authentication/model/registerData";
 import {router} from "expo-router";
 
 type AuthContextType = {
     user: User|null;
     login: (loginCredentials:loginData)=>Promise<void>;
     logout: () => Promise<void>;
+    register: (registrationCredentials:registerData) => Promise<void>;
     isLoading: boolean;
     isLoggedIn: boolean;
     isLoaded: boolean;
@@ -18,6 +19,7 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     login: async ()=> {},
     logout: async ()=> {},
+    register: async (): Promise<void> => {},
     isLoading: false,
     isLoggedIn: false,
     isLoaded: false,
@@ -62,11 +64,19 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         resetLoading()
     }
 
+    const registerUser = async ({email, password}:registerData) => {
+        setLoadings()
+        const response = await register(email, password);
+        router.replace("/login")
+        resetLoading()
+    }
+
     return (
         <AuthContext.Provider value={{
             user,
             login: loginUser,
             logout: logoutUser,
+            register: registerUser,
             isLoading: loading,
             isLoaded,
             isLoggedIn: (user !== null),

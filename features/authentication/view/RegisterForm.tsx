@@ -9,11 +9,12 @@ import {Link} from "expo-router";
 import RequieredStar from "@/shared/components/RequieredStar";
 import useHandleForms from "@/shared/hooks/useHandleForms";
 import {registerData, RegisterDataSchema} from "@/features/authentication/model/registerData";
-import {registerNewUser} from "@/features/authentication/viewModel/formActions";
+import {useAuth} from "@/shared/context/AuthProvider";
 
 export default function RegisterForm() {
+    const {register} = useAuth()
     const [isChecked, setChecked] = useState(false);
-    const {handleChange, handleSubmit} = useHandleForms<registerData>(RegisterDataSchema, registerNewUser)
+    const {handleChange, handleSubmit} = useHandleForms<registerData>(RegisterDataSchema, register)
 
     return (
         <View style={styles.container}>
