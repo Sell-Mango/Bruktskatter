@@ -1,31 +1,29 @@
 import {useState} from "react";
 import {ZodType} from "zod";
-import {useAuth} from "@/shared/context/AuthProvider";
 
 export default function useHandleForms<T>(
     schema: ZodType<T>,
     submitAction: (dataToSubmit:T)=>void,
 )   {
-    const [formData, setFormData] = useState<Partial<T>>({})
+    const [formData, setFormData] = useState<T>({} as T)
 
     function handleChange<K extends keyof T>(name: K, value: keyof T[K]): void{
-        setFormData((prevData:Partial<T>) => ({
+        setFormData((prevData:T) => ({
             ...prevData, [name]: value
         }))
     }
 
     const handleSubmit = () => {
-        //TODO: make this activate the formhandling functions for triggering api calls.
         const validatedResult = schema.safeParse(formData)
         console.log(formData)
         if (validatedResult.success) {
+            const validatedData = validatedResult.data as T
             try {
-                submitAction(formData)
+                submitAction(validatedData)
             }
             catch (error) {
                 console.log(error)
             }
-
         }
         return
     }
