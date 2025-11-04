@@ -1,11 +1,13 @@
 import {useState} from "react";
 import {ZodType} from "zod";
+import {registerError} from "@/features/authentication/model/registerData";
 
-export default function useHandleForms<T>(
+export default function useHandleForms<T, U>(
     schema: ZodType<T>,
     submitAction: (dataToSubmit:T)=>void,
 )   {
     const [formData, setFormData] = useState<T>({} as T)
+    const [errors, setErrors] = useState<U>({} as U)
 
     function handleChange<K extends keyof T>(name: K, value: keyof T[K]): void{
         setFormData((prevData:T) => ({
@@ -14,19 +16,25 @@ export default function useHandleForms<T>(
     }
 
     const handleSubmit = () => {
+        setErrors({} as U)
         const validatedResult = schema.safeParse(formData)
         console.log(formData)
-        if (validatedResult.success) {
-            const validatedData = validatedResult.data as T
-            try {
-                submitAction(validatedData)
-            }
-            catch (error) {
-                console.log(error)
-            }
+        if (!validatedResult.success){
+            console.log("validation fail", validatedResult.error.issues)
+            let fieldErrors:U = {} as U
+            validatedResult.error.issues.forEach(error=>{fieldErrors = {...fieldErrors,[error.path[0]]: error.message}})
+            setErrors(fieldErrors)
+            return
         }
-        return
+
+        const validatedData = validatedResult.data as T
+        try {
+            submitAction(validatedData)
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
-    return {handleChange, handleSubmit}
+    return {handleChange, handleSubmit, errors}
 }
