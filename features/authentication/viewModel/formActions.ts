@@ -24,19 +24,6 @@ export const registerNewUser = async (data:registerData) => {
     }
 }
 
-export const login = async (props: loginData)=>{
-    try{
-        const response = handleResponse(await account.createEmailPasswordSession({
-            email: props.email,
-            password: props.password,
-        }))
-        console.log("login session",response)
-        if(response.success){
-            router.replace("frontpage")
-        }
-    }
-    catch(err){
-        console.error(err)
-        handleError(err)
-    }
+export const loginAction = async ({email, password}:loginData)=>{
+
 }

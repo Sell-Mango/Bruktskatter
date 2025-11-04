@@ -1,5 +1,5 @@
 import {AppwriteException} from "react-native-appwrite";
-import {Failure, Result, Success, User} from "@/services/appwrite/types";
+import {Failure, Result, Session, Success, User} from "@/services/appwrite/types";
 import {account} from "@/services/appwrite/index";
 
 const handleError = (error: AppwriteException):Failure => {
@@ -32,4 +32,41 @@ const getUser = async ():Promise<Result<User>> => {
     }
 }
 
-export {handleError, handleResponse, getUser}
+const login = async (email: string, password: string):Promise<Result<Session>> =>{
+    try{
+        const response = await account.createEmailPasswordSession({
+            email: email,
+            password: password,
+        })
+        return handleResponse(response)
+    }
+    catch(err){
+        if(err instanceof AppwriteException){
+            return handleError(err);
+        }
+        return {success: false, error: "An unknown error occurred"};
+    }
+}
+
+const loginAndGetUser = async (email:string,password:string):Promise<Result<User>> => {
+    const loginResponse = await login(email,password)
+    if(!loginResponse.success){
+        return loginResponse
+    }
+    return getUser()
+}
+
+const logout = async ():Promise<Result<{}>> => {
+    try{
+        const response = await account.deleteSession({sessionId:'current'})
+        return handleResponse(response)
+    }
+    catch(err){
+        if(err instanceof AppwriteException){
+            return handleError(err);
+        }
+        return {success: false, error: "An unknown error occurred"};
+    }
+}
+
+export {handleError, handleResponse, getUser, login, loginAndGetUser, logout}

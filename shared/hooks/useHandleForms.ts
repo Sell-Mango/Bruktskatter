@@ -1,10 +1,11 @@
 import {useState} from "react";
 import {ZodType} from "zod";
+import {useAuth} from "@/shared/context/AuthProvider";
 
 export default function useHandleForms<T>(
     schema: ZodType<T>,
     submitAction: (dataToSubmit:T)=>void,
-) {
+)   {
     const [formData, setFormData] = useState<Partial<T>>({})
 
     function handleChange<K extends keyof T>(name: K, value: keyof T[K]): void{

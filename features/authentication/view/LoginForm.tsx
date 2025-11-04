@@ -6,9 +6,10 @@ import {Link} from "expo-router";
 import LinkText from "@/shared/components/LinkText";
 import useHandleForms from "@/shared/hooks/useHandleForms";
 import {loginData, LoginDataSchema} from "@/features/authentication/model/loginData";
-import {login} from "@/features/authentication/viewModel/formActions";
+import {useAuth} from "@/shared/context/AuthProvider";
 
 export default function LoginForm() {
+    const {login} = useAuth()
     const {handleChange, handleSubmit} = useHandleForms<loginData>(LoginDataSchema, login)
 
     return (
