@@ -29,7 +29,7 @@ export default function RegisterForm() {
                 //TODO: Make custom checkbox component
             }
             <View style={styles.checkbox}>
-                <Checkbox value={isChecked} onValueChange={(e):void=>{handleChange("acceptedTerms", isChecked);setChecked((prev)=>!prev); }}/>
+                <Checkbox value={!isChecked} onValueChange={(e):void=>{setChecked((prev)=>!prev);handleChange("acceptedTerms", isChecked);}}/>
                 <Text>For å lage bruker må du akseptere vilkår {<RequiredStar/>}</Text>
             </View>
             <FormErrorText errorText={errors.acceptedTerms}/>
