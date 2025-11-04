@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from "react-native";
+import {Alert, StyleSheet, Text, View} from "react-native";
 import CustomTextInput from "@/shared/components/CustomTextInput";
 import {Checkbox} from "expo-checkbox";
 import {useEffect, useState} from "react";
@@ -11,11 +11,22 @@ import useHandleForms from "@/shared/hooks/useHandleForms";
 import {registerData, RegisterDataSchema, registerError} from "@/features/authentication/model/registerData";
 import {useAuth} from "@/shared/context/AuthProvider";
 import FormErrorText from "@/features/authentication/view/FormErrorText";
+import useConfirmBeforeLeaving from "@/shared/hooks/useConfirmBeforeLeaving";
 
 export default function RegisterForm() {
     const {register, registerError} = useAuth()
     const [isChecked, setChecked] = useState<boolean>(false);
-    const {handleChange, handleSubmit, errors} = useHandleForms<registerData, registerError>(RegisterDataSchema, register)
+    const {handleChange, handleSubmit, errors, resetErrors} = useHandleForms<registerData, registerError>(RegisterDataSchema, register)
+    useConfirmBeforeLeaving((proceed)=>{
+        Alert.alert("Fjern endringer", "Er du sikker?", [
+            {
+                text: "Nei", style: "cancel",
+            },
+            {
+                text: "Ja", onPress: ()=>{resetErrors();proceed()},
+            }
+        ])
+    })
 
     return (
         <View style={styles.container}>

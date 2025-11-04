@@ -15,6 +15,10 @@ export default function useHandleForms<T, U>(
         }))
     }
 
+    const resetErrors = (): void => {
+        setErrors({} as U)
+    }
+
     const handleSubmit = () => {
         setErrors({} as U)
         const validatedResult = schema.safeParse(formData)
@@ -36,5 +40,5 @@ export default function useHandleForms<T, U>(
         }
     }
 
-    return {handleChange, handleSubmit, errors}
+    return {handleChange, handleSubmit, errors, resetErrors}
 }
