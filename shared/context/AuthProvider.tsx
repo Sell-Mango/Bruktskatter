@@ -1,5 +1,5 @@
 import {User} from "@/services/appwrite/types"
-import {getUser, loginAndGetUser, logout, register} from "@/services/appwrite/Auth"
+import {getUser, loginAndGetUser, logout, register, requestPasswordReset} from "@/services/appwrite/Auth"
 import {createContext, ReactNode, use, useCallback, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
 import {registerData} from "@/features/authentication/model/registerData";
@@ -9,12 +9,14 @@ import {
     registerValidationErrors,
     validateRegistration
 } from "@/shared/utils/auth/registerValidation";
+import {forgotPasswordData, forgotPasswordErrors} from "@/features/authentication/model/forgotPasswordData";
 
 type AuthContextType = {
     user: User|null;
     login: (loginCredentials:loginData)=>Promise<void>;
     logout: () => Promise<void>;
     register: (registrationCredentials:registerData) => Promise<void>;
+    recoverPassword: (forgotPasswordData:forgotPasswordData) => Promise<void>;
     authError: string|null;
     registerError: registerValidationErrors;
     isLoading: boolean;
@@ -27,6 +29,7 @@ const AuthContext = createContext<AuthContextType>({
     login: async ()=> {},
     logout: async ()=> {},
     register: async (): Promise<void> => {},
+    recoverPassword: async (): Promise<void> => {},
     authError: null,
     registerError: emptyRegisterErrors,
     isLoading: false,
@@ -87,12 +90,25 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         resetLoading()
     }
 
+    const createPasswordRecovery = async (forgotPasswordData:forgotPasswordData) => {
+        const {email} = forgotPasswordData
+        setAuthError(null);
+        setLoadings()
+        const response = await requestPasswordReset(email)
+        if (response.success) {
+            router.replace("change-password")
+        }
+        setAuthError("Noe gikk galt, prøv igjen")
+        resetLoading()
+    }
+
     return (
         <AuthContext.Provider value={{
             user,
             login: loginUser,
             logout: logoutUser,
             register: registerUser,
+            recoverPassword: createPasswordRecovery,
             authError: authError,
             registerError: registerError,
             isLoading: loading,

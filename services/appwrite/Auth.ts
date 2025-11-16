@@ -1,6 +1,9 @@
-import {AppwriteException, ID} from "react-native-appwrite";
+import {AppwriteException, ID, type Models} from "react-native-appwrite";
 import {Failure, Result, Session, Success, User} from "@/services/appwrite/types";
 import {account} from "@/services/appwrite/index";
+type Token = Models.Token;
+
+const PASSWORD_RECOVER_URL = "";
 
 const handleError = (error: AppwriteException):Failure => {
     switch (error.code) {
@@ -86,4 +89,17 @@ const register = async (email:string,password:string):Promise<Result<User>> => {
     }
 }
 
-export {handleError, handleResponse, getUser, login, loginAndGetUser, logout, register}
+const requestPasswordReset = async (email:string):Promise<Result<Token>> =>{
+    try {
+        const response = await account.createRecovery({email:email, url: PASSWORD_RECOVER_URL});
+        return handleResponse(response)
+    }
+    catch(err){
+        if(err instanceof AppwriteException){
+            return handleError(err);
+        }
+        return {success: false, error: "An unknown error occurred"};
+    }
+}
+
+export {handleError, handleResponse, getUser, login, loginAndGetUser, logout, register, requestPasswordReset}
