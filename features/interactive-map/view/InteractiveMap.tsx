@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 
 import { ShopMarker } from '../types/shopMarker';
 import {MapView} from "@maplibre/maplibre-react-native";
+import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
 
 
 export default function InteractiveMap() {
@@ -24,7 +25,10 @@ export default function InteractiveMap() {
         ,[])
 
     return (
-        <MapView style={{ flex: 1 }}/>
+        <MapView
+            style={{ flex: 1 }}
+            mapStyle={customStyle}
+        />
 
        /* <Suspense fallback={<Text>Laster...</Text>}>
 
