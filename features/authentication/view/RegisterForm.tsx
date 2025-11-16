@@ -1,7 +1,7 @@
 import {Alert, StyleSheet, Text, View} from "react-native";
 import CustomTextInput from "@/shared/components/CustomTextInput";
 import {Checkbox} from "expo-checkbox";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import CustomPress from "@/shared/components/CustomPress";
 import HeadingText from "@/shared/components/HeadingText";
 import LinkText from "@/shared/components/LinkText";

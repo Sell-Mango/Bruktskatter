@@ -1,6 +1,6 @@
-import {Failure, User} from "@/services/appwrite/types"
+import {User} from "@/services/appwrite/types"
 import {getUser, loginAndGetUser, logout, register} from "@/services/appwrite/Auth"
-import {createContext, ReactNode, use, useCallback, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, use, useCallback, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
 import {registerData} from "@/features/authentication/model/registerData";
 import {router} from "expo-router";

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ZodType} from "zod";
 import {registerError} from "@/features/authentication/model/registerData";
 
@@ -39,6 +39,10 @@ export default function useHandleForms<T, U>(
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        resetErrors()
+    }, []);
 
     return {handleChange, handleSubmit, errors, resetErrors}
 }
