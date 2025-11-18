@@ -96,7 +96,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setLoadings()
         const response = await requestPasswordReset(email)
         if (response.success) {
-            router.replace("change-password")
+            router.replace("reset-password")
         }
         setAuthError("Noe gikk galt, prøv igjen")
         resetLoading()

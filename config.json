@@ -7,6 +7,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "scheme": ["bruktskatter", "appwrite-callback-<PROJECT_ID>"],
+    "deepLinks": ["bruktskatter://","appwrite-callback-<PROJECT_ID>://"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",

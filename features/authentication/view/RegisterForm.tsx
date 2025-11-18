@@ -45,7 +45,7 @@ export default function RegisterForm() {
             </View>
             <FormErrorText errorText={errors.acceptedTerms}/>
             <CustomPress pressAction={handleSubmit}><HeadingText heading={"Fortsett"} type={"h2"} color={"#fff"}/></CustomPress>
-            <Link href={"login"}>
+            <Link href={"reset-password"}>
                 <LinkText text={"Allerede medlem? Logg inn"}/>
             </Link>
         </View>
