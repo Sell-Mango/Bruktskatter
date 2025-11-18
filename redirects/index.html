@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="nb">
+<head>
+    <meta http-equiv="refresh" content="0">
+    <title>Redirecting...</title>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get("userId");
+        const secret = params.get("secret");
+
+        window.location = `bruktskatter://reset-password?userId=${userId}&secret=${secret}`;
+    </script>
+</head>
+<body>
+Redirecting...
+</body>
+</html>
