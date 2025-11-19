@@ -1,4 +1,4 @@
-import { Client, Account, Databases, Storage } from "react-native-appwrite"
+import {Client, Account, Databases, Storage, TablesDB} from "react-native-appwrite"
 
 const client = new Client()
 
@@ -10,5 +10,6 @@ client
 const account = new Account(client);
 const storage = new Storage(client);
 const databases = new Databases(client);
+const tablesDB = new TablesDB(client);
 
-export {client, account, storage, databases}
+export {client, account, storage, databases, tablesDB}

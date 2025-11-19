@@ -1,33 +1,59 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { getShops } from '../services/interactiveMapService';
-import { Suspense, useEffect, useState } from "react";
+import {getShops, getShopsInView} from '../services/interactiveMapService';
+import {Suspense, useEffect, useRef, useState} from "react";
 
 import { ShopMarker } from '../types/shopMarker';
-import {Camera, MapView, MarkerView, PointAnnotation} from "@maplibre/maplibre-react-native";
+import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
+import {MapBounds} from "@/features/interactive-map/types/MapBounds";
 
 
 export default function InteractiveMap() {
+    const [mapBounds, setMapBounds] = useState<MapBounds | null>(null);
 
     const [markers, setMarkers] = useState<ShopMarker[]>([]);
+    const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
     const FALLBACK_LOCATION: [number, number] = [10.9339, 59.2203];
 
-        useEffect(() => {
-          const fetchMarkers = async () => {
-            const locations = await getShops();
-            
-            const formattedLocations = locations.documents.map((marker) => ({
-              id: marker.$id, latitude: marker.location[0], longitude: marker.location[1], name: marker.name
-            }));
-            setMarkers(formattedLocations);
-          }
-          fetchMarkers();
+    const fetchMarkers = async (center: [number, number], number: number) => {
+        const locations = await getShopsInView(center, number);
+        console.log(locations);
+
+        const formattedLocations: ShopMarker[] = locations.rows.map((marker) => ({
+            id: marker.$id, latitude: marker.location[0], longitude: marker.location[1], name: marker.name
+        }));
+        setMarkers(formattedLocations);
+    }
+
+    useEffect(() => {
+          fetchMarkers(FALLBACK_LOCATION, 2500);
         }
         ,[])
 
+    const handleRegionChange = async () => {
+            if(!mapRef.current) return;
+            /*const bounds = await mapRef.current.getVisibleBounds();
+            const boundsData = bounds.flat();
+            const newBounds: MapBounds = {
+                minLat: boundsData[0],
+                maxLat: boundsData[1],
+                minLng: boundsData[2],
+                maxLng: boundsData[3],
+            }
+            console.log(bounds);
+            setMapBounds(newBounds);
+            */
+             const centerLocation = await mapRef.current.getCenter();
+             fetchMarkers([centerLocation[1], centerLocation[0]], 2500);
+
+    }
+
     return (
         <MapView
+            ref={mapRef}
             style={ styles.map }
+            onRegionDidChange={handleRegionChange}
+            regionDidChangeDebounceTime={1000}
             mapStyle={customStyle}
             attributionEnabled={true}
         >
@@ -36,7 +62,6 @@ export default function InteractiveMap() {
                     centerCoordinate: FALLBACK_LOCATION,
                     zoomLevel: 11
                 }}
-
             />
 
             {markers.length > 0 && (
@@ -58,11 +83,6 @@ export default function InteractiveMap() {
             )}
 
         </MapView>
-
-       /* <Suspense fallback={<Text>Laster...</Text>}>
-
-        </Suspense> */
-
     )
 }
 
