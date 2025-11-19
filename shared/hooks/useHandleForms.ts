@@ -15,6 +15,12 @@ export default function useHandleForms<T, U>(
         }))
     }
 
+    function addMultipleToFormData(formData:Partial<T>): void{
+        setFormData((prevData:T) => ({
+            ...prevData, ...formData
+        }))
+    }
+
     const resetErrors = (): void => {
         setErrors({} as U)
     }
@@ -44,5 +50,5 @@ export default function useHandleForms<T, U>(
         resetErrors()
     }, []);
 
-    return {handleChange, handleSubmit, errors, resetErrors}
+    return {handleChange, handleSubmit, errors, resetErrors, addMultipleToFormData}
 }

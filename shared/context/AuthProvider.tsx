@@ -1,15 +1,26 @@
 import {User} from "@/services/appwrite/types"
-import {getUser, loginAndGetUser, logout, register, requestPasswordReset} from "@/services/appwrite/Auth"
+import {
+    getUser,
+    loginAndGetUser,
+    logout,
+    register,
+    requestPasswordChange,
+    requestPasswordReset
+} from "@/services/appwrite/Auth"
 import {createContext, ReactNode, use, useCallback, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
 import {registerData} from "@/features/authentication/model/registerData";
-import {router} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import {
     emptyRegisterErrors,
     registerValidationErrors,
     validateRegistration
 } from "@/shared/utils/auth/registerValidation";
-import {forgotPasswordData, forgotPasswordErrors} from "@/features/authentication/model/forgotPasswordData";
+import {
+    changePasswordData,
+    forgotPasswordData,
+    forgotPasswordErrors
+} from "@/features/authentication/model/forgotPasswordData";
 
 type AuthContextType = {
     user: User|null;
@@ -17,6 +28,7 @@ type AuthContextType = {
     logout: () => Promise<void>;
     register: (registrationCredentials:registerData) => Promise<void>;
     recoverPassword: (forgotPasswordData:forgotPasswordData) => Promise<void>;
+    changePassword: (changePasswordData:changePasswordData) => Promise<void>;
     authError: string|null;
     registerError: registerValidationErrors;
     isLoading: boolean;
@@ -30,6 +42,7 @@ const AuthContext = createContext<AuthContextType>({
     logout: async ()=> {},
     register: async (): Promise<void> => {},
     recoverPassword: async (): Promise<void> => {},
+    changePassword: async (): Promise<void> => {},
     authError: null,
     registerError: emptyRegisterErrors,
     isLoading: false,
@@ -96,9 +109,22 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setLoadings()
         const response = await requestPasswordReset(email)
         if (response.success) {
-            router.replace("reset-password")
+            console.log("Check your mail")
+            return
         }
         setAuthError("Noe gikk galt, prøv igjen")
+        resetLoading()
+    }
+
+    const changePassword = async (changePasswordData:changePasswordData) => {
+        const {userId, secret, password} = changePasswordData
+        setAuthError(null);
+        setLoadings()
+        const response = await requestPasswordChange(userId, secret, password);
+        if (response.success) {
+            router.replace("login")
+        }
+        setAuthError("Noe gikk galt")
         resetLoading()
     }
 
@@ -109,6 +135,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
             logout: logoutUser,
             register: registerUser,
             recoverPassword: createPasswordRecovery,
+            changePassword: changePassword,
             authError: authError,
             registerError: registerError,
             isLoading: loading,

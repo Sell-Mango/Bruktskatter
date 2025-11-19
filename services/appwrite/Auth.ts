@@ -104,4 +104,23 @@ const requestPasswordReset = async (email:string):Promise<Result<Token>> =>{
     }
 }
 
-export {handleError, handleResponse, getUser, login, loginAndGetUser, logout, register, requestPasswordReset}
+const requestPasswordChange = async (userId:string, secret:string, password:string):Promise<Result<Token>> => {
+    try{
+        const response = await account.updateRecovery({
+            userId: userId,
+            secret: secret,
+            password: password,
+        })
+        console.log("recovery response",response)
+        return handleResponse(response)
+    }
+    catch(err){
+        console.log(err)
+        if(err instanceof AppwriteException){
+            return handleError(err);
+        }
+        return {success: false, error: "An unknown error occurred"};
+    }
+}
+
+export {handleError, handleResponse, getUser, login, loginAndGetUser, logout, register, requestPasswordReset, requestPasswordChange}
