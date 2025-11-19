@@ -17,7 +17,6 @@ export default function InteractiveMap() {
 
     const fetchMarkers = async (center: [number, number], number: number) => {
         const locations = await getShopsInView(center, number);
-        console.log(locations);
 
         const formattedLocations: ShopMarker[] = locations.rows.map((marker) => ({
             id: marker.$id, latitude: marker.location[0], longitude: marker.location[1], name: marker.name
