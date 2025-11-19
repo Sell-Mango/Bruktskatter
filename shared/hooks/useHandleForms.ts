@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ZodType} from "zod";
 import {registerError} from "@/features/authentication/model/registerData";
 
@@ -13,6 +13,16 @@ export default function useHandleForms<T, U>(
         setFormData((prevData:T) => ({
             ...prevData, [name]: value
         }))
+    }
+
+    function addMultipleToFormData(formData:Partial<T>): void{
+        setFormData((prevData:T) => ({
+            ...prevData, ...formData
+        }))
+    }
+
+    const resetErrors = (): void => {
+        setErrors({} as U)
     }
 
     const handleSubmit = () => {
@@ -36,5 +46,9 @@ export default function useHandleForms<T, U>(
         }
     }
 
-    return {handleChange, handleSubmit, errors}
+    useEffect(() => {
+        resetErrors()
+    }, []);
+
+    return {handleChange, handleSubmit, errors, resetErrors, addMultipleToFormData}
 }
