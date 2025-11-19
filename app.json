@@ -7,6 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
+    "scheme": "bruktskatter",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -32,6 +33,7 @@
       "@maplibre/maplibre-react-native"
     ],
     "extra": {
+      "appScheme": "bruktskatter",
       "router": {},
       "eas": {
         "projectId": "54f1420a-5009-4575-8e01-f3ff52113284"
