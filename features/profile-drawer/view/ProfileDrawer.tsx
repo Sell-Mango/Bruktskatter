@@ -16,6 +16,18 @@ export default function ProfileDrawer(props: DrawerContentComponentProps) {
             <Link href="profile" style={styles.imagePress}>
                 <Image style={styles.image} source={Appicon} contentFit={"fill"}/>
             </Link>
+            <Link href="profile" style={[styles.button, styles.buttonBoarder]}>
+                <HeadingText heading={"Gå til profil"} type={"h3"} color={"black"}/>
+            </Link>
+            <Link href="my-market" style={[styles.button, styles.buttonBoarder]}>
+                <HeadingText heading={"Mitt marked"} type={"h3"} color={"black"}/>
+            </Link>
+            <Link href="feed" style={[styles.button, styles.buttonBoarder]}>
+                <HeadingText heading={"Gå til feed"} type={"h3"} color={"black"}/>
+            </Link>
+            <Link href="frontpage" style={[styles.button, styles.buttonBoarder]}>
+                <HeadingText heading={"Åpne kart"} type={"h3"} color={"black"}/>
+            </Link>
             {isLoggedIn ? (
                 <Pressable onPress={logout} style={[styles.button, {backgroundColor: '#1F1D1E'}]}>
                     <HeadingText heading={"Logg ut"} type={"h3"} color={"#fff"}/>
