@@ -1,7 +1,7 @@
 import {Pressable, Text, TextInput} from "react-native";
 import {router} from "expo-router";
 import {ReactNode} from "react";
-import ProfilePress from "@/app/(drawer)/(tabs)/ProfilePress";
+import ProfilePress from "@/features/profile-drawer/view/ProfilePress";
 
 //TODO refactor with own pressable components, wrapper component and own styling sheet
 const headerTabsRight = () =>

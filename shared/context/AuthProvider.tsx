@@ -92,6 +92,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setLoadings()
         await logout()
         setUser(null)
+        router.replace("/")
         resetLoading()
     }
 
