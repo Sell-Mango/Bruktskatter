@@ -1,5 +1,6 @@
 import {router, Tabs} from "expo-router";
 import { tabsHeaderOptions } from "./tabsOptions";
+import {Drawer} from "expo-router/drawer";
 
 export default function TabsLayout() {
     return(

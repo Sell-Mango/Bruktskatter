@@ -1,7 +1,10 @@
 import { Stack } from "expo-router"
-import AuthProvider from "@/shared/context/AuthProvider";
+import AuthProvider, {useAuth} from "@/shared/context/AuthProvider";
+import {useContext} from "react";
 
 export default function RootLayout() {
+    const {isLoggedIn} = useAuth();
+
     return (
         <AuthProvider>
             <Stack screenOptions={{
@@ -9,6 +12,12 @@ export default function RootLayout() {
             }}>
                 <Stack.Screen name="index" options={{title: ""}}/>
                 <Stack.Screen name="(auth)" options={{title: ""}} />
+                {isLoggedIn ? (
+                    <Stack.Screen name="protected" options={{headerShown: false}} />
+                    ):(
+                        <Stack.Screen name="(tabs)" options={{headerShown: false}} />
+                    )
+                }
             </Stack>
         </AuthProvider>
     )

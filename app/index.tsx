@@ -10,9 +10,9 @@ export default function App() {
     useEffect(() => {
         if (isLoggedIn) {
             console.log("Logged in");
-            router.replace('(protected)/frontpage')
+            router.replace('frontpage')
         }
-    }, []);
+    }, [isLoggedIn]);
 
 
   return (
