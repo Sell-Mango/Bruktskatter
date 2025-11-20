@@ -5,6 +5,7 @@ import {Link, router} from "expo-router";
 import Appicon from "@assets/Appicon_alternative_bruktskatter.png"
 import {Image} from "expo-image";
 import {useAuth} from "@/shared/context/AuthProvider";
+import {Icons} from "@/shared/components/Icons";
 
 export default function ProfileDrawer(props: DrawerContentComponentProps) {
     const {navigation} = props;
@@ -29,7 +30,9 @@ export default function ProfileDrawer(props: DrawerContentComponentProps) {
                     </Link>
                 </>
             )}
-
+            <Link href={"settings"}>
+                <Icons.setting/>
+            </Link>
         </View>
     )
 }
