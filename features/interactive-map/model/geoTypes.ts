@@ -10,6 +10,12 @@ export type ViewportBoundary = {
     swLng: number;
 }
 
+export type ViewportMeasure = {
+    center: GeoPoint;
+    radius: number;
+    zoom: number;
+}
+
 export type RectangleCoordinates = {
     southWest: GeoPoint;
     northWest: GeoPoint;

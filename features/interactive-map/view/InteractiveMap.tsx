@@ -7,19 +7,24 @@ import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
 import {
     GeoPoint,
-    ViewportBoundary
+    ViewportBoundary, ViewportMeasure
 } from "@/features/interactive-map/model/geoTypes";
 import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
 import {getDistance} from "geolib";
 
-export default function InteractiveMap() {
-    const [boundary, setBoundary] = useState<ViewportBoundary>();
-    const [markers, setMarkers] = useState<ShopMarker[]>([]);
-    const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
-    const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
+const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
+const ZOOM_SHOPS_VISIBLE = 11;
+const FETCH_DISTANCE_THRESHOLD = 0.4;
 
-    const updateBoundary = async () => {
-        if(!mapRef.current) throw new Error("Kartet er ikke ferdig lastet inn");
+export default function InteractiveMap() {
+    const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
+
+    const [boundary, setBoundary] = useState<ViewportBoundary | null>(null);
+    const [markers, setMarkers] = useState<ShopMarker[]>([]);
+    const [previousMeasures, setPreviousMeasures] = useState<ViewportMeasure | null>(null);
+
+    const getCurrentBoundary = async () => {
+        if(!mapRef.current) throw new Error("Kunne ikke oppdatere boundary");
 
         const response = await mapRef.current.getVisibleBounds();
         const data = response.flat();
@@ -29,11 +34,11 @@ export default function InteractiveMap() {
             swLng: data[2],
             swLat: data[3],
         }
-        setBoundary(results);
+
         return results;
     }
 
-    const getViewportCenter = async (): Promise<GeoPoint> => {
+    const getCurrentViewportCenter = async (): Promise<GeoPoint> => {
 
         if(!mapRef.current) throw new Error("Kartet er ikke ferdig lastet inn");
 
@@ -45,44 +50,71 @@ export default function InteractiveMap() {
         }
     }
 
-    const calculateViewportRadius = async (
+    const calculateViewportRadius = (
         boundary: ViewportBoundary,
+        center: GeoPoint,
         padding: number = 1.2,
-        viewportCenter?: GeoPoint | null,
-    ): Promise<number> => {
+    ): number => {
 
-        viewportCenter = viewportCenter ?? await getViewportCenter()
         const northEastCorner: GeoPoint = { lng: boundary.neLng, lat: boundary.neLat };
 
-        return getDistance(viewportCenter, northEastCorner) * padding;
+        return getDistance(center, northEastCorner) * padding;
     }
 
-    const getShopMarkers = async (
-        center?: GeoPoint | null,
-        radius?: number | null
-    ) => {
-        const boundaryResponse = await updateBoundary();
-        if(!boundaryResponse) {
-            throw new Error("Kunne ikke finne boundary");
+    const shouldGetShops = (
+        currentFetch: ViewportMeasure,
+        previousFetch: ViewportMeasure | null
+    ): boolean => {
+        const { center, zoom } = currentFetch;
+
+        if (zoom < ZOOM_SHOPS_VISIBLE) {
+            return false;
+        }
+        if (!previousFetch) {
+            return true;
+        }
+        const movedDistance = getDistance(center, previousFetch.center);
+
+        return movedDistance > previousFetch.radius * FETCH_DISTANCE_THRESHOLD;
+    }
+
+    const getShopMarkers = async () => {
+        if(!mapRef.current) throw new Error("Kartet er ikke oppdatere boundary");
+
+        const boundary = await getCurrentBoundary();
+
+        const zoom = await mapRef.current.getZoom();
+        const center = await getCurrentViewportCenter();
+        const radius = calculateViewportRadius(boundary, center);
+
+        const currentMeasures: ViewportMeasure = {
+            zoom: zoom,
+            center: center,
+            radius: radius
         }
 
-        center = center ?? await getViewportCenter();
-        radius = radius ?? await calculateViewportRadius(boundaryResponse);
-        console.log(center, "center");
-        console.log(radius, "radius");
+        if (!shouldGetShops(currentMeasures, previousMeasures)) {
+            console.log("No change")
+            setBoundary(boundary);
+            return;
+        }
+        console.log("changing...")
 
-        const markersResponse = await getShopsWithinRadius(center, radius);
-        if(!markersResponse) {
+        const rows = await getShopsWithinRadius(center, radius);
+        if(!rows) {
             throw new Error("Kunne ikke laste inn markeder.");
         }
 
-        return formatLocations(markersResponse);
+        const formatRows = formatLocations(rows);
+
+        setBoundary(boundary);
+        setMarkers(formatRows);
+        setPreviousMeasures(currentMeasures);
     }
 
     const getInitialMarkers = async () => {
         try {
-            const markers = await getShopMarkers(FALLBACK_LOCATION, 10);
-            setMarkers(markers);
+            await getShopMarkers();
         }
         catch (error) {
             console.error("Kunne ikke laste inn markeder, feil: ", error);
@@ -91,14 +123,11 @@ export default function InteractiveMap() {
 
     const handleRegionChange = async () => {
         try {
-            const markers = await getShopMarkers();
-            setMarkers(markers);
+            await getShopMarkers();
         }
         catch (error) {
             console.error("Kunne ikke laste inn markeder, feil: ", error);
         }
-
-         // const centerLocation = await mapRef.current.getCenter();
     }
 
     return (
@@ -107,7 +136,7 @@ export default function InteractiveMap() {
             style={ styles.map }
             onDidFinishLoadingMap={getInitialMarkers}
             onRegionDidChange={handleRegionChange}
-            regionDidChangeDebounceTime={1000}
+            regionDidChangeDebounceTime={600}
             mapStyle={customStyle}
             attributionEnabled={true}
         >
@@ -125,7 +154,6 @@ export default function InteractiveMap() {
                         coordinate={[marker.longitude, marker.latitude]}
                         anchor={{ x: 0.5, y: 1 }}
                     >
-
                         <View
                             style={styles.marker}
                         >
