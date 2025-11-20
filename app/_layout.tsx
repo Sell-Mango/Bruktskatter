@@ -13,6 +13,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" options={{title: ""}}/>
                 <Stack.Screen name="(auth)" options={{title: ""}} />
                 <Stack.Screen name="(drawer)" options={{headerShown: false}} />
+                <Stack.Screen name="(zShared)" />
             </Stack>
         </AuthProvider>
     )

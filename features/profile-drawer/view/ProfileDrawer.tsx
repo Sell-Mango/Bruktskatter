@@ -31,7 +31,7 @@ export default function ProfileDrawer(props: DrawerContentComponentProps) {
                 </>
             )}
             <Link href={"settings"}>
-                <Icons.setting/>
+                <Icons.setting width={40} height={40}/>
             </Link>
         </View>
     )
