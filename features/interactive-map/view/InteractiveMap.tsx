@@ -1,56 +1,111 @@
 import { StyleSheet, Text, View } from 'react-native';
-import {getShops, getShopsInView} from '../services/interactiveMapService';
-import {Suspense, useEffect, useRef, useState} from "react";
+import {getShopsWithinBoundary, getShopsWithinRadius} from '../services/shopLocationsService';
+import {useRef, useState} from "react";
 
-import { ShopMarker } from '../types/shopMarker';
+import { ShopMarker } from '@/features/interactive-map/model/shopMarker';
 import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
-import {MapBounds} from "@/features/interactive-map/types/MapBounds";
-
+import {
+    GeoPoint,
+    ViewportBoundary
+} from "@/features/interactive-map/model/geoTypes";
+import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
+import {getDistance} from "geolib";
 
 export default function InteractiveMap() {
-    const [mapBounds, setMapBounds] = useState<MapBounds | null>(null);
-
+    const [boundary, setBoundary] = useState<ViewportBoundary>();
     const [markers, setMarkers] = useState<ShopMarker[]>([]);
     const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
-    const FALLBACK_LOCATION: [number, number] = [10.9339, 59.2203];
+    const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
-    const fetchMarkers = async (center: [number, number], number: number) => {
-        const locations = await getShopsInView(center, number);
+    const updateBoundary = async () => {
+        if(!mapRef.current) throw new Error("Kartet er ikke ferdig lastet inn");
 
-        const formattedLocations: ShopMarker[] = locations.rows.map((marker) => ({
-            id: marker.$id, latitude: marker.location[0], longitude: marker.location[1], name: marker.name
-        }));
-        setMarkers(formattedLocations);
+        const response = await mapRef.current.getVisibleBounds();
+        const data = response.flat();
+        const results: ViewportBoundary = {
+            neLng: data[0],
+            neLat: data[1],
+            swLng: data[2],
+            swLat: data[3],
+        }
+        setBoundary(results);
+        return results;
     }
 
-    useEffect(() => {
-          fetchMarkers(FALLBACK_LOCATION, 2500);
+    const getViewportCenter = async (): Promise<GeoPoint> => {
+
+        if(!mapRef.current) throw new Error("Kartet er ikke ferdig lastet inn");
+
+        const [centerLng, centerLat] = await mapRef.current.getCenter();
+
+        return {
+            lng: centerLng,
+            lat: centerLat,
         }
-        ,[])
+    }
+
+    const calculateViewportRadius = async (
+        boundary: ViewportBoundary,
+        padding: number = 1.2,
+        viewportCenter?: GeoPoint | null,
+    ): Promise<number> => {
+
+        viewportCenter = viewportCenter ?? await getViewportCenter()
+        const northEastCorner: GeoPoint = { lng: boundary.neLng, lat: boundary.neLat };
+
+        return getDistance(viewportCenter, northEastCorner) * padding;
+    }
+
+    const getShopMarkers = async (
+        center?: GeoPoint | null,
+        radius?: number | null
+    ) => {
+        const boundaryResponse = await updateBoundary();
+        if(!boundaryResponse) {
+            throw new Error("Kunne ikke finne boundary");
+        }
+
+        center = center ?? await getViewportCenter();
+        radius = radius ?? await calculateViewportRadius(boundaryResponse);
+        console.log(center, "center");
+        console.log(radius, "radius");
+
+        const markersResponse = await getShopsWithinRadius(center, radius);
+        if(!markersResponse) {
+            throw new Error("Kunne ikke laste inn markeder.");
+        }
+
+        return formatLocations(markersResponse);
+    }
+
+    const getInitialMarkers = async () => {
+        try {
+            const markers = await getShopMarkers(FALLBACK_LOCATION, 10);
+            setMarkers(markers);
+        }
+        catch (error) {
+            console.error("Kunne ikke laste inn markeder, feil: ", error);
+        }
+    }
 
     const handleRegionChange = async () => {
-            if(!mapRef.current) return;
-            /*const bounds = await mapRef.current.getVisibleBounds();
-            const boundsData = bounds.flat();
-            const newBounds: MapBounds = {
-                minLat: boundsData[0],
-                maxLat: boundsData[1],
-                minLng: boundsData[2],
-                maxLng: boundsData[3],
-            }
-            console.log(bounds);
-            setMapBounds(newBounds);
-            */
-             const centerLocation = await mapRef.current.getCenter();
-             fetchMarkers([centerLocation[1], centerLocation[0]], 2500);
+        try {
+            const markers = await getShopMarkers();
+            setMarkers(markers);
+        }
+        catch (error) {
+            console.error("Kunne ikke laste inn markeder, feil: ", error);
+        }
 
+         // const centerLocation = await mapRef.current.getCenter();
     }
 
     return (
         <MapView
             ref={mapRef}
             style={ styles.map }
+            onDidFinishLoadingMap={getInitialMarkers}
             onRegionDidChange={handleRegionChange}
             regionDidChangeDebounceTime={1000}
             mapStyle={customStyle}
@@ -58,8 +113,8 @@ export default function InteractiveMap() {
         >
             <Camera
                 defaultSettings={{
-                    centerCoordinate: FALLBACK_LOCATION,
-                    zoomLevel: 11
+                    centerCoordinate: Object.values(FALLBACK_LOCATION),
+                    zoomLevel: 12
                 }}
             />
 
