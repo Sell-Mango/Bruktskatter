@@ -1,30 +1,14 @@
-import {StyleSheet, TextInput, Text, View} from "react-native";
+import {TextInput, Text, View} from "react-native";
 import {CustomTextInputProps} from "@/shared/types/CustomProps";
 import RequiredStar from "@/shared/components/RequiredStar";
+import {formStyles} from "@/shared/stylesheets";
 
 export default function CustomTextInput<T>(props:CustomTextInputProps<T>) {
     const {label, secure = false, required = false, changeAction, actionKey} = props;
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>{label} {required ? <RequiredStar/>: ""}</Text>
-            <TextInput style={styles.input} secureTextEntry={secure} onChangeText={(value) => changeAction(actionKey, value)}/>
+        <View style={{gap:10}}>
+            <Text style={formStyles.labelText}>{label} {required ? <RequiredStar/>: ""}</Text>
+            <TextInput style={formStyles.textInput} secureTextEntry={secure} onChangeText={(value) => changeAction(actionKey, value)}/>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    input: {
-        borderWidth: 2,
-        borderColor: '#2F5D50',
-        borderStyle: "solid",
-        borderRadius: 7,
-        width: 309,
-    },
-    text:{
-        fontSize: 16,
-        color: "#2F5D50",
-    },
-    container: {
-        gap: 10
-    }
-})

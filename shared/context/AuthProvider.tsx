@@ -10,16 +10,14 @@ import {
 import {createContext, ReactNode, use, useCallback, useEffect, useState} from "react";
 import {loginData} from "@/features/authentication/model/loginData";
 import {registerData} from "@/features/authentication/model/registerData";
-import {router, useLocalSearchParams} from "expo-router";
+import {router} from "expo-router";
 import {
     emptyRegisterErrors,
     registerValidationErrors,
-    validateRegistration
 } from "@/shared/utils/auth/registerValidation";
 import {
     changePasswordData,
     forgotPasswordData,
-    forgotPasswordErrors
 } from "@/features/authentication/model/forgotPasswordData";
 
 type AuthContextType = {

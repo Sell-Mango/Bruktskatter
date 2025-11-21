@@ -1,10 +1,7 @@
 import { Stack } from "expo-router"
-import AuthProvider, {useAuth} from "@/shared/context/AuthProvider";
-import {useContext} from "react";
+import AuthProvider from "@/shared/context/AuthProvider";
 
 export default function RootLayout() {
-    const {isLoggedIn} = useAuth();
-
     return (
         <AuthProvider>
             <Stack screenOptions={{

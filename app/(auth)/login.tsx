@@ -1,4 +1,3 @@
-import { Text } from 'react-native';
 import LoginForm from "@/features/authentication/view/LoginForm";
 import AuthenticationLayout from "@/features/authentication/view/AuthenticationLayout";
 

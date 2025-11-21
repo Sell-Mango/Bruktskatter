@@ -1,0 +1,21 @@
+import {StyleSheet} from "react-native";
+
+const headingStyles = StyleSheet.create({
+    h1: {
+        fontSize: 30,
+        fontWeight: "800",
+        textAlign: "center"
+    },
+    h2:{
+        fontSize: 23,
+        fontWeight: "600",
+        textAlign: "center"
+    },
+    h3:{
+        fontSize: 18,
+        fontWeight: "400",
+        textAlign: "center"
+    }
+})
+
+export {headingStyles}
