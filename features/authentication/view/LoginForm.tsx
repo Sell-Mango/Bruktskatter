@@ -1,5 +1,5 @@
 import CustomTextInput from "@/shared/components/CustomTextInput";
-import {StyleSheet, Text, View} from "react-native";
+import {View} from "react-native";
 import HeadingText from "@/shared/components/HeadingText";
 import CustomPress from "@/shared/components/CustomPress";
 import {Link} from "expo-router";
@@ -8,13 +8,14 @@ import useHandleForms from "@/shared/hooks/useHandleForms";
 import {loginData, LoginDataSchema, loginErrors} from "@/features/authentication/model/loginData";
 import {useAuth} from "@/shared/context/AuthProvider";
 import FormErrorText from "@/features/authentication/view/FormErrorText";
+import {containerStyles} from "@/shared/stylesheets";
 
 export default function LoginForm() {
     const {login, authError} = useAuth()
     const {handleChange, handleSubmit, errors} = useHandleForms<loginData, loginErrors>(LoginDataSchema, login)
 
     return (
-        <View style={styles.container}>
+        <View style={containerStyles.flexContainer}>
             <CustomTextInput label={"Epost"} actionKey={"email"} changeAction={handleChange}/>
             <FormErrorText errorText={errors.email}/>
             <CustomTextInput label={"Passord"} secure={true} actionKey={"password"} changeAction={handleChange}/>
@@ -30,10 +31,3 @@ export default function LoginForm() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container:{
-        display: "flex",
-        gap: 10
-    }
-})

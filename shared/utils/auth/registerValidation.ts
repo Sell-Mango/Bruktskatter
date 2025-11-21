@@ -1,4 +1,4 @@
-import {AuthFailure, AuthResponse, ERROR_MESSAGES, SUCCESS_MESSAGES} from "@/shared/utils/auth/validationMessages";
+import {ERROR_MESSAGES} from "@/shared/utils/auth/validationMessages";
 import {registerData} from "@/features/authentication/model/registerData";
 
 export type registerValidationErrors = {
@@ -18,7 +18,7 @@ export const emptyRegisterErrors = {
 }
 
 export const validateRegistration = (registerData:registerData):registerValidationErrors => {
-    const { email, password, passwordConfirm } = registerData;
+    const { password, passwordConfirm } = registerData;
     const errors:registerValidationErrors = emptyRegisterErrors
     if (password !== passwordConfirm){
         errors.passwordConfirmed = ERROR_MESSAGES.PASSWORD_CONFIRMATION

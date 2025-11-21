@@ -1,65 +1,60 @@
-import { StyleSheet, Text, View } from 'react-native';
-import {getShops, getShopsInView} from '../services/interactiveMapService';
-import {Suspense, useEffect, useRef, useState} from "react";
+import { Text, View } from 'react-native';
+import {getShopsWithinBoundary, getShopsWithinRadius} from '../services/shopLocationsService';
+import {useRef, useState} from "react";
 
-import { ShopMarker } from '../types/shopMarker';
+import { ShopMarker } from '@/features/interactive-map/model/shopMarker';
 import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
 import {MapBounds} from "@/features/interactive-map/types/MapBounds";
+import {mapStyles} from "@/shared/stylesheets";
+import {
+    GeoPoint,
+    ViewportBoundary, ViewportMeasure
+} from "@/features/interactive-map/model/geoTypes";
+import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
+import {getDistance} from "geolib";
+import {useInteractiveMaps} from "@/features/interactive-map/hooks/useInteractiveMaps";
 
+const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
+const ZOOM_SHOPS_VISIBLE = 11;
+const FETCH_DISTANCE_THRESHOLD = 0.4;
 
 export default function InteractiveMap() {
-    const [mapBounds, setMapBounds] = useState<MapBounds | null>(null);
 
-    const [markers, setMarkers] = useState<ShopMarker[]>([]);
-    const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
-    const FALLBACK_LOCATION: [number, number] = [10.9339, 59.2203];
+    const { mapRef, actions, markers, boundary } = useInteractiveMaps();
 
-    const fetchMarkers = async (center: [number, number], number: number) => {
-        const locations = await getShopsInView(center, number);
-
-        const formattedLocations: ShopMarker[] = locations.rows.map((marker) => ({
-            id: marker.$id, latitude: marker.location[0], longitude: marker.location[1], name: marker.name
-        }));
-        setMarkers(formattedLocations);
+    const getInitialMarkers = async () => {
+        try {
+            await actions.getShopMarkers();
+        }
+        catch (error) {
+            console.error("Kunne ikke laste inn markeder, feil: ", error);
+        }
     }
 
-    useEffect(() => {
-          fetchMarkers(FALLBACK_LOCATION, 2500);
-        }
-        ,[])
-
     const handleRegionChange = async () => {
-            if(!mapRef.current) return;
-            /*const bounds = await mapRef.current.getVisibleBounds();
-            const boundsData = bounds.flat();
-            const newBounds: MapBounds = {
-                minLat: boundsData[0],
-                maxLat: boundsData[1],
-                minLng: boundsData[2],
-                maxLng: boundsData[3],
-            }
-            console.log(bounds);
-            setMapBounds(newBounds);
-            */
-             const centerLocation = await mapRef.current.getCenter();
-             fetchMarkers([centerLocation[1], centerLocation[0]], 2500);
-
+        try {
+            await actions.getShopMarkers();
+        }
+        catch (error) {
+            console.error("Kunne ikke laste inn markeder, feil: ", error);
+        }
     }
 
     return (
         <MapView
             ref={mapRef}
-            style={ styles.map }
+            style={ mapStyles.map }
+            onDidFinishLoadingMap={getInitialMarkers}
             onRegionDidChange={handleRegionChange}
-            regionDidChangeDebounceTime={1000}
+            regionDidChangeDebounceTime={600}
             mapStyle={customStyle}
             attributionEnabled={true}
         >
             <Camera
                 defaultSettings={{
-                    centerCoordinate: FALLBACK_LOCATION,
-                    zoomLevel: 11
+                    centerCoordinate: Object.values(FALLBACK_LOCATION),
+                    zoomLevel: 12
                 }}
             />
 
@@ -70,9 +65,8 @@ export default function InteractiveMap() {
                         coordinate={[marker.longitude, marker.latitude]}
                         anchor={{ x: 0.5, y: 1 }}
                     >
-
                         <View
-                            style={styles.marker}
+                            style={mapStyles.marker}
                         >
                             <Text style={{ fontSize: 10, fontWeight: 600, color: "#000000" }}>{marker.name}</Text>
                         </View>
@@ -84,18 +78,3 @@ export default function InteractiveMap() {
         </MapView>
     )
 }
-
-const styles = StyleSheet.create({
-  map: {
-      flex: 1,
-    width: '100%',
-    height: '100%'
-  },
-  marker: {
-      alignSelf: 'flex-start',
-      padding: 6,
-      borderRadius: 12,
-      backgroundColor: "#ffffff",
-      borderWidth: 1,
-  }
-});

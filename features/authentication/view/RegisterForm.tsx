@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, View} from "react-native";
+import {Alert, Text, View} from "react-native";
 import CustomTextInput from "@/shared/components/CustomTextInput";
 import {Checkbox} from "expo-checkbox";
 import {useState} from "react";
@@ -12,11 +12,13 @@ import {registerData, RegisterDataSchema, registerError} from "@/features/authen
 import {useAuth} from "@/shared/context/AuthProvider";
 import FormErrorText from "@/features/authentication/view/FormErrorText";
 import useConfirmBeforeLeaving from "@/shared/hooks/useConfirmBeforeLeaving";
+import {containerStyles, formStyles} from "@/shared/stylesheets";
 
 export default function RegisterForm() {
     const {register, registerError} = useAuth()
     const [isChecked, setChecked] = useState<boolean>(false);
     const {handleChange, handleSubmit, errors, resetErrors} = useHandleForms<registerData, registerError>(RegisterDataSchema, register)
+    //TODO: move to own ts
     useConfirmBeforeLeaving((proceed)=>{
         Alert.alert("Fjern endringer", "Er du sikker?", [
             {
@@ -29,7 +31,7 @@ export default function RegisterForm() {
     })
 
     return (
-        <View style={styles.container}>
+        <View style={containerStyles.flexContainer}>
             <CustomTextInput<registerData> label={"Din epost"} secure={false} required={true} changeAction={handleChange} actionKey={"email"}/>
             <FormErrorText errorText={errors.email}/>
             <CustomTextInput<registerData> label={"Passord"} secure={true} required={true} changeAction={handleChange} actionKey={"password"}/>
@@ -39,7 +41,7 @@ export default function RegisterForm() {
             {
                 //TODO: Make custom checkbox component
             }
-            <View style={styles.checkbox}>
+            <View style={formStyles.checkbox}>
                 <Checkbox value={!isChecked} onValueChange={(e):void=>{setChecked((prev)=>!prev);handleChange("acceptedTerms", isChecked);}}/>
                 <Text>For å lage bruker må du akseptere vilkår {<RequiredStar/>}</Text>
             </View>
@@ -51,15 +53,3 @@ export default function RegisterForm() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    checkbox: {
-        display: "flex",
-        flexDirection: "row",
-        gap: 10
-    },
-    container:{
-        display: "flex",
-        gap: 10
-    }
-})

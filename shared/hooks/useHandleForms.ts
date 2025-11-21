@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {ZodType} from "zod";
-import {registerError} from "@/features/authentication/model/registerData";
 
 export default function useHandleForms<T, U>(
     schema: ZodType<T>,

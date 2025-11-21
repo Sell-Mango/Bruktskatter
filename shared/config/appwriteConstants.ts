@@ -1,5 +1,3 @@
-import {createURL} from "expo-linking";
-
 const APPWRITE_CONSTANT = {
     API: process.env.EXPO_PUBLIC_APPWRITE_API,
     PROJECT_ID: process.env.EXPO_PUBLIC_APPWRITE_PROJECTID,
@@ -10,8 +8,6 @@ const APPWRITE_CONSTANT = {
 
 const APPWRITE_REDIRECT_LINKS = {
     RESET_PASSWORD: "https://bruktskatter.appwrite.network",
-    OLD: createURL("/reset-password"),
-    OLDER: `appwrite-callback-${APPWRITE_CONSTANT.PROJECT_ID}:///reset-password?userId={userId}&secret={secret}`,
 }
 
 export { APPWRITE_CONSTANT ,APPWRITE_REDIRECT_LINKS }

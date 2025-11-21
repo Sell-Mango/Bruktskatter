@@ -1,14 +1,9 @@
-import {StyleSheet, Text} from "react-native";
+import {Text} from "react-native";
+import {formStyles} from "@/shared/stylesheets";
 
 export default function () {
     return (
-        <Text style={styles.redStar}>*</Text>
+        //TODO:change to actual icon
+        <Text style={formStyles.requiredStar}>*</Text>
     )
 }
-
-const styles = StyleSheet.create({
-    redStar: {
-        color: "#D10000",
-        fontSize: 14,
-    }
-})

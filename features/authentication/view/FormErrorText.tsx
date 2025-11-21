@@ -1,4 +1,5 @@
-import {StyleSheet, Text} from "react-native";
+import {Text} from "react-native";
+import {errorStyles} from "@/shared/stylesheets";
 
 export default function FormErrorText({errorText}:{errorText:string|null}){
     if(errorText == null){
@@ -6,13 +7,6 @@ export default function FormErrorText({errorText}:{errorText:string|null}){
     }
 
     return(
-        <Text style={styles.errorText}>{errorText}</Text>
+        <Text style={errorStyles.defaultError}>{errorText}</Text>
     )
 }
-
-const styles = StyleSheet.create({
-    errorText: {
-        color: "red",
-        fontWeight: "bold",
-    }
-})
