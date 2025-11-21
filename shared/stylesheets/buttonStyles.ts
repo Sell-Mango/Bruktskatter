@@ -7,9 +7,11 @@ const buttonStyles = StyleSheet.create({
         margin: 10,
         width: 300,
         textAlign: 'center',
+        backgroundColor: '#1F1D1E'
     },
     buttonBoarder: {
         borderColor: '#1F1D1E',
+        backgroundColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: 2,
     }
