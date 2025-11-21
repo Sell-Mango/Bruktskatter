@@ -12,7 +12,7 @@ const containerStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         gap: 10
-    }
+    },
 })
 
 export {containerStyles}
