@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import {getShopsWithinBoundary, getShopsWithinRadius} from '../services/shopLocationsService';
 import {useRef, useState} from "react";
 
 import { ShopMarker } from '@/features/interactive-map/model/shopMarker';
 import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
+import {MapBounds} from "@/features/interactive-map/types/MapBounds";
+import {mapStyles} from "@/shared/stylesheets";
 import {
     GeoPoint,
     ViewportBoundary, ViewportMeasure
@@ -42,7 +44,7 @@ export default function InteractiveMap() {
     return (
         <MapView
             ref={mapRef}
-            style={ styles.map }
+            style={ mapStyles.map }
             onDidFinishLoadingMap={getInitialMarkers}
             onRegionDidChange={handleRegionChange}
             regionDidChangeDebounceTime={600}
@@ -64,7 +66,7 @@ export default function InteractiveMap() {
                         anchor={{ x: 0.5, y: 1 }}
                     >
                         <View
-                            style={styles.marker}
+                            style={mapStyles.marker}
                         >
                             <Text style={{ fontSize: 10, fontWeight: 600, color: "#000000" }}>{marker.name}</Text>
                         </View>
@@ -76,18 +78,3 @@ export default function InteractiveMap() {
         </MapView>
     )
 }
-
-const styles = StyleSheet.create({
-  map: {
-      flex: 1,
-    width: '100%',
-    height: '100%'
-  },
-  marker: {
-      alignSelf: 'flex-start',
-      padding: 6,
-      borderRadius: 12,
-      backgroundColor: "#ffffff",
-      borderWidth: 1,
-  }
-});

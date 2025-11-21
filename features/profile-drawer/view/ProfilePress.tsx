@@ -1,6 +1,5 @@
 //TODO: move to right folder
-import CustomPress from "@/shared/components/CustomPress";
-import {router, useNavigation} from "expo-router";
+import {useNavigation} from "expo-router";
 import {Pressable, Text} from "react-native";
 import { DrawerNavigationProp} from "@react-navigation/drawer";
 

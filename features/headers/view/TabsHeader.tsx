@@ -1,7 +1,6 @@
 import {Pressable, Text, TextInput} from "react-native";
-import {router} from "expo-router";
-import {ReactNode} from "react";
 import ProfilePress from "@/features/profile-drawer/view/ProfilePress";
+import {tabsOptions} from "@/features/headers/model/tabsOptions";
 
 //TODO refactor with own pressable components, wrapper component and own styling sheet
 const headerTabsRight = () =>
@@ -34,20 +33,9 @@ const headerTabsLeft = () => (
     }}/>
 )
 
-//TODO move interface to right file
-interface tabsOptions{
-    headerRight: () => ReactNode,
-    headerTitle: string,
-    headerLeft: () => ReactNode,
-    title: string,
-}
-
 //TODO make this more dynamic
 export const tabsHeaderOptions = (title:string):tabsOptions =>{
     return {
         headerRight: headerTabsRight, headerTitle: "", headerLeft: headerTabsLeft, title: title,
     }
 }
-
-
-
