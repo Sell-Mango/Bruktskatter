@@ -9,6 +9,7 @@ export const formatLocations = (
         id: marker.$id,
         latitude: marker.location[1],
         longitude: marker.location[0],
-        name: marker.name
+        name: marker.name,
+        category: marker.primaryCategory
     }));
 }

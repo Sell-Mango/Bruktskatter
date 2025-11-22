@@ -1,23 +1,16 @@
 import { Text, View } from 'react-native';
-import {getShopsWithinBoundary, getShopsWithinRadius} from '../services/shopLocationsService';
-import {useRef, useState} from "react";
 
-import { ShopMarker } from '@/features/interactive-map/model/shopMarker';
 import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
-import {MapBounds} from "@/features/interactive-map/types/MapBounds";
 import {mapStyles} from "@/shared/stylesheets";
 import {
     GeoPoint,
-    ViewportBoundary, ViewportMeasure
 } from "@/features/interactive-map/model/geoTypes";
-import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
-import {getDistance} from "geolib";
 import {useInteractiveMaps} from "@/features/interactive-map/hooks/useInteractiveMaps";
+import {Icons} from "@/shared/components/Icons";
+import MapMarker from "@/features/interactive-map/view/MapMarker";
 
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
-const ZOOM_SHOPS_VISIBLE = 11;
-const FETCH_DISTANCE_THRESHOLD = 0.4;
 
 export default function InteractiveMap() {
 
@@ -60,18 +53,13 @@ export default function InteractiveMap() {
 
             {markers.length > 0 && (
                 markers.map((marker) => (
-                    <MarkerView
+                    <MapMarker
                         key={marker.id}
-                        coordinate={[marker.longitude, marker.latitude]}
-                        anchor={{ x: 0.5, y: 1 }}
-                    >
-                        <View
-                            style={mapStyles.marker}
-                        >
-                            <Text style={{ fontSize: 10, fontWeight: 600, color: "#000000" }}>{marker.name}</Text>
-                        </View>
-
-                    </MarkerView>
+                        name={marker.name}
+                        longitude={marker.longitude}
+                        latitude={marker.latitude}
+                        category={marker.category}
+                    />
                 ))
             )}
 

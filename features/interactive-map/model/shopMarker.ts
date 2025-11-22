@@ -4,4 +4,5 @@ export interface ShopMarker {
     name: string,
     latitude: number,
     longitude: number,
+    category: string,
 }

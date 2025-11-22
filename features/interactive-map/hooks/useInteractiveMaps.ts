@@ -8,7 +8,7 @@ import {MapView} from "@maplibre/maplibre-react-native";
 
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 const ZOOM_SHOPS_VISIBLE = 11;
-const FETCH_DISTANCE_THRESHOLD = 0.4;
+const FETCH_DISTANCE_THRESHOLD = 0.;
 
 export const useInteractiveMaps = () => {
     const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
@@ -47,7 +47,7 @@ export const useInteractiveMaps = () => {
     const calculateViewportRadius = (
         boundary: ViewportBoundary,
         center: GeoPoint,
-        padding: number = 1.2,
+        padding: number = 1.1,
     ): number => {
 
         const northEastCorner: GeoPoint = { lng: boundary.neLng, lat: boundary.neLat };

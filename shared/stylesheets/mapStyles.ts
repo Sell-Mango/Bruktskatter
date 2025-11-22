@@ -7,11 +7,9 @@ const mapStyles = StyleSheet.create({
         height: '100%'
     },
     marker: {
+        flexDirection: 'row',
         alignSelf: 'flex-start',
-        padding: 6,
-        borderRadius: 12,
-        backgroundColor: "#ffffff",
-        borderWidth: 1,
+        alignItems: 'center',
     }
 })
 
