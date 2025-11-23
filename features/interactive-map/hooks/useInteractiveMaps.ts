@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {GeoPoint, ViewportBoundary, ViewportMeasure} from "@/features/interactive-map/model/geoTypes";
-import {ShopMarker} from "@/features/interactive-map/model/shopMarker";
+import {ShopLocation} from "@/features/interactive-map/model/shopLocation";
 import {getDistance} from "geolib";
 import {getShopsWithinRadius} from "@/features/interactive-map/services/shopLocationsService";
 import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
@@ -14,7 +14,7 @@ export const useInteractiveMaps = () => {
     const mapRef = useRef<React.ComponentRef<typeof MapView> | null>(null);
 
     const [boundary, setBoundary] = useState<ViewportBoundary | null>(null);
-    const [markers, setMarkers] = useState<ShopMarker[]>([]);
+    const [markers, setMarkers] = useState<ShopLocation[]>([]);
     const [previousMeasures, setPreviousMeasures] = useState<ViewportMeasure | null>(null);
 
     const getCurrentBoundary = async () => {

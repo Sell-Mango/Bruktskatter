@@ -27,21 +27,22 @@ export const christmasIcon = ({
         />
         <Path
             d="M127.71,101.07l-15.76-7.88,31.51-31.51,31.51,31.51-15.76,7.88,31.51,31.51-23.64,7.88,35.45,39.39h-118.18l31.51-39.39-19.7-7.88,31.51-31.51Z"
+            fill={primaryColor}
         />
         <Line
             x1={171.05} y1={219.25} x2={115.9} y2={219.25}
             stroke={primaryColor}
-            strokeWidth={10}
+            strokeWidth={12}
         />
         <Line
             x1={131.65} y1={179.85} x2={127.71} y2={219.25}
             stroke={primaryColor}
-            strokeWidth={10}
+            strokeWidth={12}
         />
         <Line
             x1={155.29} y1={179.85} x2={159.23} y2={219.25}
             stroke={primaryColor}
-            strokeWidth={10}
+            strokeWidth={12}
         />
     </Svg>
 );

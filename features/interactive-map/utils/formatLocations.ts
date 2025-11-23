@@ -1,9 +1,9 @@
 import { shopLocationRow } from "@/features/interactive-map/repository/shopLocationsRepository";
-import { ShopMarker } from "@/features/interactive-map/model/shopMarker";
+import { ShopLocation } from "@/features/interactive-map/model/shopLocation";
 
 export const formatLocations = (
     rows: shopLocationRow[]
-): ShopMarker[] => {
+): ShopLocation[] => {
 
     return rows.map((marker) => ({
         id: marker.$id,

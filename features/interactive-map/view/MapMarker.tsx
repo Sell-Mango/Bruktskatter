@@ -1,34 +1,40 @@
 import {Text, View} from "react-native";
 import {mapStyles} from "@/shared/stylesheets";
-import {Icons} from "@/shared/components/Icons";
-import {ShopMarker} from "@/features/interactive-map/model/shopMarker";
+import {ShopLocation} from "@/features/interactive-map/model/shopLocation";
 import {MarkerView} from "@maplibre/maplibre-react-native";
+import MapMarkerIcon from "@/features/interactive-map/view/MapMarkerIcon";
 
-export type MapMarkerProps = Pick<ShopMarker, 'name' | 'longitude'| 'latitude'  | 'category'>;
+export type MapMarkerProps = Pick<ShopLocation, 'name' | 'longitude'| 'latitude'  | 'category'>;
 
-export default function MapMarker({ name, latitude, longitude, category }: MapMarkerProps) {
+export default function MapMarker({
+                                      name,
+                                      latitude,
+                                      longitude,
+                                      category = "default"
+}: MapMarkerProps) {
 
     return (
         <MarkerView
             coordinate={[longitude, latitude]}
-            anchor={{ x: 1, y: 1 }}
+            anchor={{ x: 0.12, y: 1 }}
         >
             <View
                 collapsable={false}
                 style={mapStyles.marker}
             >
-
-            <Text
-                style={{
-                    fontSize: 12,
-                    marginRight: 0,
-                    flexShrink: 1
-                }}
-                numberOfLines={2}
-            >
-                {name}
-            </Text>
-                <Icons.marker.default size={40} />
+                <MapMarkerIcon
+                    category={category}
+                />
+                <Text
+                    style={{
+                        fontSize: 12,
+                        marginRight: 0,
+                        flexShrink: 1,
+                        maxWidth: 60,
+                    }}
+                >
+                    {name}
+                </Text>
             </View>
         </MarkerView>
 

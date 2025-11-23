@@ -25,9 +25,11 @@ export const boothIcon = ({
             />
             <Path
                 d="M70.78,75.48h145.4v29.08l-5.08,3.05c-8.06,4.84-18.13,4.84-26.18,0l-5.09-3.05-5.08,3.05c-8.06,4.84-18.13,4.84-26.18,0l-5.09-3.05-5.08,3.05c-8.06,4.84-18.13,4.84-26.18,0l-5.09-3.05-5.09,3.05c-8.06,4.83-18.12,4.83-26.18,0l-5.09-3.05v-29.08Z"
+                fill={primaryColor}
             />
             <Rect
                 stroke={primaryColor}
+                fill={primaryColor}
                 x={78.05}
                 y={148.18}
                 width={130.86}
@@ -39,10 +41,12 @@ export const boothIcon = ({
                 x2={88.96}
                 y2={148.18}
                 stroke={primaryColor}
+                fill={primaryColor}
                 strokeWidth={8}
             />
             <Line
                 stroke={primaryColor}
+                fill={primaryColor}
                 x1={198.01}
                 y1={115.47}
                 x2={198.01}
