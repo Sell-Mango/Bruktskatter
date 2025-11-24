@@ -14,6 +14,11 @@ const imageStyles = StyleSheet.create({
         width: '50%',
         height: '20%',
         backgroundColor: 'transparent',
+    },
+    shopListImage: {
+        width: 90,
+        height: 90,
+        margin: 5,
     }
 })
 

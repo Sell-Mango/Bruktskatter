@@ -1,21 +1,25 @@
 import {View, Text} from "react-native";
 import HeadingText from "@/shared/components/HeadingText";
 import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {Icons} from "@/shared/components/Icons";
+import {Image} from "expo-image";
+import {constructImageURL} from "@/shared/utils/constructImageURL";
+import {imageStyles} from "@/shared/stylesheets";
 
 export type ShopListItemProps = {
     name: string,
     primaryCategory: string,
-    location: GeoPoint
+    location: GeoPoint,
+    imageId?: string|null,
 }
 
 export default function ShopListItem(props:ShopListItemProps) {
-    const {name, primaryCategory, location} = props;
-    const safeArea = useSafeAreaInsets()
+    const {name, primaryCategory, location, imageId} = props;
+
     return(
         <View style={{margin: 15, backgroundColor: "#E5E5E5", flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
-            <Icons.noImage width={100} height={100}/>
+            {imageId ? <Image style={imageStyles.shopListImage} source={constructImageURL(imageId)}/> : <Icons.noImage width={100} height={100}/>}
+
             <View style={{width: "55%"}}>
                 <HeadingText heading={name} type={'ShopText'}/>
                 <Text>{primaryCategory}</Text>

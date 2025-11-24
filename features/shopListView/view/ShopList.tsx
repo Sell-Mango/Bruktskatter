@@ -8,7 +8,6 @@ import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 export default function ShopList() {
     const {shops} = useGetShops()
 
-
     return(
         <View>
             <Text style={{margin: 15, fontSize: 16}}>
@@ -22,10 +21,11 @@ export default function ShopList() {
                             name={item.name}
                             primaryCategory={item.primaryCategory}
                             location={{lng:item.location[0], lat:item.location[1]}}
+                            imageId={item.featuredImage}
                         />
                 }
                 keyExtractor={(item) => item.marketId.toString()}
-                contentContainerStyle={{paddingBottom: 150}}
+                contentContainerStyle={{paddingBottom: 120}}
             />
         </View>
     )
