@@ -10,4 +10,9 @@ const APPWRITE_REDIRECT_LINKS = {
     RESET_PASSWORD: "https://bruktskatter.appwrite.network",
 }
 
-export { APPWRITE_CONSTANT ,APPWRITE_REDIRECT_LINKS }
+const APPWRITE_BUCKET = {
+    ID: process.env.BUCKET_ID,
+    STORAGE_URL: process.env.BASE_STORAGE_URL,
+}
+
+export { APPWRITE_CONSTANT ,APPWRITE_REDIRECT_LINKS, APPWRITE_BUCKET }

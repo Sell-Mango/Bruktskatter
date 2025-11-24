@@ -1,9 +1,9 @@
-import {Pressable} from "react-native";
+import {Pressable,type ViewStyle} from "react-native";
 import {buttonStyles} from "@/shared/stylesheets";
 
-export default function CustomPress({children, pressAction}: {children: React.ReactNode, pressAction?: () => void}) {
+export default function CustomPress({children, pressAction, style}: {children: React.ReactNode, pressAction?: () => void, style?: ViewStyle|ViewStyle[]}) {
     return (
-        <Pressable style={buttonStyles.defaultButton} onPress={pressAction}>
+        <Pressable style={style ? style :buttonStyles.defaultButton} onPress={pressAction}>
             {children}
         </Pressable>
     )
