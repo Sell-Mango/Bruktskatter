@@ -13,6 +13,12 @@ const containerStyles = StyleSheet.create({
         justifyContent: "center",
         gap: 10
     },
+    floatingContainer: {
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        zIndex: 999,
+    }
 })
 
 export {containerStyles}
