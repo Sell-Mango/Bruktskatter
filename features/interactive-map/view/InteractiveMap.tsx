@@ -1,27 +1,15 @@
-import { Text, View } from 'react-native';
-import {getShopsWithinBoundary, getShopsWithinRadius} from '../services/shopLocationsService';
-import {useRef, useState} from "react";
-
-import { ShopMarker } from '@/features/interactive-map/model/shopMarker';
-import {Camera, MapView, MarkerView} from "@maplibre/maplibre-react-native";
+import {Camera, MapView, RegionPayload} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
-import {MapBounds} from "@/features/interactive-map/types/MapBounds";
 import {mapStyles} from "@/shared/stylesheets";
-import {
-    GeoPoint,
-    ViewportBoundary, ViewportMeasure
-} from "@/features/interactive-map/model/geoTypes";
-import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
-import {getDistance} from "geolib";
+import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 import {useInteractiveMaps} from "@/features/interactive-map/hooks/useInteractiveMaps";
+import MapMarker from "@/features/interactive-map/view/MapMarker";
 
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
-const ZOOM_SHOPS_VISIBLE = 11;
-const FETCH_DISTANCE_THRESHOLD = 0.4;
 
 export default function InteractiveMap() {
 
-    const { mapRef, actions, markers, boundary } = useInteractiveMaps();
+    const { refs, actions, markers } = useInteractiveMaps();
 
     const getInitialMarkers = async () => {
         try {
@@ -32,18 +20,20 @@ export default function InteractiveMap() {
         }
     }
 
-    const handleRegionChange = async () => {
+    const handleRegionChange = async (event: GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
+
+        if (!refs.mapRef.current) return;
+
         try {
             await actions.getShopMarkers();
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Kunne ikke laste inn markeder, feil: ", error);
         }
-    }
+    };
 
     return (
         <MapView
-            ref={mapRef}
+            ref={refs.mapRef}
             style={ mapStyles.map }
             onDidFinishLoadingMap={getInitialMarkers}
             onRegionDidChange={handleRegionChange}
@@ -52,26 +42,24 @@ export default function InteractiveMap() {
             attributionEnabled={true}
         >
             <Camera
+                ref={refs.cameraRef}
                 defaultSettings={{
                     centerCoordinate: Object.values(FALLBACK_LOCATION),
                     zoomLevel: 12
                 }}
+                followUserLocation={false}
             />
 
             {markers.length > 0 && (
                 markers.map((marker) => (
-                    <MarkerView
+                    <MapMarker
                         key={marker.id}
-                        coordinate={[marker.longitude, marker.latitude]}
-                        anchor={{ x: 0.5, y: 1 }}
-                    >
-                        <View
-                            style={mapStyles.marker}
-                        >
-                            <Text style={{ fontSize: 10, fontWeight: 600, color: "#000000" }}>{marker.name}</Text>
-                        </View>
-
-                    </MarkerView>
+                        name={marker.name}
+                        longitude={marker.longitude}
+                        latitude={marker.latitude}
+                        category={marker.category}
+                        setCameraPosition={actions.setCameraMarkerPosition}
+                    />
                 ))
             )}
 
