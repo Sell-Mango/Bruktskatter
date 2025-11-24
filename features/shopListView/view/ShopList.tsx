@@ -17,13 +17,15 @@ export default function ShopList() {
             <FlatList
                 data={shops}
                 renderItem={
-                ({item})=>
-                    <ShopListItem
-                        name={item.name}
-                        primaryCategory={item.primaryCategory}
-                        location={{lng:item.location[0], lat:item.location[1]}}
-                    />
+                    ({item})=>
+                        <ShopListItem
+                            name={item.name}
+                            primaryCategory={item.primaryCategory}
+                            location={{lng:item.location[0], lat:item.location[1]}}
+                        />
                 }
+                keyExtractor={(item) => item.marketId.toString()}
+                contentContainerStyle={{paddingBottom: 150}}
             />
         </View>
     )
