@@ -10,6 +10,12 @@ const mapStyles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'flex-start',
         alignItems: 'center',
+        flexShrink: 1,
+    },
+    markerText: {
+        fontSize: 12,
+        marginRight: 0,
+        flexShrink: 1,
     }
 })
 
