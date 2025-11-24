@@ -15,6 +15,11 @@ const headingStyles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "400",
         textAlign: "center"
+    },
+    ShopText:{
+        fontSize: 14,
+        fontWeight: "600",
+        flexWrap: "wrap",
     }
 })
 

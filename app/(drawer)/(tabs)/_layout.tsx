@@ -1,7 +1,9 @@
 import {Tabs} from "expo-router";
 import { tabsHeaderOptions } from "@/features/headers/view/TabsHeader";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function TabsLayout() {
+    const safeArea = useSafeAreaInsets()
     return(
         //TODO make a seperate file for screenOptions
         <Tabs screenOptions={{

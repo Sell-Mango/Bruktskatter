@@ -1,5 +1,16 @@
 import SettingIcon from "@assets/icons/settingIcon";
+import ImageNotAvailable from "@assets/icons/imageNotAvailable";
+import {HeartFilled, HollowHeart} from "@assets/icons/hearts";
+import Star from "@assets/icons/star";
+import List from "@assets/icons/list";
+import Map from "@assets/icons/map";
 
 export const Icons = {
-    setting: SettingIcon
+    setting: SettingIcon,
+    noImage: ImageNotAvailable,
+    hollowHeart: HollowHeart,
+    filledHeart: HeartFilled,
+    star: Star,
+    list: List,
+    map: Map,
 }

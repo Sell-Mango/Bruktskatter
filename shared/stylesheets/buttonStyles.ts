@@ -14,6 +14,19 @@ const buttonStyles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: 2,
+    },
+    floatingButton: {
+        borderRadius: 34,
+        padding: 19,
+        margin: 10,
+        width: 180,
+        textAlign: 'center',
+        backgroundColor: '#FFFEE4',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
     }
 })
 
