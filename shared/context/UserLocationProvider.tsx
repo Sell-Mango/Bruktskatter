@@ -1,12 +1,15 @@
 import {createContext, ReactNode, useContext, useEffect, useRef, useState} from "react";
 import * as Location from 'expo-location';
 import {UserLocation} from "@/shared/types/UserLocation";
-import {LocationSubscription} from "expo-location";
+import {LocationGeocodedAddress, LocationSubscription} from "expo-location";
+import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
+
 interface UserLocationContextType {
     location: UserLocation | null;
     error: string | null;
     isLoading: boolean;
     getCurrentLocation: () => Promise<UserLocation | null>;
+    getAddressFromGeocode: (lngLat: GeoPoint) => Promise<LocationGeocodedAddress[] | null>;
 }
 
 const UserLocationContext = createContext<UserLocationContextType>({
@@ -14,6 +17,7 @@ const UserLocationContext = createContext<UserLocationContextType>({
     error: null,
     isLoading: false,
     getCurrentLocation: async () => null,
+    getAddressFromGeocode: async () => null,
 });
 
 export default function UserLocationProvider({ children }: { children: ReactNode }) {
@@ -77,6 +81,27 @@ export default function UserLocationProvider({ children }: { children: ReactNode
         return {lng: location.coords.longitude, lat: location.coords.latitude};
     }
 
+    const getAddressFromGeocode = async (geoGode: GeoPoint) => {
+        setIsLoading(true);
+
+        try {
+            const address = await Location.reverseGeocodeAsync({ latitude: geoGode.lat, longitude: geoGode.lng });
+            if(!address) {
+                setError("GeoLocation was denied");
+                setIsLoading(false);
+                return null;
+            }
+            setIsLoading(false);
+            return address;
+        }
+        catch(error: any) {
+            setError(error.message);
+            setIsLoading(false);
+            return null;
+        }
+
+    }
+
     useEffect(() => {
         let subscription: LocationSubscription | null = null;
 
@@ -99,6 +124,7 @@ export default function UserLocationProvider({ children }: { children: ReactNode
             error,
             isLoading,
             getCurrentLocation,
+            getAddressFromGeocode
         }}>
             {children}
         </UserLocationContext.Provider>
