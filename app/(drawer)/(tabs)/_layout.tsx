@@ -35,6 +35,7 @@ export default function TabsLayout() {
             <Tabs.Screen name="feed" options={tabsHeaderOptions("Feed")}/>
             <Tabs.Screen name="my-market" options={tabsHeaderOptions("Mitt marked")}/>
             <Tabs.Screen name="profile" options={{...tabsHeaderOptions("Profile"), href: null}}/>
+            <Tabs.Screen name="markets/[id]" options={{...tabsHeaderOptions("Markets"), href: null}}/>
         </Tabs>
     )
 }
