@@ -30,6 +30,13 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Bruktskatter to use your location",
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
       "@maplibre/maplibre-react-native"
     ],
     "extra": {
