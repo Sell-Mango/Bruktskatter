@@ -1,19 +1,20 @@
 import {Camera, MapView, RegionPayload, UserLocation} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
-import {mapStyles} from "@/shared/stylesheets";
+import {buttonStyles, mapStyles} from "@/shared/stylesheets";
 import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 import {useInteractiveMaps} from "@/features/interactive-map/hooks/useInteractiveMaps";
 import MapMarker from "@/features/interactive-map/view/MapMarker";
 import {useUserLocation} from "@/shared/context/UserLocationProvider";
-import {Text, View} from "react-native";
 import {Icons} from "@/shared/components/Icons";
+import CustomPress from "@/shared/components/CustomPress";
+
 
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
 export default function InteractiveMap() {
 
     const { refs, actions, markers } = useInteractiveMaps();
-    const { getCurrentLocation } = useUserLocation();
+    const { getCurrentLocation, location } = useUserLocation();
 
     const getInitialMarkers = async () => {
         try {
@@ -37,7 +38,15 @@ export default function InteractiveMap() {
         }
     };
 
+    const handleGPSPress = async () => {
+        if (!location) {
+            return;
+        }
+        actions.setCameraMarkerPosition(location, 0, 0);
+    }
+
     return (
+        <>
         <MapView
             ref={refs.mapRef}
             style={ mapStyles.map }
@@ -58,6 +67,7 @@ export default function InteractiveMap() {
             <UserLocation
                 renderMode={"normal"}
                 androidRenderMode={"normal"}
+
             />
 
             {markers.length > 0 && (
@@ -73,5 +83,9 @@ export default function InteractiveMap() {
                 ))
             )}
         </MapView>
+        <CustomPress style={buttonStyles.gpsBtn} pressAction={() => handleGPSPress()} >
+            <Icons.gps size={40} />
+        </CustomPress>
+    </>
     )
 }
