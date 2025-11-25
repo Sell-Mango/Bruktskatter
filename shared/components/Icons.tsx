@@ -5,6 +5,7 @@ import {MarkersIcons} from "@/shared/components/MarkerIcons";
 import Star from "@assets/icons/star";
 import List from "@assets/icons/list";
 import Map from "@assets/icons/map";
+import GpsIcon from "@assets/icons/gpsIcon";
 
 export const Icons = {
     setting: SettingIcon,
@@ -15,4 +16,5 @@ export const Icons = {
     star: Star,
     list: List,
     map: Map,
+    gps: GpsIcon,
 }
