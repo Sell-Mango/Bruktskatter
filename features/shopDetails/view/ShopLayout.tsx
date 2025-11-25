@@ -12,14 +12,15 @@ export default function ShopLayout() {
     }
 
     return (
-        <View>
+        <View style={{margin: 20, gap: 12}}>
             <Text>{shopDetails.primaryCategory}</Text>
-            <HeadingText heading={shopDetails.name} type={"h1"}/>
-            <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between"}}>
-                <View>
+            <HeadingText heading={shopDetails.name} type={"h1"} customStyle={{textAlign: "left"}}/>
+            <View style={{flex: 1, flexDirection: "row", alignItems: "center", minHeight: 30}}>
+                <View style={{flex: 1, flexDirection: "row", alignItems: "center", columnGap: 5}}>
                     <Icons.hollowHeart width={30} height={30}/>
+                    <Text>180</Text>
                 </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, flexDirection: "row", alignItems: "center", columnGap: 5}}>
                     <Text>4.5/5</Text>
                     <Icons.star/>
                 </View>
