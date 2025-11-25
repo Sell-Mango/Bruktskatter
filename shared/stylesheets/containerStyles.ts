@@ -18,6 +18,16 @@ const containerStyles = StyleSheet.create({
         bottom: 0,
         right: 0,
         zIndex: 999,
+    },
+    roundedInfoContainer: {
+        borderWidth: 1,
+        borderColor: "#8C8C8C",
+        borderRadius: 12,
+        padding: 15,
+        margin: 20,
+        flex: 1,
+        rowGap: 20,
+        minHeight: 177
     }
 })
 

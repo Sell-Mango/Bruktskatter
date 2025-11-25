@@ -5,6 +5,7 @@ import Star from "@assets/icons/star";
 import List from "@assets/icons/list";
 import {Map,MapMarker} from "@assets/icons/map";
 import Clock from "@assets/icons/clock";
+import Globe from "@assets/icons/globe";
 
 export const Icons = {
     setting: SettingIcon,
@@ -16,4 +17,5 @@ export const Icons = {
     map: Map,
     mapMarker: MapMarker,
     clock: Clock,
+    globe: Globe,
 }
