@@ -1,51 +1,106 @@
 import {useEffect, useState} from "react";
-import {getShop} from "@/services/appwrite/database";
+import {getShopDetails} from "@/services/appwrite/database";
 import {useLocalSearchParams} from "expo-router";
 import {Models} from "react-native-appwrite";
 import {shopLocation} from "@/features/interactive-map/model/shopLocationData";
 import {useUserLocation} from "@/shared/context/UserLocationProvider";
+import {ShopDetails, shopDetailsData} from "@/features/shopDetails/model/shopDetailsData";
+
+type openCloseTime = {
+    open: string;
+    close: string;
+}
+
+export type openingHours = {
+    monday: openCloseTime|null;
+    tuesday: openCloseTime|null;
+    wednesday: openCloseTime|null;
+    thursday: openCloseTime|null;
+    friday: openCloseTime|null;
+    saturday: openCloseTime|null;
+    sunday: openCloseTime|null;
+}
 
 type ShopInfo = {
     category: string|null;
     name: string;
     description: string|null;
     address: string;
+    openingHours: openingHours|null;
+    rating: string|null
+}|{
+    category: string|null;
+    name: string;
+    description: string|null;
+    address: string;
+    dateFrom: Date|null;
+    dateTo: Date|null;
 }
 
 export default function useShopDetails() {
     const [shopDetails, setShopDetails] = useState<ShopInfo|null>(null)
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string|null>(null)
     const {id} = useLocalSearchParams()
     const {getAddressFromGeocode} = useUserLocation()
 
     const fetchShopDetails = async (rowID:string) => {
         setLoading(true);
-        const response = await getShop(rowID)
-        toShopDetails(response)
+        const response = await getShopDetails(rowID)
+        try{
+            const parsedShopDetails = shopDetailsData.parse(response)
+            console.log(parsedShopDetails)
+            toShopDetails(parsedShopDetails)
+        }catch(e){
+            console.error(e)
+        }
+
         setLoading(false);
     }
 
-    const toShopDetails = async (response:Models.Row & shopLocation|null) => {
-        if (!response) {
+    const toShopDetails = async (fetchedDetails:ShopDetails) => {
+        const {shopMeta, marketMeta, marketTypes: {marketType}, location} = fetchedDetails;
+        let formatedAddress = ""
+        if (!fetchedDetails) {
             return;
         }
-        try{
-            const addressResponse = await getAddressFromGeocode({lat: response.location[1], lng: response.location[0]});
-            let formatedAddress = ""
-            if (addressResponse) {
-                formatedAddress = `${addressResponse[0].street} ${addressResponse[0].streetNumber}, ${addressResponse[0].subregion}`
+        if (!fetchedDetails.adress){
+            try {
+                const addressResponse = await getAddressFromGeocode({lat: location[1], lng: location[0]});
+                if (addressResponse) {
+                    formatedAddress = `${addressResponse[0].street} ${addressResponse[0].streetNumber}, ${addressResponse[0].subregion}`
+                }
+            }catch(error){
+                console.error(error)
             }
-            const info: ShopInfo = {
-                category: response.primaryCategory,
-                name: response.name,
-                description: response.description,
-                address: formatedAddress,
-
-            }
-            setShopDetails(info);
         }
-        catch(error){
-            console.warn(error)
+        else {
+            formatedAddress = fetchedDetails.adress
+        }
+
+        switch (marketType) {
+            case "shop":
+                setShopDetails({
+                    category: fetchedDetails.primaryCategory,
+                    name: fetchedDetails.name,
+                    description: fetchedDetails.description,
+                    address: formatedAddress,
+                    openingHours: shopMeta ? shopMeta.openingHours : null,
+                    rating: shopMeta ? shopMeta.rating : null,
+                });
+                break;
+            case "marked":
+                setShopDetails({
+                    category: fetchedDetails.primaryCategory,
+                    name: fetchedDetails.name,
+                    description: fetchedDetails.description,
+                    address: formatedAddress,
+                    dateFrom: marketMeta ? marketMeta.dateFrom : null,
+                    dateTo: marketMeta ? marketMeta.dateTo : null,
+                })
+                break;
+            default:
+                setError("Unknown marketType");
         }
     }
 

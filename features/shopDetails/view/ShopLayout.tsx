@@ -3,7 +3,6 @@ import useShopDetails from "@/features/shopDetails/viewModel/useShopDetails";
 import HeadingText from "@/shared/components/HeadingText";
 import {Icons} from "@/shared/components/Icons";
 import ShopInfoPanel from "@/features/shopDetails/view/ShopInfoPanel";
-import {useUserLocation} from "@/shared/context/UserLocationProvider";
 
 export default function ShopLayout() {
     const {shopDetails, loading} = useShopDetails();
@@ -32,7 +31,7 @@ export default function ShopLayout() {
                 </View>
             </View>
             <Text>{shopDetails.description}</Text>
-            <ShopInfoPanel address={shopDetails.address} openingTime={"18:00"}/>
+            <ShopInfoPanel address={shopDetails.address} openingHours={shopDetails.openingHours}/>
             <Text>{}</Text>
         </View>
     )
