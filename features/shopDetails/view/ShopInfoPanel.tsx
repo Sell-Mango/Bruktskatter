@@ -6,14 +6,15 @@ import IconBackground from "@/features/shopDetails/view/IconBackground";
 import {containerStyles} from "@/shared/stylesheets";
 import TextHighlight from "@/shared/components/TextHighlight";
 import {openingHours} from "@/features/shopDetails/viewModel/useShopDetails";
+import {ReactNode} from "react";
 
 type infoPanelProps = {
     address: string;
-    openingHours: openingHours|null;
+    children: ReactNode;
 }
 
 export default function ShopInfoPanel(props: infoPanelProps) {
-    const {address, openingHours} = props;
+    const {address, children} = props;
 
     return (
         <View style={containerStyles.roundedInfoContainer}>
@@ -28,7 +29,7 @@ export default function ShopInfoPanel(props: infoPanelProps) {
                 <IconBackground>
                     <Icons.clock fill={"#FAAF3A"}/>
                 </IconBackground>
-                <Text><TextHighlight>Åpent</TextHighlight>, stenger kl {openingHours?.monday?.close}</Text>
+                {children}
             </ShopInfoRow>
             <ShopInfoRow>
                 <IconBackground>

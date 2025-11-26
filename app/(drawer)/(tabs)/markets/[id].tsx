@@ -1,13 +1,13 @@
 import { Text } from 'react-native'
 import {useLocalSearchParams} from "expo-router";
-import ShopLayout from "@/features/shopDetails/view/ShopLayout";
+import DetailsLayout from "@/features/shopDetails/view/DetailsLayout";
 import UserLocationProvider from "@/shared/context/UserLocationProvider";
 
 export default function Market(){
     const {id} = useLocalSearchParams()
     return (
         <UserLocationProvider>
-            <ShopLayout/>
+            <DetailsLayout/>
         </UserLocationProvider>
     )
 }

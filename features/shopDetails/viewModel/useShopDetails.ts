@@ -21,14 +21,8 @@ export type openingHours = {
     sunday: openCloseTime|null;
 }
 
-type ShopInfo = {
-    category: string|null;
-    name: string;
-    description: string|null;
-    address: string;
-    openingHours: openingHours|null;
-    rating: string|null
-}|{
+export type MarketInfo = {
+    marketType: "marked";
     category: string|null;
     name: string;
     description: string|null;
@@ -37,8 +31,20 @@ type ShopInfo = {
     dateTo: Date|null;
 }
 
+export type ShopInfo = {
+    marketType: "shop";
+    category: string|null;
+    name: string;
+    description: string|null;
+    address: string;
+    openingHours: openingHours|null;
+    rating: string|null
+}
+
+type DetailedInfo = ShopInfo | MarketInfo;
+
 export default function useShopDetails() {
-    const [shopDetails, setShopDetails] = useState<ShopInfo|null>(null)
+    const [shopDetails, setShopDetails] = useState<DetailedInfo|null>(null)
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string|null>(null)
     const {id} = useLocalSearchParams()
@@ -81,6 +87,7 @@ export default function useShopDetails() {
         switch (marketType) {
             case "shop":
                 setShopDetails({
+                    marketType: marketType,
                     category: fetchedDetails.primaryCategory,
                     name: fetchedDetails.name,
                     description: fetchedDetails.description,
@@ -91,6 +98,7 @@ export default function useShopDetails() {
                 break;
             case "marked":
                 setShopDetails({
+                    marketType: marketType,
                     category: fetchedDetails.primaryCategory,
                     name: fetchedDetails.name,
                     description: fetchedDetails.description,
