@@ -8,7 +8,7 @@ import {imageStyles} from "@/shared/stylesheets";
 
 export type ShopListItemProps = {
     name: string,
-    primaryCategory: string,
+    primaryCategory: string|null,
     location: GeoPoint,
     imageId?: string|null,
 }

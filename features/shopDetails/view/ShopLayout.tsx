@@ -3,17 +3,23 @@ import useShopDetails from "@/features/shopDetails/viewModel/useShopDetails";
 import HeadingText from "@/shared/components/HeadingText";
 import {Icons} from "@/shared/components/Icons";
 import ShopInfoPanel from "@/features/shopDetails/view/ShopInfoPanel";
+import {useUserLocation} from "@/shared/context/UserLocationProvider";
 
 export default function ShopLayout() {
-    const {shopDetails} = useShopDetails();
+    const {shopDetails, loading} = useShopDetails();
 
+    if(loading) {
+        return (
+            <Text>Loading...</Text>
+        )
+    }
     if (!shopDetails) {
         return <HeadingText heading={"Fant ikke denne butikken"} type={"h1"}/>
     }
 
     return (
         <View style={{margin: 20, gap: 12}}>
-            <Text>{shopDetails.primaryCategory}</Text>
+            <Text>{shopDetails.category}</Text>
             <HeadingText heading={shopDetails.name} type={"h1"} customStyle={{textAlign: "left"}}/>
             <View style={{flex: 1, flexDirection: "row", alignItems: "center", minHeight: 30}}>
                 <View style={{flex: 1, flexDirection: "row", alignItems: "center", columnGap: 5}}>
@@ -26,8 +32,8 @@ export default function ShopLayout() {
                 </View>
             </View>
             <Text>{shopDetails.description}</Text>
-            <ShopInfoPanel address={"Mosseveien 102, Fredrikstad"} openingTime={"18:00"}/>
-            <Text>{shopDetails.location}</Text>
+            <ShopInfoPanel address={shopDetails.address} openingTime={"18:00"}/>
+            <Text>{}</Text>
         </View>
     )
 }

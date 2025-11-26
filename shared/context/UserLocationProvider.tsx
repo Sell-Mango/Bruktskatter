@@ -83,7 +83,7 @@ export default function UserLocationProvider({ children }: { children: ReactNode
 
     const getAddressFromGeocode = async (geoGode: GeoPoint) => {
         setIsLoading(true);
-
+        console.log(geoGode);
         try {
             const address = await Location.reverseGeocodeAsync({ latitude: geoGode.lat, longitude: geoGode.lng });
             if(!address) {

@@ -114,7 +114,7 @@ export const useInteractiveMaps = () => {
 
         const rows = await getShopsWithinRadius(center, radius);
         if(!rows) {
-            throw new Error("Kunne ikke laste inn markeder.");
+            return
         }
 
         const formatRows = formatLocations(rows);
