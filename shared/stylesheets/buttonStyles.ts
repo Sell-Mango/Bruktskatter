@@ -27,6 +27,15 @@ const buttonStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
+    },
+    gpsBtn: {
+        position: 'absolute',
+        bottom: 90,
+        right: 15,
+        padding: 15,
+        color: 'black',
+        backgroundColor: '#FFFEE4',
+        borderRadius: "100%",
     }
 })
 

@@ -1,6 +1,6 @@
-    import { ShopMarker } from "@/features/interactive-map/model/shopMarker"
+    import { ShopLocation } from "@/features/interactive-map/model/shopLocation"
 
-    export const LOCATIONS: ShopMarker[] = [
+    export const LOCATIONS: ShopLocation[] = [
       {
         id: "1",
         latitude: 59.213670429956835,
