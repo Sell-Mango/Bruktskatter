@@ -1,3 +1,4 @@
+export { globalStyles } from "./global"
 export {buttonStyles} from "./buttonStyles"
 export {containerStyles} from "./containerStyles"
 export {imageStyles} from "./imageStyles"

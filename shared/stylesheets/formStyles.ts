@@ -21,6 +21,19 @@ const formStyles = StyleSheet.create({
         color: "#D10000",
         fontSize: 14,
     },
+    iconWithinTextContainer: {
+        position: "relative",
+        justifyContent: "center",
+    },
+    iconWithinTextInput: {
+        paddingLeft: 15,
+        position: 'absolute',
+        left: 0,
+        zIndex: 10,
+    },
+    textIfHiddenIcon: {
+        paddingLeft: 15,
+    }
 })
 
 export { formStyles }
