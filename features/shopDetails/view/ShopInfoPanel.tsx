@@ -6,37 +6,41 @@ import IconBackground from "@/features/shopDetails/view/IconBackground";
 import {containerStyles} from "@/shared/stylesheets";
 import TextHighlight from "@/shared/components/TextHighlight";
 import {openingHours} from "@/features/shopDetails/viewModel/useShopDetails";
-import {ReactNode} from "react";
+import {ReactNode, useState} from "react";
+import OpeningHoursToggle from "@/features/shopDetails/view/OpeningHoursToggle";
 
 type infoPanelProps = {
     address: string;
-    children: ReactNode;
+    openingHours: openingHours|null;
 }
 
 export default function ShopInfoPanel(props: infoPanelProps) {
-    const {address, children} = props;
+    const {address, openingHours} = props;
+    const [expanded, setExpanded] = useState<boolean>(false);
 
     return (
         <View style={containerStyles.roundedInfoContainer}>
             <HeadingText heading={"Bruktbutikk"} type={"h3"} customStyle={{textAlign: "left"}}/>
-            <ShopInfoRow>
-                <IconBackground>
-                    <Icons.mapMarker fill={"#FAAF3A"}/>
-                </IconBackground>
-                <Text>{address}</Text>
-            </ShopInfoRow>
-            <ShopInfoRow>
-                <IconBackground>
-                    <Icons.clock fill={"#FAAF3A"}/>
-                </IconBackground>
-                {children}
-            </ShopInfoRow>
-            <ShopInfoRow>
-                <IconBackground>
-                    <Icons.globe color={"#FAAF3A"} fill={"none"}/>
-                </IconBackground>
-                <Text style={{textDecorationLine: "underline"}}>Gå til nettsted (forlat appen)</Text>
-            </ShopInfoRow>
+            <View style={{flex: 1,flexDirection: "column", justifyContent: "space-evenly", gap: 10}}>
+                <ShopInfoRow>
+                    <IconBackground>
+                        <Icons.mapMarker fill={"#FAAF3A"}/>
+                    </IconBackground>
+                    <Text style={{margin: 3}}>{address}</Text>
+                </ShopInfoRow>
+                <ShopInfoRow>
+                    <IconBackground>
+                        <Icons.clock fill={"#FAAF3A"}/>
+                    </IconBackground>
+                    <OpeningHoursToggle openingHours={openingHours} expanded={expanded} setExpanded={setExpanded}/>
+                </ShopInfoRow>
+                <ShopInfoRow>
+                    <IconBackground>
+                        <Icons.globe color={"#FAAF3A"} fill={"none"}/>
+                    </IconBackground>
+                    <Text style={{textDecorationLine: "underline", margin: 3}}>Gå til nettsted (forlat appen)</Text>
+                </ShopInfoRow>
+            </View>
         </View>
     )
 }

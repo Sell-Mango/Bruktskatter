@@ -24,9 +24,10 @@ const containerStyles = StyleSheet.create({
         borderColor: "#8C8C8C",
         borderRadius: 12,
         padding: 15,
-        flex: 1,
         rowGap: 20,
-        minHeight: 177
+        minHeight: 177,
+        justifyContent: "space-around",
+        height: "auto"
     }
 })
 

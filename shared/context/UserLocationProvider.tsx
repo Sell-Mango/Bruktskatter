@@ -60,7 +60,6 @@ export default function UserLocationProvider({ children }: { children: ReactNode
         }
         catch(error: any) {
             setError(error.message);
-            throw new Error("Unable to retrieve location");
         }
         finally {
             setIsLoading(false);
