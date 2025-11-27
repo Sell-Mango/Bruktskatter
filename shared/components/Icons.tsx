@@ -8,7 +8,6 @@ import {Map,MapMarker} from "@assets/icons/map";
 import Clock from "@assets/icons/clock";
 import Globe from "@assets/icons/globe";
 import {AccordionDown, AccordionUp} from "@assets/icons/accordion";
-import Map from "@assets/icons/map";
 import gpsIcon from "@assets/icons/gpsIcon";
 
 export const Icons = {

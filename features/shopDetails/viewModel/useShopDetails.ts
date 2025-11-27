@@ -57,7 +57,6 @@ export default function useShopDetails() {
         const response = await getShopDetails(rowID)
         try{
             const parsedShopDetails = shopDetailsData.parse(response)
-            console.log(parsedShopDetails)
             toShopDetails(parsedShopDetails)
         }catch(e){
             console.error(e)

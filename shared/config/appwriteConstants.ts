@@ -12,8 +12,8 @@ const APPWRITE_REDIRECT_LINKS = {
 }
 
 const APPWRITE_BUCKET = {
-    ID: process.env.BUCKET_ID,
-    STORAGE_URL: process.env.BASE_STORAGE_URL,
+    ID: process.env.EXPO_PUBLIC_BUCKET_ID,
+    STORAGE_URL: process.env.EXPO_PUBLIC_BASE_STORAGE_URL,
 }
 
 const APPWRITE_DATABASE_CONSTANT = {
