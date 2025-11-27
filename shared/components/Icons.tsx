@@ -7,8 +7,9 @@ import List from "@assets/icons/list";
 import {Map,MapMarker} from "@assets/icons/map";
 import Clock from "@assets/icons/clock";
 import Globe from "@assets/icons/globe";
-import GpsIcon from "@assets/icons/gpsIcon";
 import {AccordionDown, AccordionUp} from "@assets/icons/accordion";
+import Map from "@assets/icons/map";
+import gpsIcon from "@assets/icons/gpsIcon";
 
 export const Icons = {
     setting: SettingIcon,
@@ -22,7 +23,7 @@ export const Icons = {
     mapMarker: MapMarker,
     clock: Clock,
     globe: Globe,
-    gps: GpsIcon,
     accordionDown: AccordionDown,
     accordionUp: AccordionUp,
+    gps: gpsIcon,
 }

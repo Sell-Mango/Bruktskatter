@@ -127,17 +127,17 @@ export const useInteractiveMaps = () => {
     };
 
 
-    const setCameraMarkerPosition = ({lng, lat}: GeoPoint) => {
+    const setCameraMarkerPosition = ({lng, lat}: GeoPoint, lngPadding = 0.0005, latPadding = 0.001) => {
 
         if(!cameraRef.current) {
             throw new Error("Kartet er ikke oppdatere boundary");
         }
 
         cameraRef.current?.setCamera({
-            centerCoordinate: [lng + 0.0005, lat + 0.001],
+            centerCoordinate: [lng + lngPadding, lat + latPadding],
             zoomLevel: 15,
             animationMode: "flyTo",
-            animationDuration: 1400,
+            animationDuration: 1200,
         });
     };
 

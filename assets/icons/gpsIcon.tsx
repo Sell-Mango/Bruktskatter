@@ -1,18 +1,21 @@
 import Svg, {Path} from "react-native-svg";
 import * as React from "react";
 
-const GpsIcon = (props:any) => (
+const gpsIcon = ({
+                     size = 24,
+                     ...props
+                 }) => (
     <Svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={24}
-        height={24}
+        //xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
         viewBox="0 0 256 256"
-        {...props}>
+        >
         <Path
             fill="currentColor"
             d="M240 116h-20.78A92.21 92.21 0 0 0 140 36.78V16a12 12 0 0 0-24 0v20.78A92.21 92.21 0 0 0 36.78 116H16a12 12 0 0 0 0 24h20.78A92.21 92.21 0 0 0 116 219.22V240a12 12 0 0 0 24 0v-20.78A92.21 92.21 0 0 0 219.22 140H240a12 12 0 0 0 0-24m-112 80a68 68 0 1 1 68-68a68.07 68.07 0 0 1-68 68"
         />
     </Svg>
 );
-export default GpsIcon;
+export default gpsIcon;
 
