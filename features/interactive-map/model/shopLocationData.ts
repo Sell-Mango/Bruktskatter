@@ -8,7 +8,9 @@ export const shopLocationData = z.object({
     primaryCategory: z.string().nullable(),
     isActive: z.boolean(),
     featuredImage: z.string().nullable(),
-    location: z.tuple([z.number(), z.number()])
+    location: z.tuple([z.number(), z.number()]),
+    adress: z.string().nullable(),
+    postal: z.string().nullable(),
 });
 
-export type shopLocation = z.infer<typeof shopLocationData>;
+export type ShopLocationData = z.infer<typeof shopLocationData>;
