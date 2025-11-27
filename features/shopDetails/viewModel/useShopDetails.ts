@@ -29,6 +29,7 @@ export type MarketInfo = {
     address: string;
     dateFrom: Date|null;
     dateTo: Date|null;
+    imageUrl: string|null;
 }
 
 export type ShopInfo = {
@@ -38,7 +39,8 @@ export type ShopInfo = {
     description: string|null;
     address: string;
     openingHours: openingHours|null;
-    rating: string|null
+    rating: string|null;
+    imageUrl: string|null;
 }
 
 type DetailedInfo = ShopInfo | MarketInfo;
@@ -65,7 +67,7 @@ export default function useShopDetails() {
     }
 
     const toShopDetails = async (fetchedDetails:ShopDetails) => {
-        const {shopMeta, marketMeta, marketTypes: {marketType}, location} = fetchedDetails;
+        const {shopMeta, marketMeta, marketTypes: {marketType}, location, featuredImage} = fetchedDetails;
         let formatedAddress = ""
         if (!fetchedDetails) {
             return;
@@ -94,6 +96,7 @@ export default function useShopDetails() {
                     address: formatedAddress,
                     openingHours: shopMeta ? shopMeta.openingHours : null,
                     rating: shopMeta ? shopMeta.rating : null,
+                    imageUrl: featuredImage,
                 });
                 break;
             case "marked":
@@ -105,6 +108,7 @@ export default function useShopDetails() {
                     address: formatedAddress,
                     dateFrom: marketMeta ? marketMeta.dateFrom : null,
                     dateTo: marketMeta ? marketMeta.dateTo : null,
+                    imageUrl: featuredImage,
                 })
                 break;
             default:
