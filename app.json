@@ -37,6 +37,17 @@
           "isAndroidForegroundServiceEnabled": true
         }
       ],
+      [
+        "expo-navigation-bar",
+        {
+          "backgroundColor": "#0c0c0d",
+          "barStyle": "light",
+          "visibility": "visible",
+          "behavior": "inset-swipe",
+          "position": "relative"
+        }
+      ],
+
       "@maplibre/maplibre-react-native"
     ],
     "extra": {
