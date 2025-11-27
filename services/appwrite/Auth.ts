@@ -90,9 +90,7 @@ const register = async (email:string,password:string):Promise<Result<User>> => {
 
 const requestPasswordReset = async (email:string):Promise<Result<Token>> =>{
     try {
-        console.log("Hello dear", email)
         const response = await account.createRecovery({email:email, url: APPWRITE_REDIRECT_LINKS.RESET_PASSWORD});
-        console.log("recovery response",response)
         return handleResponse(response)
     }
     catch(err){

@@ -21,7 +21,7 @@ export default function InteractiveMap() {
             await actions.getShopMarkers();
         }
         catch (error) {
-            console.error("Kunne ikke laste inn markeder, feil: ", error);
+            console.error("Kunne ikke laste inn markeder, feil line 23: inteactiveMap.tsx: ", error);
         }
     }
 
@@ -34,7 +34,7 @@ export default function InteractiveMap() {
             const loc =  await getCurrentLocation();
             console.log(loc);
         } catch (error) {
-            console.error("Kunne ikke laste inn markeder, feil: ", error);
+            return
         }
     };
 

@@ -60,7 +60,6 @@ export default function UserLocationProvider({ children }: { children: ReactNode
         }
         catch(error: any) {
             setError(error.message);
-            throw new Error("Unable to retrieve location");
         }
         finally {
             setIsLoading(false);
@@ -83,7 +82,6 @@ export default function UserLocationProvider({ children }: { children: ReactNode
 
     const getAddressFromGeocode = async (geoGode: GeoPoint) => {
         setIsLoading(true);
-
         try {
             const address = await Location.reverseGeocodeAsync({ latitude: geoGode.lat, longitude: geoGode.lng });
             if(!address) {

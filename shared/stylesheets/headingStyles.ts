@@ -20,6 +20,10 @@ const headingStyles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "600",
         flexWrap: "wrap",
+    },
+    HighlightText: {
+        fontWeight: "800",
+        color: "#264B40"
     }
 })
 

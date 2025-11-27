@@ -9,7 +9,6 @@ export default function App() {
 
     useEffect(() => {
         if (isLoggedIn) {
-            console.log("Logged in");
             router.replace('frontpage')
         }
     }, [isLoggedIn]);

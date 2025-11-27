@@ -15,3 +15,4 @@ export type Result<T> = Success<T> | Failure
 export type User = Models.User<Models.Preferences>
 
 export type Session = Models.Session
+

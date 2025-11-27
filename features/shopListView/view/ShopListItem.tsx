@@ -8,7 +8,7 @@ import {imageStyles} from "@/shared/stylesheets";
 
 export type ShopListItemProps = {
     name: string,
-    primaryCategory: string,
+    primaryCategory: string|null,
     location: GeoPoint,
     imageId?: string|null,
 }
@@ -17,7 +17,7 @@ export default function ShopListItem(props:ShopListItemProps) {
     const {name, primaryCategory, location, imageId} = props;
 
     return(
-        <View style={{margin: 15, backgroundColor: "#E5E5E5", flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
+        <View style={{ backgroundColor: "#E5E5E5", flex: 1, flexDirection: 'row', justifyContent: "space-between"}}>
             {imageId ? <Image style={imageStyles.shopListImage} source={constructImageURL(imageId)}/> : <Icons.noImage width={100} height={100}/>}
 
             <View style={{width: "55%"}}>
