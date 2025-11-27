@@ -6,6 +6,8 @@ import Star from "@assets/icons/star";
 import List from "@assets/icons/list";
 import Map from "@assets/icons/map";
 import gpsIcon from "@assets/icons/gpsIcon";
+import FeedIcon from "@assets/icons/feed";
+import MarketIcon from "@assets/icons/market";
 
 export const Icons = {
     setting: SettingIcon,
@@ -17,4 +19,6 @@ export const Icons = {
     list: List,
     map: Map,
     gps: gpsIcon,
+    feed: FeedIcon,
+    market: MarketIcon
 }

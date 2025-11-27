@@ -1,6 +1,7 @@
 import {Tabs} from "expo-router";
 import { tabsHeaderOptions } from "@/features/headers/view/TabsHeader";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {Icons} from "@/shared/components/Icons";
 
 export default function TabsLayout() {
     const safeArea = useSafeAreaInsets()
@@ -18,9 +19,9 @@ export default function TabsLayout() {
             tabBarStyle: {
                 backgroundColor: "#2F5D50",
                 borderTopWidth: 0,
-                elevation: 10, // Android shadow
-                height: 70,
-                paddingBottom: 10,
+                elevation: 10,
+                height: 70 + safeArea.bottom,
+                paddingBottom: 10 + safeArea.bottom,
                 paddingTop: 5,
             },
             tabBarActiveTintColor: "#FAAF3A",
@@ -30,10 +31,25 @@ export default function TabsLayout() {
                 fontWeight: "800",
             },
         }}>
-            <Tabs.Screen name="frontpage" options={tabsHeaderOptions("Utforsk")}/>
-            <Tabs.Screen name="favorites" options={tabsHeaderOptions("Skatter")} />
-            <Tabs.Screen name="feed" options={tabsHeaderOptions("Feed")}/>
-            <Tabs.Screen name="my-market" options={tabsHeaderOptions("Mitt marked")}/>
+            <Tabs.Screen name="frontpage" options={
+                {...tabsHeaderOptions("Utforsk"),
+                    tabBarIcon: ({ color }) => <Icons.map />
+                }}/>
+            <Tabs.Screen name="favorites" options={
+                {...tabsHeaderOptions("Skatter"),
+                tabBarIcon: ({ color }) => <Icons.hollowHeart />
+
+            }} />
+            <Tabs.Screen name="feed" options={
+                {...tabsHeaderOptions("Feed"),
+                    tabBarIcon: ({ color }) => <Icons.feed />
+
+                }} />
+            <Tabs.Screen name="my-market" options={
+                {...tabsHeaderOptions("Mitt marked"),
+                    tabBarIcon: ({ color }) => <Icons.market />
+
+                }} />
             <Tabs.Screen name="profile" options={{...tabsHeaderOptions("Profile"), href: null}}/>
         </Tabs>
     )

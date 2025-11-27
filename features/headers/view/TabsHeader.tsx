@@ -1,6 +1,7 @@
 import {Pressable, Text, TextInput} from "react-native";
 import ProfilePress from "@/features/profile-drawer/view/ProfilePress";
 import {tabsOptions} from "@/features/headers/model/tabsOptions";
+import {Icons} from "@/shared/components/Icons";
 
 //TODO refactor with own pressable components, wrapper component and own styling sheet
 const headerTabsRight = () =>
@@ -36,6 +37,9 @@ const headerTabsLeft = () => (
 //TODO make this more dynamic
 export const tabsHeaderOptions = (title:string):tabsOptions =>{
     return {
-        headerRight: headerTabsRight, headerTitle: "", headerLeft: headerTabsLeft, title: title,
+        headerRight: headerTabsRight,
+        headerTitle: "",
+        headerLeft: headerTabsLeft,
+        title: title,
     }
 }

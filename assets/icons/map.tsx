@@ -1,12 +1,13 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
-const Map = (props:any) => (
+const Map = ({size = 24, ...props}) => (
     <Svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={32}
-        height={32}
+        //xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
         viewBox="0 0 32 32"
-        color="#000"
+        color="currentColor"
+        fill="currentColor"
         {...props}
     >
         <Path
