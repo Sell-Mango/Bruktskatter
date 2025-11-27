@@ -19,7 +19,7 @@ export default function ShopLayout({children, shopInfo}:{children:ReactNode, sho
                     <Icons.star/>
                 </View>
             </View>
-            <Text>{description}</Text>
+            <Text>{description ? description: "Informasjon kommer..."}</Text>
             {children}
         </>
     )

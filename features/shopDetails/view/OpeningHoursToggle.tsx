@@ -3,8 +3,10 @@ import {Pressable, Text, View} from "react-native";
 import TextHighlight from "@/shared/components/TextHighlight";
 import {useState} from "react";
 import {Icons} from "@/shared/components/Icons";
+import {containerStyles} from "@/shared/stylesheets";
 
-export default function OpeningHoursToggle({openingHours, expanded, setExpanded}: {openingHours:openingHours|null, expanded:boolean, setExpanded:(toggle:boolean)=>void}) {
+export default function OpeningHoursToggle({openingHours}: {openingHours:openingHours|null}) {
+    const [expanded, setExpanded] = useState<boolean>(false);
 
     function toggleExpanded() {
         setExpanded(!expanded);

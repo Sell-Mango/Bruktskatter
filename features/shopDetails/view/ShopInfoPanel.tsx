@@ -11,12 +11,11 @@ import OpeningHoursToggle from "@/features/shopDetails/view/OpeningHoursToggle";
 
 type infoPanelProps = {
     address: string;
-    openingHours: openingHours|null;
+    children: ReactNode;
 }
 
 export default function ShopInfoPanel(props: infoPanelProps) {
-    const {address, openingHours} = props;
-    const [expanded, setExpanded] = useState<boolean>(false);
+    const {address, children} = props;
 
     return (
         <View style={containerStyles.roundedInfoContainer}>
@@ -32,7 +31,7 @@ export default function ShopInfoPanel(props: infoPanelProps) {
                     <IconBackground>
                         <Icons.clock fill={"#FAAF3A"}/>
                     </IconBackground>
-                    <OpeningHoursToggle openingHours={openingHours} expanded={expanded} setExpanded={setExpanded}/>
+                    {children}
                 </ShopInfoRow>
                 <ShopInfoRow>
                     <IconBackground>

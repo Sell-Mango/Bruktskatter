@@ -8,6 +8,8 @@ import {type ShopInfo, type MarketInfo} from "@/features/shopDetails/viewModel/u
 import TextHighlight from "@/shared/components/TextHighlight";
 import OpeningHoursToggle from "@/features/shopDetails/view/OpeningHoursToggle";
 import ScrollView = Animated.ScrollView;
+import MarketLayout from "@/features/shopDetails/view/MarketLayout";
+import {formatOpeningDates} from "@/features/shopDetails/viewModel/formatOpeningDates";
 
 export default function DetailsLayout() {
     const {shopDetails, loading} = useShopDetails();
@@ -24,10 +26,22 @@ export default function DetailsLayout() {
         if (shopDetails.marketType === "shop") {
             return (
                 <ShopLayout shopInfo={shopDetails}>
-                    <ShopInfoPanel address={shopDetails.address} openingHours={shopDetails.openingHours}/>
+                    <ShopInfoPanel address={shopDetails.address}>
+                        <OpeningHoursToggle openingHours={shopDetails.openingHours}/>
+                    </ShopInfoPanel>
                 </ShopLayout>
             )
         }
+        if (shopDetails.marketType === "marked") {
+            return(
+                <MarketLayout marketInfo={shopDetails}>
+                    <ShopInfoPanel address={shopDetails.address}>
+                        <Text>{formatOpeningDates(shopDetails.dateFrom, shopDetails.dateTo)}</Text>
+                    </ShopInfoPanel>
+                </MarketLayout>
+            )
+        }
+
     }
 
     return (
