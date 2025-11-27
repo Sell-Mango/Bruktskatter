@@ -45,9 +45,9 @@ export default function DetailsLayout() {
     }
 
     return (
-        <ScrollView style={{width:'100%'}}>
+        <ScrollView style={{width:'100%', backgroundColor: '#F6F6E9'}}>
             {shopDetails.imageUrl ?
-                <Image style={{width: "100%", height: 300}} source={constructImageURL(shopDetails.imageUrl)}/>
+                <Image style={{width: "100%", height: 300, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} source={constructImageURL(shopDetails.imageUrl)}/>
                 :
                 <Icons.noImage height={300} width={"100%"}/>
             }
