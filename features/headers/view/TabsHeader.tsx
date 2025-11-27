@@ -8,6 +8,7 @@ import CustomTextInput from "@/shared/components/CustomTextInput";
 import {searchData, SearchDataSchema, searchError} from "@/features/headers/model/searchData";
 import useHandleForms from "@/shared/hooks/useHandleForms";
 import {useEffect} from "react";
+import HeaderTabsLeft from "@/features/headers/view/HeaderTabsLeft";
 
 //TODO refactor with own pressable components, wrapper component and own styling sheet
 const headerTabsRight = () =>
@@ -28,62 +29,13 @@ const headerTabsRight = () =>
         </>
     )
 
-//TODO make this it's own component
-const headerTabsLeft = () => {
-
-    const handleSearch = ({keyword}: searchData) => {
-        //console.log(keyword);
-    }
-
-    const {handleChange, handleSubmit, errors, formData } = useHandleForms<searchData, searchError>(SearchDataSchema, handleSearch)
-
-    useEffect(() => {
-        const timeout = setTimeout(handleSubmit, 500);
-
-        return () => clearTimeout(timeout);
-    }, [formData]);
-
-    return (
-
-        <CustomTextInput
-            containerStyles={styles.headerSearchContainer}
-            inputStyles={styles.headerSearchInput}
-            placeholder="Finn butikk..."
-            placeholderTextColor="#434343FF"
-            hideIconOnWriting={true}
-            leftIcon={<Icons.magnifyingGlass color={globalStyles.themeColors.dark} size={20} />}
-            changeAction={handleChange}
-            actionKey={"keyword"}
-            formData={formData}
-        />
-    )
-}
-
 
 //TODO make this more dynamic
 export const tabsHeaderOptions = (title:string):tabsOptions =>{
     return {
         headerRight: headerTabsRight,
         headerTitle: "",
-        headerLeft: headerTabsLeft,
+        headerLeft: HeaderTabsLeft,
         title: title,
     }
 }
-
-
-const styles = StyleSheet.create({
-    headerSearchContainer: {
-        marginLeft: globalStyles.container.horizontalGutter,
-        width: 220,
-        borderRadius: 50,
-        backgroundColor: "#FFFEE4",
-
-    },
-    headerSearchInput: {
-        fontSize: 18,
-        fontWeight: "400",
-        color: globalStyles.themeColors.dark,
-        paddingVertical: 10,
-        paddingLeft: 40,
-    }
-})

@@ -2,10 +2,9 @@ import {Tabs} from "expo-router";
 import { tabsHeaderOptions } from "@/features/headers/view/TabsHeader";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import TabsIcon from "@/shared/components/TabsIcon";
+import {globalStyles} from "@/shared/stylesheets";
 
-const PRIMARY_COLOR = "#2f5d50";
-const SECONDARY_COLOR = "#fffee4";
-const ACTIVE_CONTAINER_COLOR = "#faaf3a";
+const colors = globalStyles.themeColors;
 
 export default function TabsLayout() {
     const safeArea = useSafeAreaInsets()
@@ -13,28 +12,28 @@ export default function TabsLayout() {
         //TODO make a seperate file for screenOptions
         <Tabs screenOptions={{
             headerStyle: {
-                backgroundColor: PRIMARY_COLOR,
-                borderBottomColor: "#264B40",
+                backgroundColor: colors.primary,
+                borderBottomColor: colors.primaryDark22,
                 borderBottomWidth: 6,
                 height: 105,
             },
-            headerTintColor: "#fff",
+            headerTintColor: colors.white,
             headerTitleStyle: {
                 fontWeight: "bold",
             },
             headerShown: true,
             tabBarStyle: {
-                backgroundColor: PRIMARY_COLOR,
+                backgroundColor: colors.primary,
                 borderTopWidth: 0,
                 elevation: 10,
                 height: 60 + safeArea.bottom,
                 paddingBottom: 10 + safeArea.bottom,
                 paddingTop: 6,
             },
-            tabBarActiveTintColor: ACTIVE_CONTAINER_COLOR,
-            tabBarInactiveTintColor: SECONDARY_COLOR,
+            tabBarActiveTintColor: colors.tertiary,
+            tabBarInactiveTintColor: colors.background,
             tabBarIconStyle: {
-                backgroundColor: PRIMARY_COLOR,
+                backgroundColor: colors.primary,
                 paddingTop: 5,
             },
             tabBarLabelStyle: {
@@ -50,8 +49,8 @@ export default function TabsLayout() {
                             focused={focused}
                             activeSize={24}
                             inactiveColor={color}
-                            activeColor={PRIMARY_COLOR}
-                            backgroundColor={ACTIVE_CONTAINER_COLOR}
+                            activeColor={colors.primary}
+                            backgroundColor={colors.tertiary}
                         />
                     )
                 }}/>
@@ -63,8 +62,8 @@ export default function TabsLayout() {
                             focused={focused}
                             activeSize={22}
                             inactiveColor={color}
-                            activeColor={PRIMARY_COLOR}
-                            backgroundColor={ACTIVE_CONTAINER_COLOR}
+                            activeColor={colors.primary}
+                            backgroundColor={colors.tertiary}
                         />
                     )
 
@@ -78,8 +77,8 @@ export default function TabsLayout() {
                             size={20}
                             activeSize={18}
                             inactiveColor={color}
-                            activeColor={PRIMARY_COLOR}
-                            backgroundColor={ACTIVE_CONTAINER_COLOR}
+                            activeColor={colors.primary}
+                            backgroundColor={colors.tertiary}
                         />
                     )
 
@@ -92,8 +91,8 @@ export default function TabsLayout() {
                             size={20}
                             focused={focused}
                             inactiveColor={color}
-                            activeColor={PRIMARY_COLOR}
-                            backgroundColor={ACTIVE_CONTAINER_COLOR}
+                            activeColor={colors.primary}
+                            backgroundColor={colors.tertiary}
                         />
                     )
                 }} />

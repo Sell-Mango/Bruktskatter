@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import {globalStyles} from "@/shared/stylesheets/global";
 
 const formStyles = StyleSheet.create({
     checkbox: {
@@ -33,6 +34,20 @@ const formStyles = StyleSheet.create({
     },
     textIfHiddenIcon: {
         paddingLeft: 15,
+    },
+    headerSearchContainer: {
+        marginLeft: globalStyles.container.horizontalGutter,
+        width: 220,
+        borderRadius: 50,
+        backgroundColor: "#FFFEE4",
+
+    },
+    headerSearchInput: {
+        fontSize: 18,
+        fontWeight: "400",
+        color: globalStyles.themeColors.dark,
+        paddingVertical: 10,
+        paddingLeft: 40,
     }
 })
 
