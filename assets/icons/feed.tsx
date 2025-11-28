@@ -1,5 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
+
+
 const FeedIcon = ({size = 24, color = "currentColor", ...props}) => (
     <Svg
         width={size}

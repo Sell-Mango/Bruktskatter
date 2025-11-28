@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import {GeoPoint, ViewportBoundary, ViewportMeasure} from "@/features/interactive-map/model/geoTypes";
 import {ShopLocation} from "@/features/interactive-map/model/shopLocation";
 import {getDistance} from "geolib";
+import {GestureResponderEvent} from "react-native";
 import {getShopsWithinRadius} from "@/features/interactive-map/services/shopLocationsService";
 import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
 import {CameraRef, MapView} from "@maplibre/maplibre-react-native";
@@ -24,6 +25,7 @@ export const useInteractiveMaps = () => {
     const [areaMarkers, setAreaMarkers] = useState<AreaMarker[]>([]);
     const [markers, setMarkers] = useState<ShopLocation[]>([]);
     const [previousMeasures, setPreviousMeasures] = useState<ViewportMeasure | null>(null);
+    const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
 
     const shouldGetShops = (
@@ -105,20 +107,41 @@ export const useInteractiveMaps = () => {
         setPreviousMeasures(currentMeasures);
     };
 
-
-    const setCameraMarkerPosition = ({lng, lat}: GeoPoint, lngPadding = 0.0005, latPadding = 0.001) => {
+    const setCameraMarkerPosition = ({lng, lat}: GeoPoint) => {
 
         if(!cameraRef.current) {
             throw new Error("Kartet er ikke oppdatere boundary");
         }
 
         cameraRef.current?.setCamera({
-            centerCoordinate: [lng + lngPadding, lat + latPadding],
+            centerCoordinate: [lng, lat],
             zoomLevel: 15,
+            padding: {
+                paddingTop: 300,
+                paddingBottom: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+            },
             animationMode: "flyTo",
             animationDuration: 1200,
         });
     };
+
+    const handleMarkerPress = (
+        event: GestureResponderEvent,
+        markerId: number | null,
+        position: GeoPoint,
+    ) => {
+        setCameraMarkerPosition(position);
+
+        setTimeout(() => {
+            setSelectedMarker(markerId)
+        }, 1200)
+    }
+
+    const handleCloseButtonPress = () => {
+        setSelectedMarker(null);
+    }
 
     const refs = {
         mapRef,
@@ -133,6 +156,8 @@ export const useInteractiveMaps = () => {
         getCurrentBoundary,
         getCurrentViewportCenter,
         setCameraMarkerPosition,
+        handleMarkerPress,
+        handleCloseButtonPress,
     };
 
     return {
@@ -142,5 +167,6 @@ export const useInteractiveMaps = () => {
         previousMeasures,
         areaMarkers,
         markers,
+        selectedMarker,
     };
 }

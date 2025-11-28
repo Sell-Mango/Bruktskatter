@@ -10,6 +10,9 @@ import {formatOpeningDates} from "@/features/shopDetails/viewModel/formatOpening
 import {Image} from "expo-image";
 import {constructImageURL} from "@/shared/utils/constructImageURL";
 import {Icons} from "@/shared/components/Icons";
+import {checkOpeningTime} from "@/shared/utils/checkOpeningTime";
+import TextHighlight from "@/shared/components/TextHighlight";
+import OpeningTimeText from "@/shared/components/OpeningTimeText";
 
 export default function DetailsLayout() {
     const {shopDetails, loading} = useShopDetails();
@@ -27,16 +30,17 @@ export default function DetailsLayout() {
             return (
                 <ShopLayout shopInfo={shopDetails}>
                     <ShopInfoPanel address={shopDetails.address}>
-                        <OpeningHoursToggle openingHours={shopDetails.openingHours}/>
+                        <OpeningHoursToggle openingHours={shopDetails.openingHours} openTime={checkOpeningTime(shopDetails)}/>
                     </ShopInfoPanel>
                 </ShopLayout>
             )
         }
         if (shopDetails.marketType === "marked") {
+            const openTime = checkOpeningTime(shopDetails)
             return(
                 <MarketLayout marketInfo={shopDetails}>
                     <ShopInfoPanel address={shopDetails.address}>
-                        <Text>{formatOpeningDates(shopDetails.dateFrom, shopDetails.dateTo)}</Text>
+                        <OpeningTimeText {...openTime}/>
                     </ShopInfoPanel>
                 </MarketLayout>
             )

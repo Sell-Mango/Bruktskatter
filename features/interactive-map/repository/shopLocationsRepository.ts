@@ -1,6 +1,6 @@
 import {Models, Query} from "react-native-appwrite";
 import {tablesDB} from "@/services/appwrite";
-import {shopLocation, shopLocationData} from "@/features/interactive-map/model/shopLocationData";
+import {ShopLocationData, shopLocationData} from "@/features/interactive-map/model/shopLocationData";
 import {boundaryToPolygonArray, GeoPoint, ViewportBoundary} from "@/features/interactive-map/model/geoTypes";
 import {shopArea} from "@/features/interactive-map/model/shopAreaData";
 
@@ -10,15 +10,14 @@ export type shopAreaRow = Models.Row & shopArea;
 export const fetchShopsWithinBoundary = async (
     boundary: ViewportBoundary,
     responseLimit: number
-): Promise<shopLocationRow[]> => {
+): Promise<ShopLocationRow[]> => {
     const appwritePolygon = boundaryToPolygonArray(boundary);
-    console.log(appwritePolygon, "polygon");
 
-    const response = await tablesDB.listRows<shopLocationRow>({
+    const response = await tablesDB.listRows<ShopLocationRow>({
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
-            Query.select(["marketId", "name", "description", "primaryCategory", "isActive", "featuredImage", "location"]),
+            Query.select(["marketId", "name", "adress", "description", "primaryCategory", "isActive", "featuredImage", "location","marketTypes.*", "marketMeta.*", "shopMeta.*"]),
             Query.intersects("location", appwritePolygon),
             Query.limit(responseLimit)
         ]
@@ -32,15 +31,15 @@ export const fetchShopsWithinRadius = async (
     center: GeoPoint,
     radiusMeter: number,
     responseLimit: number
-): Promise<shopLocationRow[]> => {
+): Promise<ShopLocationRow[]> => {
 
 
 
-    const response = await tablesDB.listRows<shopLocationRow>({
+    const response = await tablesDB.listRows<ShopLocationRow>({
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
-            Query.select(["marketId", "name", "description", "primaryCategory", "isActive", "featuredImage", "location"]),
+            Query.select(["marketId", "name", "adress", "postal", "description", "primaryCategory", "isActive", "featuredImage", "location", "marketTypes.*", "marketMeta.*", "shopMeta.*"]),
             Query.distanceLessThan("location", Object.values(center), radiusMeter),
             Query.limit(responseLimit)
         ]
@@ -48,7 +47,6 @@ export const fetchShopsWithinRadius = async (
 
     return validateLocations(response);
 }
-
 
 const validateLocations = (shopLocations:  Models.RowList<shopLocationRow>) => {
     const validatedResponse: shopLocationRow[] = [];

@@ -12,6 +12,7 @@ import gpsIcon from "@assets/icons/gpsIcon";
 import FeedIcon from "@assets/icons/feed";
 import MarketIcon from "@assets/icons/market";
 import MagnifyingGlass from "@assets/icons/magnifyingGlass";
+import CloseIcon from "@assets/icons/closeIcon";
 
 export const Icons = {
     setting: SettingIcon,
@@ -31,4 +32,5 @@ export const Icons = {
     feed: FeedIcon,
     market: MarketIcon,
     magnifyingGlass: MagnifyingGlass,
+    close: CloseIcon,
 }
