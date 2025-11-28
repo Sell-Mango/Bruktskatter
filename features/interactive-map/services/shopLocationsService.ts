@@ -1,6 +1,5 @@
 import {Models} from "react-native-appwrite"
 import {
-    fetchAllShops,
     fetchShopsWithinBoundary,
     fetchShopsWithinRadius
 } from "@/features/interactive-map/repository/shopLocationsRepository";

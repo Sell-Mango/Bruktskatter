@@ -7,15 +7,18 @@ import MapMarker from "@/features/interactive-map/view/MapMarker";
 import {useUserLocation} from "@/shared/context/UserLocationProvider";
 import {Icons} from "@/shared/components/Icons";
 import CustomPress from "@/shared/components/CustomPress";
+import {useZoomControl} from "@/features/interactive-map/hooks/useZoomControl";
+
 import MarkerCallout from "@/features/shopPreviewCallout/view/MarkerCallout";
 import {Fragment} from "react";
-
 
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
 export default function InteractiveMap() {
 
-    const { refs, actions, markers, selectedMarker } = useInteractiveMaps();
+    const { refs, actions, markers, areaMarkers } = useInteractiveMaps();
+    const { getCurrentLocation, location } = useUserLocation();
+    const { currentZoom, updateZoom, ZOOM_LEVELS } = useZoomControl();
     const { location } = useUserLocation();
 
     const getInitialMarkers = async () => {
@@ -28,15 +31,21 @@ export default function InteractiveMap() {
     }
 
     const handleRegionChange = async (event: GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
-
         if (!refs.mapRef.current) return;
 
-        try {
-            await actions.getShopMarkers();
-        } catch (error) {
-            return
+        const zoom = await actions.getZoom();
+        updateZoom(zoom);
+
+        if (zoom >= ZOOM_LEVELS.AREA) {
+            await actions.getShopMarkers()
+            const loc = await getCurrentLocation();
         }
-    };
+        else {
+            const resp = await actions.getAreaMarkers();
+            console.log(resp);
+        }
+
+    }
 
     const handleGPSPress = async () => {
         if (!location) {
