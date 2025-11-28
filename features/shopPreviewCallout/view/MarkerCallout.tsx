@@ -61,14 +61,9 @@ export default function MarkerCallout({marker, onCloseButtonPress}: MarkerCallou
 
                     </View>
                         <View>
-                            <Link
-                            style={[calloutStyles.ctaButton, calloutStyles.solidBtn]}
-                                href={{
-                                    pathname: "/markets/[id]",
-                                    params: { id: id}}}
-                            >
-                                Vis butikk
-                            </Link>
+                            {/*<Link
+                                style={[calloutStyles.ctaButton, calloutStyles.solidBtn]}
+                            </Link> */}
                         </View>
                     <View>
 
