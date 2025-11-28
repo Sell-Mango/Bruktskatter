@@ -9,6 +9,9 @@ import Clock from "@assets/icons/clock";
 import Globe from "@assets/icons/globe";
 import {AccordionDown, AccordionUp} from "@assets/icons/accordion";
 import gpsIcon from "@assets/icons/gpsIcon";
+import FeedIcon from "@assets/icons/feed";
+import MarketIcon from "@assets/icons/market";
+import MagnifyingGlass from "@assets/icons/magnifyingGlass";
 
 export const Icons = {
     setting: SettingIcon,
@@ -25,4 +28,7 @@ export const Icons = {
     accordionDown: AccordionDown,
     accordionUp: AccordionUp,
     gps: gpsIcon,
+    feed: FeedIcon,
+    market: MarketIcon,
+    magnifyingGlass: MagnifyingGlass,
 }

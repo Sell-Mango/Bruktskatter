@@ -49,5 +49,5 @@ export default function useHandleForms<T, U>(
         resetErrors()
     }, []);
 
-    return {handleChange, handleSubmit, errors, resetErrors, addMultipleToFormData}
+    return {handleChange, handleSubmit, errors, resetErrors, addMultipleToFormData, formData}
 }

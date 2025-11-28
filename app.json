@@ -19,11 +19,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "no.skattekammeratene.bruktskatter"
+    },
+    "androidNavigationBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#0c0c0d"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +40,7 @@
           "isAndroidForegroundServiceEnabled": true
         }
       ],
+      "expo-navigation-bar",
       "@maplibre/maplibre-react-native"
     ],
     "extra": {
