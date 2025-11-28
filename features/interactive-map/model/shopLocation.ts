@@ -1,6 +1,5 @@
-import {z} from "zod";
-
 export interface ShopLocation {
+    $id: string;
     id: number,
     name: string,
     latitude: number,

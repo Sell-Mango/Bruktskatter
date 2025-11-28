@@ -7,6 +7,7 @@ export const shopLocationData = z.object({
     marketId: z.number(),
     name: z.string(),
     adress: z.string().nullable(),
+    postal: z.string().nullable(),
     description: z.string().nullable(),
     primaryCategory: z.string().nullable(),
     isActive: z.boolean(),

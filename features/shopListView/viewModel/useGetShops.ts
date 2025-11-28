@@ -9,7 +9,7 @@ import {UserLocation} from "@/shared/types/UserLocation";
 const FALLBACK_FREDRIKSTAD: GeoPoint = {lng: 10.9339, lat: 59.2203}
 const FALLBACK_HALDEN: GeoPoint = {lng: 11.387457, lat: 59.132996}
 
-export const useGetShops = (location: UserLocation) => {
+export const useGetShops = () => {
     const [shops, setShops] = useState<DetailedInfo[]>([])
     const [currentLocation, setCurrentLocation] = useState<UserLocation|null>(FALLBACK_FREDRIKSTAD)
     const [loading, setLoading] = useState<boolean>(false)
