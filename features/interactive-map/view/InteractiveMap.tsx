@@ -33,8 +33,6 @@ export default function InteractiveMap() {
 
         try {
             await actions.getShopMarkers();
-            const loc =  await getCurrentLocation();
-            console.log(loc);
         } catch (error) {
             return
         }
