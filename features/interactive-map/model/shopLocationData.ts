@@ -20,4 +20,4 @@ export const shopLocationData = z.object({
     shopMeta: shopMetaSchema.nullable(),
 });
 
-export type shopLocation = z.infer<typeof shopLocationData>;
+export type ShopLocationData = z.infer<typeof shopLocationData>;

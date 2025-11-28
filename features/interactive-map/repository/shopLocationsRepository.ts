@@ -1,9 +1,9 @@
 import {Models, Query} from "react-native-appwrite";
 import {tablesDB} from "@/services/appwrite";
-import {shopLocation, shopLocationData} from "@/features/interactive-map/model/shopLocationData";
+import {ShopLocationData, shopLocationData} from "@/features/interactive-map/model/shopLocationData";
 import {boundaryToPolygonArray, GeoPoint, ViewportBoundary} from "@/features/interactive-map/model/geoTypes";
 
-export type shopLocationRow = Models.Row & shopLocation;
+export type ShopLocationRow = Models.Row & ShopLocationData;
 
 export const fetchAllShops = async (): Promise<Models.RowList> => {
     const response = await tablesDB.listRows({
@@ -18,11 +18,11 @@ export const fetchAllShops = async (): Promise<Models.RowList> => {
 export const fetchShopsWithinBoundary = async (
     boundary: ViewportBoundary,
     responseLimit: number
-): Promise<shopLocationRow[]> => {
+): Promise<ShopLocationRow[]> => {
     const appwritePolygon = boundaryToPolygonArray(boundary);
     console.log(appwritePolygon, "polygon");
 
-    const response = await tablesDB.listRows<shopLocationRow>({
+    const response = await tablesDB.listRows<ShopLocationRow>({
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
@@ -39,11 +39,11 @@ export const fetchShopsWithinRadius = async (
     center: GeoPoint,
     radiusMeter: number,
     responseLimit: number
-): Promise<shopLocationRow[]> => {
+): Promise<ShopLocationRow[]> => {
 
 
 
-    const response = await tablesDB.listRows<shopLocationRow>({
+    const response = await tablesDB.listRows<ShopLocationRow>({
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
@@ -56,8 +56,8 @@ export const fetchShopsWithinRadius = async (
     return validateLocations(response);
 }
 
-const validateLocations = (shopLocations:  Models.RowList<shopLocationRow>) => {
-    const validatedResponse: shopLocationRow[] = [];
+const validateLocations = (shopLocations:  Models.RowList<ShopLocationRow>) => {
+    const validatedResponse: ShopLocationRow[] = [];
 
     for (const row of shopLocations.rows) {
         const results = shopLocationData.safeParse(row);

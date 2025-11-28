@@ -1,4 +1,4 @@
-import {GestureResponderEvent, Text, View} from "react-native";
+import {GestureResponderEvent, StyleSheet, Text, View} from "react-native";
 import {mapStyles} from "@/shared/stylesheets";
 import {ShopLocation} from "@/features/interactive-map/model/shopLocation";
 import {MarkerView} from "@maplibre/maplibre-react-native";
@@ -6,30 +6,31 @@ import MapMarkerIcon from "@/features/interactive-map/view/MapMarkerIcon";
 import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 
 export type MapMarkerProps =
-    Pick<ShopLocation, 'name' | 'longitude'| 'latitude'  | 'category'> & {
-    setCameraPosition: (coordinates: GeoPoint) => void,
+    Pick<ShopLocation, 'id' | 'name' | 'longitude'| 'latitude'  | 'category'> & {
+    handleMarkerPress: (
+        event: GestureResponderEvent,
+        markerId: number | null,
+        coordinates: GeoPoint
+    ) => void,
 };
 
 export default function MapMarker({
+                                      id,
                                       name,
                                       latitude,
                                       longitude,
                                       category = "default",
-                                        setCameraPosition
-}: MapMarkerProps) {
+                                      handleMarkerPress,
 
-    const handleMarkerPress = (
-        event: GestureResponderEvent
-    ) => {
-        setCameraPosition({lng: longitude, lat: latitude});
-    }
+
+}: MapMarkerProps) {
 
     return (
         <MarkerView
             coordinate={[longitude, latitude]}
             anchor={{ x: 0.12, y: 1 }}
             allowOverlap={false}
-            onTouchEnd={(event) => handleMarkerPress(event)}
+            onTouchEnd={(event) => handleMarkerPress(event, id, {lng: longitude, lat: latitude})}
         >
             <View
                 collapsable={false}
@@ -46,6 +47,5 @@ export default function MapMarker({
                 </Text>
             </View>
         </MarkerView>
-
     )
 }
