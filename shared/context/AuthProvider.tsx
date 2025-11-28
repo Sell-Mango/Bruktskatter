@@ -19,9 +19,12 @@ import {
     changePasswordData,
     forgotPasswordData,
 } from "@/features/authentication/model/forgotPasswordData";
+import {userProfile} from "@/shared/types/userProfileData";
+import {fetchUserProfile} from "@/shared/repositories/userProfileRepository";
 
 type AuthContextType = {
     user: User|null;
+    profile: userProfile | null;
     login: (loginCredentials:loginData)=>Promise<void>;
     logout: () => Promise<void>;
     register: (registrationCredentials:registerData) => Promise<void>;
@@ -36,6 +39,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
+    profile: null,
     login: async ()=> {},
     logout: async ()=> {},
     register: async (): Promise<void> => {},
@@ -50,6 +54,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [profile, setProfile] = useState<userProfile | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [registerError, setRegisterError] = useState<registerValidationErrors>(emptyRegisterErrors);
@@ -70,6 +75,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
             setLoading(true);
             const response = await getUser()
             setUser(response.success ? response.data : null)
+
+            if (response.success && response.data) {
+                const responseProfile = await getUserProfile(response.data.$id);
+                setProfile(responseProfile);
+            }
             resetLoading()
         }
         fetchUserdata();
@@ -83,6 +93,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         if (!response.success) {
             setAuthError("Brukernavn eller passord er feil")
         }
+
         resetLoading()
     }
 
@@ -127,9 +138,26 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         resetLoading()
     }
 
+    const getUserProfile = async (userId: string):Promise<userProfile | null> => {
+
+        try {
+            const response = await fetchUserProfile(userId);
+
+            if(!response) {
+                console.log("Kunne ikke laste inn brukerdata");
+            }
+            return response;
+        }
+        catch (error) {
+            console.log("Kunne ikke laste inn brukerdata, melding: ", error);
+            return null;
+        }
+    }
+
     return (
         <AuthContext.Provider value={{
             user,
+            profile,
             login: loginUser,
             logout: logoutUser,
             register: registerUser,

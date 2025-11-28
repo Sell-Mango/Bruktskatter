@@ -37,7 +37,7 @@ const formStyles = StyleSheet.create({
     },
     headerSearchContainer: {
         marginLeft: globalStyles.container.horizontalGutter,
-        width: 220,
+        width: 250,
         borderRadius: 50,
         backgroundColor: "#FFFEE4",
 
