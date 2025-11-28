@@ -28,6 +28,19 @@ const containerStyles = StyleSheet.create({
         minHeight: 177,
         justifyContent: "space-around",
         height: "auto"
+    },
+    modalBackgroundOverlay: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#000",
+    },
+    modalContainer: {
+        backgroundColor: "#fff",
+        padding: 20,
+        borderRadius: 10,
+        width: "90%",
+        alignItems: "center",
     }
 })
 
