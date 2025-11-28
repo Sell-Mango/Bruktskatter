@@ -4,8 +4,8 @@ import {ShopLocationData, shopLocationData} from "@/features/interactive-map/mod
 import {boundaryToPolygonArray, GeoPoint, ViewportBoundary} from "@/features/interactive-map/model/geoTypes";
 import {shopArea} from "@/features/interactive-map/model/shopAreaData";
 
-export type shopLocationRow = Models.Row & shopLocation;
-export type shopAreaRow = Models.Row & shopArea;
+export type ShopLocationRow = Models.Row & ShopLocationData;
+export type ShopAreaRow = Models.Row & shopArea;
 
 export const fetchShopsWithinBoundary = async (
     boundary: ViewportBoundary,
@@ -48,8 +48,8 @@ export const fetchShopsWithinRadius = async (
     return validateLocations(response);
 }
 
-const validateLocations = (shopLocations:  Models.RowList<shopLocationRow>) => {
-    const validatedResponse: shopLocationRow[] = [];
+const validateLocations = (shopLocations:  Models.RowList<ShopLocationRow>) => {
+    const validatedResponse: ShopLocationRow[] = [];
 
     for (const row of shopLocations.rows) {
         const results = shopLocationData.safeParse(row);

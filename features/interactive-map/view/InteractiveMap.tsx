@@ -16,10 +16,9 @@ const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
 export default function InteractiveMap() {
 
-    const { refs, actions, markers, areaMarkers } = useInteractiveMaps();
+    const { refs, actions, markers, areaMarkers, selectedMarker } = useInteractiveMaps();
     const { getCurrentLocation, location } = useUserLocation();
     const { currentZoom, updateZoom, ZOOM_LEVELS } = useZoomControl();
-    const { location } = useUserLocation();
 
     const getInitialMarkers = async () => {
         try {
