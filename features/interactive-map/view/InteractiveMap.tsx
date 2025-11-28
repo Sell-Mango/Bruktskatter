@@ -18,7 +18,6 @@ export default function InteractiveMap() {
 
     const { refs, actions, markers, selectedMarker } = useInteractiveMaps();
     const { getCurrentLocation, location } = useUserLocation();
-    const { updateZoom, ZOOM_LEVELS } = useZoomControl();
 
     const getInitialMarkers = async () => {
         try {
@@ -31,17 +30,12 @@ export default function InteractiveMap() {
 
     const handleRegionChange = async () => {
         if (!refs.mapRef.current) return;
-
-        const zoom = await actions.getZoom();
-        updateZoom(zoom);
-
-        if (zoom >= ZOOM_LEVELS.AREA) {
+        try {
             await actions.getShopMarkers()
             await getCurrentLocation();
         }
-        else {
-            await actions.getAreaMarkers();
-
+        catch(error) {
+            console.error(error);
         }
 
     }
