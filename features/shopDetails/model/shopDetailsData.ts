@@ -5,7 +5,7 @@ const daySchema = z.object({
     close: z.string(),
 }).nullable();
 
-const openingHoursSchema = z.preprocess((value) => {
+export const openingHoursSchema = z.preprocess((value) => {
     if (typeof value === "string") {
         try {
             return JSON.parse(value);
@@ -24,12 +24,12 @@ const openingHoursSchema = z.preprocess((value) => {
     sunday: daySchema,
 }))
 
-const shopMetaSchema = z.object({
+export const shopMetaSchema = z.object({
     openingHours: openingHoursSchema.nullable(),
     rating: z.string().nullable(),
 })
 
-const marketMetaSchema = z.object({
+export const marketMetaSchema = z.object({
     dateFrom: z.preprocess((value) => {
         if (typeof value === "string") {
             return new Date(value)
@@ -45,6 +45,7 @@ const marketMetaSchema = z.object({
 }).nullable()
 
 export const shopDetailsData = z.object({
+    $id: z.string(),
     name: z.string(),
     adress: z.string().nullable(),
     description: z.string().nullable(),
