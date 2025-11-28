@@ -11,8 +11,7 @@ client
     .setDevKey(APPWRITE_CONSTANT.DEV_KEY);
 
 const account = new Account(client);
-const storage = new Storage(client);
 const databases = new Databases(client);
 const tablesDB = new TablesDB(client);
 
-export {client, account, storage, databases, tablesDB}
+export {client, account, databases, tablesDB}

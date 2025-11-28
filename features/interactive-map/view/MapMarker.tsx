@@ -1,4 +1,4 @@
-import {GestureResponderEvent, StyleSheet, Text, View} from "react-native";
+import {GestureResponderEvent, Text, View} from "react-native";
 import {mapStyles} from "@/shared/stylesheets";
 import {ShopLocation} from "@/features/interactive-map/model/shopLocation";
 import {MarkerView} from "@maplibre/maplibre-react-native";
