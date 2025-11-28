@@ -89,7 +89,6 @@ export const useInteractiveMaps = () => {
         };
 
         if (!shouldGetShops(currentMeasures, previousMeasures)) {
-            console.log("No change");
             return;
         }
 
