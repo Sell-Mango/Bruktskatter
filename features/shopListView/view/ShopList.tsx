@@ -15,9 +15,8 @@ export default function ShopList() {
 
     const handleLocation = async ()=>{
         setLoading(true);
-        console.log("i got here atleast")
-        const currentLocation = await getCurrentLocation();
-        updateCurrentLocation(currentLocation)
+        //const currentLocation = await getCurrentLocation();
+        updateCurrentLocation({lng: 10.9339, lat: 59.2203})
     }
 
     useEffect(() => {

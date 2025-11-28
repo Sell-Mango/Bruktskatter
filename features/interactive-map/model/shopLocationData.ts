@@ -3,6 +3,7 @@ import {marketMetaSchema, shopMetaSchema} from "@/features/shopDetails/model/sho
 
 
 export const shopLocationData = z.object({
+    $id: z.string(),
     marketId: z.number(),
     name: z.string(),
     adress: z.string().nullable(),

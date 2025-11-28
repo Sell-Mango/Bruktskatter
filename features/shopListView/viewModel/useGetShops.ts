@@ -21,11 +21,12 @@ export const useGetShops = () => {
         if (currentLocation === null) {
             setCurrentLocation(FALLBACK_GEO)
         }
-        const shopRow = await getShopsWithinRadius(currentLocation, 1250)
+        const shopRow = await getShopsWithinRadius(FALLBACK_GEO, 1250)
         const parsedShopRow = shopRow.map((row)=>shopLocationData.parse(row))
         const formatedRows = parsedShopRow.map((row)=>formatMarketRow(row)).filter((row)=> row !== null)
         setShops(formatedRows)
         setLoading(false)
+        console.log(formatMarketRow.id)
     }
 
     const updateCurrentLocation = (location: GeoPoint|null) => {
