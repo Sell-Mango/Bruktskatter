@@ -4,11 +4,43 @@ import RequiredStar from "@/shared/components/RequiredStar";
 import {formStyles} from "@/shared/stylesheets";
 
 export default function CustomTextInput<T>(props:CustomTextInputProps<T>) {
-    const {label, secure = false, required = false, changeAction, actionKey} = props;
+    const {label, secure = false, required = false, changeAction, actionKey, containerStyles, placeholder, placeholderTextColor, hideIconOnWriting, inputStyles, leftIcon, formData} = props;
+
+    const hasValue = formData && actionKey && formData[actionKey];
+    const showTextIcon = hideIconOnWriting ? !hasValue : true
+
     return (
         <View style={{gap:10}}>
-            <Text style={formStyles.labelText}>{label} {required ? <RequiredStar/>: ""}</Text>
-            <TextInput style={formStyles.textInput} secureTextEntry={secure} onChangeText={(value) => changeAction(actionKey, value)}/>
+            {label && (
+                <Text style={formStyles.labelText}>
+                    {label}
+                    {required ? <RequiredStar/>: ""}
+                </Text>
+            )}
+            <View style={[
+                leftIcon ? formStyles.iconWithinTextContainer : undefined,
+                containerStyles
+            ]}>
+                {
+                    leftIcon && showTextIcon && (
+                        <View style={[leftIcon ? formStyles.iconWithinTextInput : undefined]}>
+                        {leftIcon}
+                    </View>)}
+                <TextInput
+                    style={[
+                        inputStyles || formStyles.textInput,
+                        leftIcon && !showTextIcon ? formStyles.textIfHiddenIcon : undefined,
+                    ]}
+                    placeholder={placeholder}
+                    placeholderTextColor={placeholderTextColor}
+                    secureTextEntry={secure}
+                    onChangeText={
+                        changeAction && actionKey
+                            ? (value) => changeAction(actionKey, value as any)
+                            : undefined
+                        }
+                />
+            </View>
         </View>
     )
 }

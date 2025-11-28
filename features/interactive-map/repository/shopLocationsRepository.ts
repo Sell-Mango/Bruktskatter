@@ -26,7 +26,7 @@ export const fetchShopsWithinBoundary = async (
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
-            Query.select(["marketId", "name", "description", "primaryCategory", "isActive", "featuredImage", "location"]),
+            Query.select(["marketId", "name", "adress", "description", "primaryCategory", "isActive", "featuredImage", "location","marketTypes.*", "marketMeta.*", "shopMeta.*"]),
             Query.intersects("location", appwritePolygon),
             Query.limit(responseLimit)
         ]
@@ -47,7 +47,7 @@ export const fetchShopsWithinRadius = async (
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
-            Query.select(["marketId", "name", "description", "primaryCategory", "isActive", "featuredImage", "location", "adress", "postal"]),
+            Query.select(["marketId", "name", "adress", "description", "primaryCategory", "isActive", "featuredImage", "location", "marketTypes.*", "marketMeta.*", "shopMeta.*"]),
             Query.distanceLessThan("location", Object.values(center), radiusMeter),
             Query.limit(responseLimit)
         ]

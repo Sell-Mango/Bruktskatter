@@ -4,8 +4,14 @@ import {HeartFilled, HollowHeart} from "@assets/icons/hearts";
 import {MarkersIcons} from "@/shared/components/MarkerIcons";
 import Star from "@assets/icons/star";
 import List from "@assets/icons/list";
-import Map from "@assets/icons/map";
+import {Map,MapMarker} from "@assets/icons/map";
+import Clock from "@assets/icons/clock";
+import Globe from "@assets/icons/globe";
+import {AccordionDown, AccordionUp} from "@assets/icons/accordion";
 import gpsIcon from "@assets/icons/gpsIcon";
+import FeedIcon from "@assets/icons/feed";
+import MarketIcon from "@assets/icons/market";
+import MagnifyingGlass from "@assets/icons/magnifyingGlass";
 
 export const Icons = {
     setting: SettingIcon,
@@ -16,5 +22,13 @@ export const Icons = {
     star: Star,
     list: List,
     map: Map,
+    mapMarker: MapMarker,
+    clock: Clock,
+    globe: Globe,
+    accordionDown: AccordionDown,
+    accordionUp: AccordionUp,
     gps: gpsIcon,
+    feed: FeedIcon,
+    market: MarketIcon,
+    magnifyingGlass: MagnifyingGlass,
 }
