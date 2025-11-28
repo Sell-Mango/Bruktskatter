@@ -9,12 +9,11 @@ import {Icons} from "@/shared/components/Icons";
 import CustomPress from "@/shared/components/CustomPress";
 import {useZoomControl} from "@/features/interactive-map/hooks/useZoomControl";
 
-
 const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
 export default function InteractiveMap() {
 
-    const { refs, actions, markers } = useInteractiveMaps();
+    const { refs, actions, markers, areaMarkers } = useInteractiveMaps();
     const { getCurrentLocation, location } = useUserLocation();
     const { currentZoom, updateZoom, ZOOM_LEVELS } = useZoomControl();
 
@@ -27,21 +26,7 @@ export default function InteractiveMap() {
         }
     }
 
-    /*const handleRegionChange = async (event: GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
-
-        if (!refs.mapRef.current) return;
-
-        try {
-            await actions.getShopMarkers();
-            const loc =  await getCurrentLocation();
-            console.log(loc);
-        } catch (error) {
-            return
-        }
-    }; */
-
     const handleRegionChange = async (event: GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
-
         if (!refs.mapRef.current) return;
 
         const zoom = await actions.getZoom();
@@ -52,8 +37,8 @@ export default function InteractiveMap() {
             const loc = await getCurrentLocation();
         }
         else {
-            console.log("lenger zoom")
-            await actions.getAreaMarkers();
+            const resp = await actions.getAreaMarkers();
+            console.log(resp);
         }
 
     }

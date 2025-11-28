@@ -10,8 +10,8 @@ import {
     getCurrentBoundary,
     getCurrentViewportCenter, syncCameraToCurrentCenter
 } from "@/features/interactive-map/services/viewportService";
-import {fetchShopMarkersArea} from "@/features/interactive-map/repository/shopLocationsRepository";
 import {AreaMarker} from "@/features/interactive-map/model/AreaMarker";
+import {getClustersOfShops} from "@/features/interactive-map/services/shopAreaService";
 
 const ZOOM_SHOPS_VISIBLE = 12;
 const FETCH_DISTANCE_THRESHOLD = 0.2;
@@ -57,7 +57,14 @@ export const useInteractiveMaps = () => {
 
         const radius = calculateViewportRadius(boundary, center);
 
-        await fetchShopMarkersArea(center, radius, 50);
+        const response = await getClustersOfShops(center, radius, 50);
+        if(!response) {
+            return
+        }
+
+        await syncCameraToCurrentCenter(mapRef, cameraRef);
+        setAreaMarkers(response);
+        return response;
     }
 
 
@@ -133,6 +140,7 @@ export const useInteractiveMaps = () => {
         actions,
         boundary,
         previousMeasures,
+        areaMarkers,
         markers,
     };
 }

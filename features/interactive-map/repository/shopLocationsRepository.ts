@@ -2,44 +2,10 @@ import {Models, Query} from "react-native-appwrite";
 import {tablesDB} from "@/services/appwrite";
 import {shopLocation, shopLocationData} from "@/features/interactive-map/model/shopLocationData";
 import {boundaryToPolygonArray, GeoPoint, ViewportBoundary} from "@/features/interactive-map/model/geoTypes";
+import {shopArea} from "@/features/interactive-map/model/shopAreaData";
 
 export type shopLocationRow = Models.Row & shopLocation;
-
-export const fetchAllShops = async (): Promise<Models.RowList> => {
-    const response = await tablesDB.listRows({
-        databaseId: "68ed19470037b74c8558",
-        tableId: "markets",
-        queries: [Query.select(["*"])]
-    });
-
-    return response;
-}
-
-/*const fetchAreasWithinBoundary = async (
-    boundary: ViewportBoundary,
-    responseLimit: number
-) => {
-    const polygon = boundaryToPolygonArray(boundary);
-
-    const response = await tablesDB.listRows({
-        databaseId: "68ed19470037b74c8558",
-        tableId: "areas",
-        queries: [
-            Query.select(["name", "area", "definitions"]),
-            Query.intersects("area", polygon),
-            Query.limit(responseLimit)
-        ]
-    });
-}
-
-const fetchShopMarkersWithinBoundary = await tablesDB.listRows({
-    databaseId: "68ed19470037b74c8558",
-    tableId: "markets",
-    queries: [
-        Query.select(["area"]),
-        Query.intersects("area", polygon),
-    ]
-}) */
+export type shopAreaRow = Models.Row & shopArea;
 
 export const fetchShopsWithinBoundary = async (
     boundary: ViewportBoundary,
@@ -59,27 +25,6 @@ export const fetchShopsWithinBoundary = async (
     });
 
     return validateLocations(response);
-}
-
-export const fetchShopMarkersArea = async (
-    center: GeoPoint,
-    radiusMeter: number,
-    responseLimit: number
-): Promise<void> => {
-
-    const response = await tablesDB.listRows({
-        databaseId: "68ed19470037b74c8558",
-        tableId: "markets",
-        queries: [
-            Query.select(["areas.*"]),
-            Query.distanceLessThan("location", Object.values(center), radiusMeter),
-            Query.limit(responseLimit)
-        ]
-    });
-
-    const repsonePag = response.rows?.slice(0, 10);
-
-    console.log("response: ", repsonePag);
 }
 
 
@@ -104,6 +49,7 @@ export const fetchShopsWithinRadius = async (
     return validateLocations(response);
 }
 
+
 const validateLocations = (shopLocations:  Models.RowList<shopLocationRow>) => {
     const validatedResponse: shopLocationRow[] = [];
 
@@ -118,3 +64,4 @@ const validateLocations = (shopLocations:  Models.RowList<shopLocationRow>) => {
     }
     return validatedResponse;
 }
+
