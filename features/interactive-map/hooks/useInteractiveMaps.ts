@@ -11,8 +11,6 @@ import {
     getCurrentBoundary,
     getCurrentViewportCenter, syncCameraToCurrentCenter
 } from "@/features/interactive-map/services/viewportService";
-import {AreaMarker} from "@/features/interactive-map/model/AreaMarker";
-import {getClustersOfShops} from "@/features/interactive-map/services/shopAreaService";
 
 const ZOOM_SHOPS_VISIBLE = 12;
 const FETCH_DISTANCE_THRESHOLD = 0.2;
@@ -22,7 +20,6 @@ export const useInteractiveMaps = () => {
     const cameraRef = useRef<CameraRef | null>(null);
 
     const [boundary, setBoundary] = useState<ViewportBoundary | null>(null);
-    const [areaMarkers, setAreaMarkers] = useState<AreaMarker[]>([]);
     const [markers, setMarkers] = useState<ShopLocation[]>([]);
     const [previousMeasures, setPreviousMeasures] = useState<ViewportMeasure | null>(null);
     const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
@@ -49,27 +46,6 @@ export const useInteractiveMaps = () => {
         return mapRef.current?.getZoom() || ZOOM_SHOPS_VISIBLE;
     }
 
-    const getAreaMarkers = async () => {
-
-        const boundary = await getCurrentBoundary(mapRef)
-        const center = await getCurrentViewportCenter(mapRef);
-        if (!boundary || !center) {
-            return;
-        }
-
-        const radius = calculateViewportRadius(boundary, center);
-
-        const response = await getClustersOfShops(center, radius, 50);
-        if(!response) {
-            return
-        }
-
-        await syncCameraToCurrentCenter(mapRef, cameraRef);
-        setAreaMarkers(response);
-        return response;
-    }
-
-
     const getShopMarkers = async () => {
         if(!mapRef.current) throw new Error("Kartet er ikke oppdatere boundary");
 
@@ -89,7 +65,6 @@ export const useInteractiveMaps = () => {
         };
 
         if (!shouldGetShops(currentMeasures, previousMeasures)) {
-            console.log("No change");
             return;
         }
 
@@ -151,7 +126,6 @@ export const useInteractiveMaps = () => {
     const actions = {
         getZoom,
         getShopMarkers,
-        getAreaMarkers,
         shouldGetShops,
         getCurrentBoundary,
         getCurrentViewportCenter,
@@ -165,7 +139,6 @@ export const useInteractiveMaps = () => {
         actions,
         boundary,
         previousMeasures,
-        areaMarkers,
         markers,
         selectedMarker,
     };
