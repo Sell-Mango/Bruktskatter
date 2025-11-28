@@ -5,6 +5,7 @@ import {router} from "expo-router";
 import {useEffect} from "react";
 import {Platform} from "react-native";
 import * as NavigationBar from 'expo-navigation-bar';
+import NoInternetModal from "@/shared/modal/NoInternetModal";
 
 export default function App() {
     const {isLoggedIn} = useAuth();
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
       <SafeAreaProvider style={{ backgroundColor: "#fff" }}>
+          <NoInternetModal/>
           <Welcome/>
       </SafeAreaProvider>
   );
