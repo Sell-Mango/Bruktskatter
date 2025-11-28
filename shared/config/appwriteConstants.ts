@@ -1,0 +1,32 @@
+const APPWRITE_CONSTANT = {
+    API: process.env.EXPO_PUBLIC_APPWRITE_API,
+    PROJECT_ID: process.env.EXPO_PUBLIC_APPWRITE_PROJECTID,
+    PACKAGE_NAME: process.env.EXPO_PUBLIC_PACKAGENAME,
+    PROJECT_NAME: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_NAME,
+    DEV_KEY: process.env.EXPO_PUBLIC_APPWRITE_DEVKEY,
+    DATABASE_ID: process.env.EXPO_PUBLIC_APPWRITE_DATABASEID,
+}
+
+const APPWRITE_REDIRECT_LINKS = {
+    RESET_PASSWORD: "https://bruktskatter.appwrite.network",
+}
+
+const APPWRITE_BUCKET = {
+    ID: process.env.EXPO_PUBLIC_BUCKET_ID,
+    STORAGE_URL: process.env.EXPO_PUBLIC_BASE_STORAGE_URL,
+}
+
+
+const BASE_STORAGE_URL = "https://fra.cloud.appwrite.io/v1/storage/buckets/"
+const BUCKET_ID = "68ed265f000794fcf097"
+
+const APPWRITE_DATABASE_CONSTANT = {
+    MARKETS_ID: "markets",
+    AREAS_ID: "areas",
+    MARKET_TYPES_ID: "markettypes",
+    NOTIFICATIONS_ID: "notifications",
+    USER_ID: "user",
+}
+
+export { BASE_STORAGE_URL, BUCKET_ID }
+export { APPWRITE_CONSTANT ,APPWRITE_REDIRECT_LINKS, APPWRITE_BUCKET, APPWRITE_DATABASE_CONSTANT }

@@ -1,7 +1,6 @@
-import { Text } from 'react-native';
 import LoginForm from "@/features/authentication/view/LoginForm";
-import LoginLayout from "@/features/authentication/view/LoginLayout";
+import AuthenticationLayout from "@/features/authentication/view/AuthenticationLayout";
 
 export default function Login() {
-    return <LoginLayout/>
+    return <AuthenticationLayout heading={"Logg inn"}><LoginForm/></AuthenticationLayout>
 }

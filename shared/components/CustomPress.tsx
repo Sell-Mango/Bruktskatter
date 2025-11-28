@@ -1,20 +1,10 @@
-import {Pressable, StyleSheet} from "react-native";
-import {JSX, ReactNode} from "react";
+import {Pressable,type ViewStyle} from "react-native";
+import {buttonStyles} from "@/shared/stylesheets";
 
-export default function CustomPress({children}: {children: React.ReactNode}) {
+export default function CustomPress({children, pressAction, style}: {children: React.ReactNode, pressAction?: () => void, style?: ViewStyle|ViewStyle[]}) {
     return (
-        <Pressable style={styles.button}>
+        <Pressable style={style ? style :buttonStyles.defaultButton} onPress={pressAction}>
             {children}
         </Pressable>
     )
 }
-
-const styles = StyleSheet.create({
-    button: {
-        borderRadius: 34,
-        padding: 19,
-        margin: 10,
-        width: 300,
-        backgroundColor: '#1F1D1E',
-    }
-})

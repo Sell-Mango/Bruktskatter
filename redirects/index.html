@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="nb">
+<head>
+    <meta http-equiv="refresh" content="0">
+    <title>Redirecting...</title>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get("userId");
+        const secret = params.get("secret");
+
+        window.location = `bruktskatter://reset-password?userId=${userId}&secret=${secret}`;
+        setTimeout(() => {
+            window.location.href = "couldNotRedirect.html";
+        }, 50)
+    </script>
+</head>
+<body>
+<p id="errormsg">Redirecting...</p>
+</body>
+</html>

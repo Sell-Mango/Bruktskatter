@@ -1,27 +1,10 @@
-import {Text, StyleSheet} from "react-native";
+import {StyleProp, Text, TextStyle} from "react-native";
+import {headingStyles} from "@/shared/stylesheets";
 
-type headingType = "h1" | "h2" | "h3" ;
+type headingType = "h1" | "h2" | "h3" | "ShopText";
 
-export default function HeadingText({heading, type, color = "#2F5D50"}:{heading: string, type: headingType, color?:string}) {
+export default function HeadingText({heading, type, color = "#2F5D50", customStyle}:{heading: string, type: headingType, color?:string, customStyle?:StyleProp<TextStyle>}) {
     return (
-        <Text style={{...styles[type], color: color}}>{heading}</Text>
+        <Text style={[headingStyles[type], {color: color}, customStyle]}>{heading}</Text>
     )
 }
-
-const styles = StyleSheet.create({
-    h1: {
-        fontSize: 30,
-        fontWeight: "800",
-        textAlign: "center"
-    },
-    h2:{
-        fontSize: 23,
-        fontWeight: "600",
-        textAlign: "center"
-    },
-    h3:{
-        fontSize: 18,
-        fontWeight: "400",
-        textAlign: "center"
-    }
-})
