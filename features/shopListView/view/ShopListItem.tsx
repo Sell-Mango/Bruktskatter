@@ -9,6 +9,7 @@ import TextHighlight from "@/shared/components/TextHighlight";
 import {DetailedInfo, openCloseTime} from "@/features/shopDetails/viewModel/useShopDetails";
 import {useEffect, useState} from "react";
 import {checkOpeningTime} from "@/shared/utils/checkOpeningTime";
+import OpeningTimeText from "@/shared/components/OpeningTimeText";
 
 export type ShopListItemProps = {
     name: string,
@@ -52,7 +53,7 @@ export default function ShopListItem(props:DetailedInfo) {
                 <HeadingText heading={name} type={'ShopText'}/>
                 <Text>{category}</Text>
                 <Text>{address}</Text>
-                <Text><TextHighlight customStyle={openingTime.open ? {color: "#264B40"}: {color: "#4B2626"}}>{openingTime.status}</TextHighlight> {openingTime.time}</Text>
+                <OpeningTimeText {...openingTime}/>
             </View>
             <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between", height: 100, margin: 5}}>
                 <View style={{height: "70%", alignSelf: "flex-end"}}>

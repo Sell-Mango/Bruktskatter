@@ -5,6 +5,7 @@ import {useState} from "react";
 import {Icons} from "@/shared/components/Icons";
 import {containerStyles} from "@/shared/stylesheets";
 import {OpenTime} from "@/shared/types/OpenTime";
+import OpeningTimeText from "@/shared/components/OpeningTimeText";
 
 export default function OpeningHoursToggle({openingHours, openTime}: {openingHours:openingHours|null,openTime:OpenTime}) {
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -20,7 +21,7 @@ export default function OpeningHoursToggle({openingHours, openTime}: {openingHou
                 style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}
             >
                 <Text>
-                    {expanded ? <Text>Åpningstider:</Text> : <Text><TextHighlight customStyle={openTime.open ? {color: "#264B40"}: {color: "#4B2626"}}>{openTime.status}</TextHighlight> {openTime.time}</Text>}
+                    {expanded ? <Text>Åpningstider:</Text> : <OpeningTimeText {...openTime}/>}
                 </Text>
                 {expanded ? <Icons.accordionUp/> : <Icons.accordionDown/>}
             </Pressable>

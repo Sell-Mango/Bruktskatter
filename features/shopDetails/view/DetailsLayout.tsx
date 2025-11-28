@@ -12,6 +12,7 @@ import {constructImageURL} from "@/shared/utils/constructImageURL";
 import {Icons} from "@/shared/components/Icons";
 import {checkOpeningTime} from "@/shared/utils/checkOpeningTime";
 import TextHighlight from "@/shared/components/TextHighlight";
+import OpeningTimeText from "@/shared/components/OpeningTimeText";
 
 export default function DetailsLayout() {
     const {shopDetails, loading} = useShopDetails();
@@ -39,7 +40,7 @@ export default function DetailsLayout() {
             return(
                 <MarketLayout marketInfo={shopDetails}>
                     <ShopInfoPanel address={shopDetails.address}>
-                        <Text><TextHighlight customStyle={openTime.open ? {color: "#264B40"}: {color: "#4B2626"}}>{openTime.status}</TextHighlight> {openTime.time}</Text>
+                        <OpeningTimeText {...openTime}/>
                     </ShopInfoPanel>
                 </MarketLayout>
             )
