@@ -21,16 +21,13 @@ export default function ShopList() {
                     data={shops}
                     renderItem={
                         ({item})=>
-                            <Link href={`/markets/${item.$id}`}>
+                            <Link href={`/markets/${item.id}`}>
                                 <ShopListItem
-                                    name={item.name}
-                                    primaryCategory={item.primaryCategory}
-                                    location={{lng:item.location[0], lat:item.location[1]}}
-                                    imageId={item.featuredImage}
+                                    {...item}
                                 />
                             </Link>
                     }
-                    keyExtractor={(item) => item.marketId.toString()}
+                    keyExtractor={(item) => item.id}
                     contentContainerStyle={{paddingBottom: 120, gap: 10}}
                 />
             </Suspense>
