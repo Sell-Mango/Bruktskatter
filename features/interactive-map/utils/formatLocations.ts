@@ -6,6 +6,7 @@ export const formatLocations = (
 ): ShopLocation[] => {
 
     return rows.map((marker): ShopLocation => ({
+        $id: marker.$id,
         id: marker.marketId,
         name: marker.name,
         latitude: marker.location[1],

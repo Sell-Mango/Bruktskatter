@@ -1,38 +1,39 @@
-import { useEffect, useState} from "react";
+import { useState} from "react";
 import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 import {getShopsWithinRadius} from "@/features/interactive-map/services/shopLocationsService";
-import {shopLocationRow} from "@/features/interactive-map/repository/shopLocationsRepository";
-import {ShopDetails, shopDetailsData} from "@/features/shopDetails/model/shopDetailsData";
 import {DetailedInfo} from "@/features/shopDetails/viewModel/useShopDetails";
 import {formatMarketRow} from "@/shared/utils/formatMarketRow";
 import {shopLocationData} from "@/features/interactive-map/model/shopLocationData";
-import {useUserLocation} from "@/shared/context/UserLocationProvider";
+import {UserLocation} from "@/shared/types/UserLocation";
 
-const FALLBACK_GEO: GeoPoint = {lng: 10.9339, lat: 59.2203}
+const FALLBACK_FREDRIKSTAD: GeoPoint = {lng: 10.9339, lat: 59.2203}
+const FALLBACK_HALDEN: GeoPoint = {lng: 11.387457, lat: 59.132996}
 
 export const useGetShops = () => {
     const [shops, setShops] = useState<DetailedInfo[]>([])
-    const [currentLocation, setCurrentLocation] = useState<GeoPoint|null>(FALLBACK_GEO)
+    const [currentLocation, setCurrentLocation] = useState<UserLocation|null>(FALLBACK_FREDRIKSTAD)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const fetchShopsWithinRadius = async () => {
+    const fetchShopsWithinRadius = async (location: UserLocation) => {
         setLoading(true)
-        console.log(currentLocation)
-        if (currentLocation === null) {
-            setCurrentLocation(FALLBACK_GEO)
-        }
-        const shopRow = await getShopsWithinRadius(FALLBACK_GEO, 1250)
+
+        const shopRow = await getShopsWithinRadius({lng: location.lng, lat: location.lat}, 1250)
         const parsedShopRow = shopRow.map((row)=>shopLocationData.parse(row))
         const formatedRows = parsedShopRow.map((row)=>formatMarketRow(row)).filter((row)=> row !== null)
         setShops(formatedRows)
         setLoading(false)
-        console.log(formatMarketRow.id)
     }
 
-    const updateCurrentLocation = (location: GeoPoint|null) => {
-        setCurrentLocation(location)
-        fetchShopsWithinRadius()
+    const updateCurrentLocation = async (location: UserLocation|null) => {
+        const hasLocation = location || FALLBACK_FREDRIKSTAD;
+        setCurrentLocation(hasLocation)
+        await fetchShopsWithinRadius(hasLocation)
     }
 
-    return {shops, updateCurrentLocation, loading, setLoading}
+    return {
+        shops,
+        currentLocation,
+        updateCurrentLocation,
+        loading,
+        setLoading}
 }

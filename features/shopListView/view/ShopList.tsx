@@ -1,13 +1,12 @@
-import {View, Text, FlatList, Pressable} from 'react-native'
+import {View, Text, FlatList} from 'react-native'
 import {useGetShops} from "@/features/shopListView/viewModel/useGetShops";
-import {shopLocationRow} from "@/features/interactive-map/repository/shopLocationsRepository";
 import ShopListItem from "@/features/shopListView/view/ShopListItem";
-import {type ShopListItemProps} from "@/features/shopListView/view/ShopListItem";
-import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
 import {Link} from "expo-router";
-import {Suspense, useEffect} from "react";
+import { useEffect} from "react";
 import HeadingText from "@/shared/components/HeadingText";
 import {useUserLocation} from "@/shared/context/UserLocationProvider";
+
+const FALLBACK_LOCATION = {lng: 10.9339, lat: 59.2203};
 
 export default function ShopList() {
     const {shops, updateCurrentLocation, loading, setLoading} = useGetShops()
@@ -15,8 +14,9 @@ export default function ShopList() {
 
     const handleLocation = async ()=>{
         setLoading(true);
-        //const currentLocation = await getCurrentLocation();
-        updateCurrentLocation({lng: 10.9339, lat: 59.2203})
+        const currentLocation = await getCurrentLocation();
+
+        updateCurrentLocation(currentLocation)
     }
 
     useEffect(() => {

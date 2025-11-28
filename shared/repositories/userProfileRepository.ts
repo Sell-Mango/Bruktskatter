@@ -29,7 +29,6 @@ const validateUserProfile = (userProfile: Models.RowList<userProfileRow>)=> {
         console.log("could not validate user profile: ", results.error);
         return null;
     }
-    console.log(userProfile.rows[0]);
 
     return userProfile.rows[0];
 }

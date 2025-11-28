@@ -101,7 +101,7 @@ export default function UserLocationProvider({ children }: { children: ReactNode
     }
 
     useEffect(() => {
-        let subscription: LocationSubscription | null = null;
+        let subscription: Location.LocationSubscription | null = null;
 
         const initLocation = async () => {
             subscription = await requestWatchPosition();

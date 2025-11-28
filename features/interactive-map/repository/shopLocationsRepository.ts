@@ -20,7 +20,6 @@ export const fetchShopsWithinBoundary = async (
     responseLimit: number
 ): Promise<ShopLocationRow[]> => {
     const appwritePolygon = boundaryToPolygonArray(boundary);
-    console.log(appwritePolygon, "polygon");
 
     const response = await tablesDB.listRows<ShopLocationRow>({
         databaseId: "68ed19470037b74c8558",
@@ -47,7 +46,7 @@ export const fetchShopsWithinRadius = async (
         databaseId: "68ed19470037b74c8558",
         tableId: "markets",
         queries: [
-            Query.select(["marketId", "name", "adress", "description", "primaryCategory", "isActive", "featuredImage", "location", "marketTypes.*", "marketMeta.*", "shopMeta.*"]),
+            Query.select(["marketId", "name", "adress", "postal", "description", "primaryCategory", "isActive", "featuredImage", "location", "marketTypes.*", "marketMeta.*", "shopMeta.*"]),
             Query.distanceLessThan("location", Object.values(center), radiusMeter),
             Query.limit(responseLimit)
         ]

@@ -16,7 +16,7 @@ const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 export default function InteractiveMap() {
 
     const { refs, actions, markers, selectedMarker } = useInteractiveMaps();
-    const { getCurrentLocation, location } = useUserLocation();
+    const { location } = useUserLocation();
 
     const getInitialMarkers = async () => {
         try {
@@ -33,8 +33,6 @@ export default function InteractiveMap() {
 
         try {
             await actions.getShopMarkers();
-            const loc =  await getCurrentLocation();
-            console.log(loc);
         } catch (error) {
             return
         }

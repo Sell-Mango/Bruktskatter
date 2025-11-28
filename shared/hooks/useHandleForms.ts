@@ -27,7 +27,6 @@ export default function useHandleForms<T, U>(
     const handleSubmit = () => {
         setErrors({} as U)
         const validatedResult = schema.safeParse(formData)
-        console.log(formData)
         if (!validatedResult.success){
             console.log("validation fail", validatedResult.error.issues)
             let fieldErrors:U = {} as U
