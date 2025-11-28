@@ -12,23 +12,26 @@ const FALLBACK_GEO: GeoPoint = {lng: 10.9339, lat: 59.2203}
 
 export const useGetShops = () => {
     const [shops, setShops] = useState<DetailedInfo[]>([])
-    const {getCurrentLocation} = useUserLocation()
+    const [currentLocation, setCurrentLocation] = useState<GeoPoint|null>(FALLBACK_GEO)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const fetchShopsWithinRadius = async () => {
-        let currentLocation = await getCurrentLocation();
-        if (!currentLocation) {
-            currentLocation = FALLBACK_GEO
+        setLoading(true)
+        console.log(currentLocation)
+        if (currentLocation === null) {
+            setCurrentLocation(FALLBACK_GEO)
         }
         const shopRow = await getShopsWithinRadius(currentLocation, 1250)
         const parsedShopRow = shopRow.map((row)=>shopLocationData.parse(row))
         const formatedRows = parsedShopRow.map((row)=>formatMarketRow(row)).filter((row)=> row !== null)
         setShops(formatedRows)
+        setLoading(false)
     }
 
-
-    useEffect(() => {
+    const updateCurrentLocation = (location: GeoPoint|null) => {
+        setCurrentLocation(location)
         fetchShopsWithinRadius()
-    },[])
+    }
 
-    return {shops}
+    return {shops, updateCurrentLocation, loading, setLoading}
 }
