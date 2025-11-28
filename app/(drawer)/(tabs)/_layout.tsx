@@ -97,6 +97,7 @@ export default function TabsLayout() {
                     )
                 }} />
             <Tabs.Screen name="profile" options={{...tabsHeaderOptions("Profile"), href: null}}/>
+            <Tabs.Screen name="markets/[id]" options={{...tabsHeaderOptions("Markets"), href: null}}/>
         </Tabs>
     )
 }
