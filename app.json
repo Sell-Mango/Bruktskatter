@@ -15,14 +15,23 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "no.skattekammeratene.bruktskatter"
+      "bundleIdentifier": "no.skattekammeratene.bruktskatter",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "package": "no.skattekammeratene.bruktskatter"
+      "package": "no.skattekammeratene.bruktskatter",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
+      ]
     },
     "androidNavigationBar": {
       "barStyle": "light-content",

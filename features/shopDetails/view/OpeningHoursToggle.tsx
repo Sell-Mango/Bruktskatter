@@ -4,8 +4,10 @@ import TextHighlight from "@/shared/components/TextHighlight";
 import {useState} from "react";
 import {Icons} from "@/shared/components/Icons";
 import {containerStyles} from "@/shared/stylesheets";
+import {OpenTime} from "@/shared/types/OpenTime";
+import OpeningTimeText from "@/shared/components/OpeningTimeText";
 
-export default function OpeningHoursToggle({openingHours}: {openingHours:openingHours|null}) {
+export default function OpeningHoursToggle({openingHours, openTime}: {openingHours:openingHours|null,openTime:OpenTime}) {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     function toggleExpanded() {
@@ -19,7 +21,7 @@ export default function OpeningHoursToggle({openingHours}: {openingHours:opening
                 style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}
             >
                 <Text>
-                    {expanded ? <Text>Åpningstider:</Text> : <Text><TextHighlight>Åpent</TextHighlight>, stenger kl {openingHours?.monday?.close}</Text>}
+                    {expanded ? <Text>Åpningstider:</Text> : <OpeningTimeText {...openTime}/>}
                 </Text>
                 {expanded ? <Icons.accordionUp/> : <Icons.accordionDown/>}
             </Pressable>

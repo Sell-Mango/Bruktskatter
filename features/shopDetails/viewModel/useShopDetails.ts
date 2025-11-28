@@ -6,7 +6,7 @@ import {shopLocation} from "@/features/interactive-map/model/shopLocationData";
 import {useUserLocation} from "@/shared/context/UserLocationProvider";
 import {ShopDetails, shopDetailsData} from "@/features/shopDetails/model/shopDetailsData";
 
-type openCloseTime = {
+export type openCloseTime = {
     open: string;
     close: string;
 }
@@ -22,6 +22,7 @@ export type openingHours = {
 }
 
 export type MarketInfo = {
+    id: string;
     marketType: "marked";
     category: string|null;
     name: string;
@@ -33,6 +34,7 @@ export type MarketInfo = {
 }
 
 export type ShopInfo = {
+    id: string;
     marketType: "shop";
     category: string|null;
     name: string;
@@ -43,7 +45,7 @@ export type ShopInfo = {
     imageUrl: string|null;
 }
 
-type DetailedInfo = ShopInfo | MarketInfo;
+export type DetailedInfo = ShopInfo | MarketInfo;
 
 export default function useShopDetails() {
     const [shopDetails, setShopDetails] = useState<DetailedInfo|null>(null)
@@ -88,6 +90,7 @@ export default function useShopDetails() {
         switch (marketType) {
             case "shop":
                 setShopDetails({
+                    id: fetchedDetails.$id,
                     marketType: marketType,
                     category: fetchedDetails.primaryCategory,
                     name: fetchedDetails.name,
@@ -100,6 +103,7 @@ export default function useShopDetails() {
                 break;
             case "marked":
                 setShopDetails({
+                    id: fetchedDetails.$id,
                     marketType: marketType,
                     category: fetchedDetails.primaryCategory,
                     name: fetchedDetails.name,
