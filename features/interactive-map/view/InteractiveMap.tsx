@@ -1,4 +1,4 @@
-import {Camera, MapView, MarkerView, RegionPayload, UserLocation} from "@maplibre/maplibre-react-native";
+import {Camera, MapView, UserLocation} from "@maplibre/maplibre-react-native";
 import customStyle from "../../../assets/mapstyles/bruktskatter-mapstyle-bright.json";
 import {buttonStyles, mapStyles} from "@/shared/stylesheets";
 import {GeoPoint} from "@/features/interactive-map/model/geoTypes";
@@ -16,9 +16,9 @@ const FALLBACK_LOCATION: GeoPoint = {lng: 10.9339, lat: 59.2203};
 
 export default function InteractiveMap() {
 
-    const { refs, actions, markers, areaMarkers, selectedMarker } = useInteractiveMaps();
+    const { refs, actions, markers, selectedMarker } = useInteractiveMaps();
     const { getCurrentLocation, location } = useUserLocation();
-    const { currentZoom, updateZoom, ZOOM_LEVELS } = useZoomControl();
+    const { updateZoom, ZOOM_LEVELS } = useZoomControl();
 
     const getInitialMarkers = async () => {
         try {
@@ -29,7 +29,7 @@ export default function InteractiveMap() {
         }
     }
 
-    const handleRegionChange = async (event: GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
+    const handleRegionChange = async () => {
         if (!refs.mapRef.current) return;
 
         const zoom = await actions.getZoom();
@@ -37,11 +37,11 @@ export default function InteractiveMap() {
 
         if (zoom >= ZOOM_LEVELS.AREA) {
             await actions.getShopMarkers()
-            const loc = await getCurrentLocation();
+            await getCurrentLocation();
         }
         else {
-            const resp = await actions.getAreaMarkers();
-            console.log(resp);
+            await actions.getAreaMarkers();
+
         }
 
     }
