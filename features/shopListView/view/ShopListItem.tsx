@@ -27,10 +27,6 @@ export default function ShopListItem(props:DetailedInfo) {
     const {name, category, address, imageUrl, marketType} = props;
     const [openingTime, setOpeningTime] = useState<OpenTime>({status: "laster", time: ""} as OpenTime);
 
-    const isOpen = (closeTime:Date) =>{
-
-    }
-
     const getOpeningTime = ():OpenTime => {
         const dateNow = new Date();
         if(marketType === "shop"){
