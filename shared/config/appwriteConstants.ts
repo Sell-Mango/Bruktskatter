@@ -15,4 +15,10 @@ const APPWRITE_BUCKET = {
     STORAGE_URL: process.env.BASE_STORAGE_URL,
 }
 
+const BASE_STORAGE_URL = "https://fra.cloud.appwrite.io/v1/storage/buckets/"
+const BUCKET_ID = "68ed265f000794fcf097"
+
+export { BASE_STORAGE_URL, BUCKET_ID }
 export { APPWRITE_CONSTANT ,APPWRITE_REDIRECT_LINKS, APPWRITE_BUCKET }
+
+
