@@ -1,0 +1,1 @@
+export type DisplayMode = "hidden" | "small" | "medium" | "large"export interface ZoomControl {    currentZoom: number;    shouldFetchMarkers: boolean;    display: DisplayMode;}

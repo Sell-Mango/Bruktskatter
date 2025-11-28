@@ -5,8 +5,15 @@ import {getDistance} from "geolib";
 import {getShopsWithinRadius} from "@/features/interactive-map/services/shopLocationsService";
 import {formatLocations} from "@/features/interactive-map/utils/formatLocations";
 import {CameraRef, MapView} from "@maplibre/maplibre-react-native";
+import {
+    calculateViewportRadius,
+    getCurrentBoundary,
+    getCurrentViewportCenter, syncCameraToCurrentCenter
+} from "@/features/interactive-map/services/viewportService";
+import {fetchShopMarkersArea} from "@/features/interactive-map/repository/shopLocationsRepository";
+import {AreaMarker} from "@/features/interactive-map/model/AreaMarker";
 
-const ZOOM_SHOPS_VISIBLE = 11;
+const ZOOM_SHOPS_VISIBLE = 12;
 const FETCH_DISTANCE_THRESHOLD = 0.2;
 
 export const useInteractiveMaps = () => {
@@ -14,6 +21,7 @@ export const useInteractiveMaps = () => {
     const cameraRef = useRef<CameraRef | null>(null);
 
     const [boundary, setBoundary] = useState<ViewportBoundary | null>(null);
+    const [areaMarkers, setAreaMarkers] = useState<AreaMarker[]>([]);
     const [markers, setMarkers] = useState<ShopLocation[]>([]);
     const [previousMeasures, setPreviousMeasures] = useState<ViewportMeasure | null>(null);
 
@@ -35,70 +43,34 @@ export const useInteractiveMaps = () => {
         return movedDistance > previousFetch.radius * FETCH_DISTANCE_THRESHOLD;
     };
 
+    const getZoom = async () => {
+        return mapRef.current?.getZoom() || ZOOM_SHOPS_VISIBLE;
+    }
 
-    const syncCameraToCurrentCenter = async (centerCoordinates?: GeoPoint) => {
-        if (!mapRef.current || !cameraRef.current) return;
+    const getAreaMarkers = async () => {
 
-        const { lng, lat } = centerCoordinates ?? await getCurrentViewportCenter();
-        const currentZoom = await mapRef.current.getZoom();
-
-        cameraRef.current.setCamera({
-            centerCoordinate: [lng, lat],
-            zoomLevel: currentZoom,
-            animationDuration: 0,
-            stops: [
-                { pitch: 45, animationDuration: 200 },
-                { heading: 180, animationDuration: 300 },
-            ],
-        });
-    };
-
-    const getCurrentBoundary = async () => {
-        if(!mapRef.current) throw new Error("Kunne ikke oppdatere boundary");
-
-        const response = await mapRef.current.getVisibleBounds();
-        const data = response.flat();
-        const results: ViewportBoundary = {
-            neLng: data[0],
-            neLat: data[1],
-            swLng: data[2],
-            swLat: data[3],
+        const boundary = await getCurrentBoundary(mapRef)
+        const center = await getCurrentViewportCenter(mapRef);
+        if (!boundary || !center) {
+            return;
         }
 
-        return results;
+        const radius = calculateViewportRadius(boundary, center);
+
+        await fetchShopMarkersArea(center, radius, 50);
     }
-
-    const getCurrentViewportCenter = async (): Promise<GeoPoint> => {
-
-        if(!mapRef.current) throw new Error("Kartet er ikke ferdig lastet inn");
-
-        const [centerLng, centerLat] = await mapRef.current.getCenter();
-
-        return {
-            lng: centerLng,
-            lat: centerLat,
-        }
-    }
-
-    const calculateViewportRadius = (
-        boundary: ViewportBoundary,
-        center: GeoPoint,
-        padding: number = 1.1,
-    ): number => {
-
-        const northEastCorner: GeoPoint = { lng: boundary.neLng, lat: boundary.neLat };
-
-        return getDistance(center, northEastCorner) * padding;
-    }
-
 
 
     const getShopMarkers = async () => {
         if(!mapRef.current) throw new Error("Kartet er ikke oppdatere boundary");
 
-        const boundary = await getCurrentBoundary();
+        const boundary = await getCurrentBoundary(mapRef);
         const zoom = await mapRef.current.getZoom();
-        const center = await getCurrentViewportCenter();
+        const center = await getCurrentViewportCenter(mapRef);
+
+        if (!boundary || !center) {
+            return;
+        }
         const radius = calculateViewportRadius(boundary, center);
 
         const currentMeasures: ViewportMeasure = {
@@ -119,7 +91,7 @@ export const useInteractiveMaps = () => {
 
         const formatRows = formatLocations(rows);
 
-        await syncCameraToCurrentCenter();
+        await syncCameraToCurrentCenter(mapRef, cameraRef);
 
         setBoundary(boundary);
         setMarkers(formatRows);
@@ -147,9 +119,12 @@ export const useInteractiveMaps = () => {
     }
 
     const actions = {
+        getZoom,
         getShopMarkers,
+        getAreaMarkers,
         shouldGetShops,
         getCurrentBoundary,
+        getCurrentViewportCenter,
         setCameraMarkerPosition,
     };
 
